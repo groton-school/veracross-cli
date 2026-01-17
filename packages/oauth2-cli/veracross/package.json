@@ -1,6 +1,6 @@
 {
   "name": "@oauth2-cli/veracross",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "homepage": "https://github.com/groton-school/veracross-cli/tree/main/packages/oauth2-cli/veracross#readme",
   "repository": {
     "type": "git",

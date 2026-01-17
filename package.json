@@ -1,32 +1,35 @@
 {
   "name": "veracross-cli",
-  "author": {
-    "name": "Seth Battis",
-    "email": "sbattis@groton.org"
-  },
+  "homepage": "https://github.com/groton-school/veracross-cli#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/groton-school/veracross-cli.git"
   },
-  "homepage": "https://github.com/groton-school/veracross-cli#readme",
+  "license": "GPL-3.0",
+  "author": {
+    "name": "Seth Battis",
+    "email": "sbattis@groton.org"
+  },
   "scripts": {
     "build": "run-s build:*",
     "build:paths": "monorepo-package-paths -w --author --repository --homepage",
     "build:compile": "lerna run build",
-    "release": "pnpm publish -r --access public"
+    "release": "run-s release:*",
+    "release:build": "run-s build",
+    "release:git": "git push --follow-tags",
+    "release:publish": "pnpm publish -r --access public"
   },
-  "license": "GPL-3.0",
-  "packageManager": "pnpm@10.28.0",
   "devDependencies": {
     "@battis/eslint-config": "^2.0.9",
     "@battis/prettier-config": "^1.7.3",
     "@commitlint/config-conventional": "^20.3.1",
     "@commitlint/config-pnpm-scopes": "^20.1.0",
+    "@examples/dev-command": "workspace:*",
     "@qui-cli/colors": "latest",
     "@types/node": "^25.0.9",
     "lerna": "^9.0.3",
     "monorepo-package-paths": "^0.4.3",
-    "npm-run-all": "^4.1.5",
-    "@examples/dev-command": "workspace:*"
-  }
+    "npm-run-all": "^4.1.5"
+  },
+  "packageManager": "pnpm@10.28.0"
 }

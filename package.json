@@ -20,7 +20,9 @@
   "devDependencies": {
     "@battis/eslint-config": "^2.0.9",
     "@battis/prettier-config": "^1.7.3",
-    "@qui-cli/colors": "^3.2.2",
+    "@commitlint/config-conventional": "^20.3.1",
+    "@commitlint/config-pnpm-scopes": "^20.1.0",
+    "@qui-cli/colors": "latest",
     "@types/node": "^25.0.9",
     "lerna": "^9.0.3",
     "monorepo-package-paths": "^0.4.3",

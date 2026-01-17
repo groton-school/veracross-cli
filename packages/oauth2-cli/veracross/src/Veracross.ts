@@ -48,6 +48,11 @@ export class VeracrossPlugin extends OAuth2.OAuth2Plugin<Client> {
     }
     if (this.schoolRoute) {
       proposal.authorizationEndpoint = path.join(
+        "https://accounts.veracross.com",
+        this.schoolRoute,
+        "oauth/authorize",
+      );
+      proposal.tokenEndpoint = path.join(
         "https://api.veracross.com",
         this.schoolRoute,
         "oauth/token",

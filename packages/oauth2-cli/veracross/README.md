@@ -1,4 +1,4 @@
-# @pauth2-cli/veracross
+# @oauth2-cli/veracross
 
 Node.js command-line client for Veracross API
 

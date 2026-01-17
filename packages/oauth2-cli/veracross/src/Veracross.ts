@@ -1,14 +1,16 @@
-import * as OAuth2 from "@oauth2-cli/qui-cli/dist/OAuth2.js";
-import { Client } from "./Client.js";
-import path from "node:path";
-import { Colors } from "@qui-cli/colors";
+import * as OAuth2 from '@oauth2-cli/qui-cli/dist/OAuth2.js';
+import { Colors } from '@qui-cli/colors';
+import { Env } from '@qui-cli/env-1password';
+import * as Plugin from '@qui-cli/plugin';
+import path from 'node:path';
+import { Client } from './Client.js';
 
-export * from "./Client.js";
 export {
-  FileStorage,
-  TokenStorage,
   EnvironmentStorage,
-} from "@oauth2-cli/qui-cli/dist/OAuth2.js";
+  FileStorage,
+  TokenStorage
+} from '@oauth2-cli/qui-cli/dist/OAuth2.js';
+export * from './Client.js';
 
 export type Configuration = OAuth2.Configuration & {
   schoolRoute: string;
@@ -21,24 +23,37 @@ export type ConfigurationProposal = OAuth2.ConfigurationProposal & {
 export class VeracrossPlugin extends OAuth2.OAuth2Plugin<Client> {
   private schoolRoute: string | undefined = undefined;
 
-  public constructor(name = "@oauth2-cli/veracross") {
+  public constructor(name = '@oauth2-cli/veracross') {
     super(name);
     this.configure({
       man: {
-        heading: "Veracross API options",
+        heading: 'Veracross API options'
+      },
+      opt: {
+        clientId: 'vcClientId',
+        clientSecret: 'vcClientSecret',
+        scope: 'vcScope',
+        redirectUri: 'vcRedirectUri',
+        tokenPath: 'vcTokenPath',
+        accessToken: 'vcAccessToken'
+      },
+      url: {
+        clientId:
+          'https://community.veracross.com/s/article/Adding-Internal-Integrations-in-Veracross-API'
       },
       env: {
-        clientId: "VERACROSS_CLIENT_ID",
-        clientSecret: "VERACROSS_CLIENT_SECRET",
-        redirectUri: "VERACROSS_REDIRECT_URI",
-        tokenPath: "VERACROSS_TOKEN_PATH",
-        accessToken: "VERACROSS_ACCESS_TOKEN",
+        clientId: 'VERACROSS_CLIENT_ID',
+        clientSecret: 'VERACROSS_CLIENT_SECRET',
+        scope: 'VERACROSS_SCOPE',
+        redirectUri: 'VERACROSS_REDIRECT_URI',
+        tokenPath: 'VERACROSS_TOKEN_PATH',
+        accessToken: 'VERACROSS_ACCESS_TOKEN'
       },
       suppress: {
         tokenPath: true,
         authorizationEndpoint: true,
-        tokenEndpoint: true,
-      },
+        tokenEndpoint: true
+      }
     });
   }
 
@@ -48,14 +63,14 @@ export class VeracrossPlugin extends OAuth2.OAuth2Plugin<Client> {
     }
     if (this.schoolRoute) {
       proposal.authorizationEndpoint = path.join(
-        "https://accounts.veracross.com",
+        'https://accounts.veracross.com',
         this.schoolRoute,
-        "oauth/authorize",
+        'oauth/authorize'
       );
       proposal.tokenEndpoint = path.join(
-        "https://api.veracross.com",
+        'https://accounts.veracross.com',
         this.schoolRoute,
-        "oauth/token",
+        'oauth/token'
       );
     }
     super.configure(proposal);
@@ -64,26 +79,42 @@ export class VeracrossPlugin extends OAuth2.OAuth2Plugin<Client> {
   public options() {
     const options = super.options();
     options.opt = {
-      schoolRoute: {
+      vcSchoolRoute: {
         description:
-          `The unique school route for your Veracross instance. ` +
-          `See ${Colors.url("https://api-docs.veracross.com/docs/docs/cd9d140be5811-using-the-data-api#base-url")} ` +
-          `for more information.`,
+          `The unique school route for your Veracross instance. Defaults to ` +
+          `environment variable ${Colors.varName('VERACROSS_SCHOOL_ROUTE')}, ` +
+          `if present. See ` +
+          Colors.url(
+            'https://api-docs.veracross.com/docs/docs/cd9d140be5811-using-the-data-api#base-url'
+          ) +
+          ` for more information.`,
         hint: Colors.quotedValue(`"api-example"`),
-        default: this.schoolRoute,
+        default: this.schoolRoute
       },
-      ...options.opt,
+      ...options.opt
     };
     return options;
   }
 
+  public async init(args: Plugin.ExpectedArguments<typeof this.options>) {
+    await super.init(args);
+    const {
+      values: {
+        vcSchoolRoute: schoolRoute = await Env.get({
+          key: 'VERACROSS_SCHOOL_ROUTE'
+        })
+      }
+    } = args;
+    this.configure({ schoolRoute });
+  }
+
   protected instantiateClient(credentials: OAuth2.Credentials): Client {
     if (!this.schoolRoute) {
-      throw new Error("School route must be defined.");
+      throw new Error('School route must be defined.');
     }
     return new Client({
       school_route: this.schoolRoute,
-      ...credentials,
+      ...credentials
     });
   }
 }

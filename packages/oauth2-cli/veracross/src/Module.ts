@@ -1,6 +1,6 @@
-import { VeracrossPlugin } from "./Veracross.js";
+import { VeracrossPlugin } from './Veracross.js';
 
-export * from "./Veracross.js";
+export * from './Veracross.js';
 
 const veracross = new VeracrossPlugin();
 

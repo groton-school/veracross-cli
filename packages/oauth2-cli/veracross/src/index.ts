@@ -1,5 +1,5 @@
-import { register } from "@qui-cli/plugin";
-import * as Veracross from "./Module.js";
+import { register } from '@qui-cli/plugin';
+import * as Veracross from './Module.js';
 
 export { Veracross };
 

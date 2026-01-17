@@ -1,0 +1,5 @@
+{
+  "path": ".",
+  "tag-prefix": "oauth2-cli/veracross/",
+  "releaseCommitMessageFormat": "chore: release @oauth2-cli/veracross@{{currentTag}}"
+}

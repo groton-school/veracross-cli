@@ -1,0 +1,30 @@
+{
+  "name": "@outh2-cli/veracross",
+  "version": "0.0.0",
+  "main": "./dist/index.js",
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "clean": "del ./dist",
+    "build": "run-s build:*",
+    "build:clean": "run-s clean",
+    "build:compile": "tsc",
+    "version": "commit-and-tag-version"
+  },
+  "license": "GPL-3.0",
+  "packageManager": "pnpm@10.28.0",
+  "devDependencies": {
+    "@qui-cli/plugin": "^4.0.0",
+    "@tsconfig/node24": "^24.0.4",
+    "commit-and-tag-version": "^12.6.1",
+    "del-cli": "^7.0.0",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.9.3"
+  },
+  "peerDependencies": {
+    "@qui-cli/plugin": ">=3"
+  },
+  "dependencies": {
+    "@oauth2-cli/qui-cli": "^0.5.6"
+  }
+}

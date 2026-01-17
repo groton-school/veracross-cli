@@ -1,0 +1,5 @@
+packages:
+  - packages/oauth2-cli/*
+
+onlyBuiltDependencies:
+  - nx

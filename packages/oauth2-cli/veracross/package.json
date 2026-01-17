@@ -26,5 +26,15 @@
   },
   "dependencies": {
     "@oauth2-cli/qui-cli": "^0.5.6"
+  },
+  "author": {
+    "name": "Seth Battis",
+    "email": "sbattis@groton.org"
+  },
+  "homepage": "https://github.com/groton-school/veracross-cli/tree/main/packages/oauth2-cli/veracross#readme",
+  "repository": {
+    "url": "https://github.com/groton-school/veracross-cli.git",
+    "type": "git",
+    "directory": "packages/oauth2-cli/veracross"
   }
 }

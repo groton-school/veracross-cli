@@ -16,10 +16,15 @@ export class Client extends OAuth2.Client {
   public request(...args: Parameters<OAuth2.Client["request"]>) {
     let [url] = args;
     const [, ...rest] = args;
-    url = new URL(
-      path.join(this.school_route, url.toString()),
-      "https://api.veracross.com",
-    );
+    if (typeof url === "string" && !url.startsWith("https://")) {
+      url = new URL(
+        path.join(
+          this.school_route,
+          url.replace(new RegExp(`^/(?${this.school_route}/)?`), ""),
+        ),
+        "https://api.veracross.com",
+      );
+    }
     return super.request(url, ...rest);
   }
 }

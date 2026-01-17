@@ -20,6 +20,9 @@ importers:
       '@commitlint/config-pnpm-scopes':
         specifier: ^20.1.0
         version: 20.1.0
+      '@examples/dev-command':
+        specifier: workspace:*
+        version: link:examples/dev-command
       '@qui-cli/colors':
         specifier: latest
         version: 3.2.2
@@ -36,12 +39,43 @@ importers:
         specifier: ^4.1.5
         version: 4.1.5
 
+  examples/dev-command:
+    dependencies:
+      '@oauth2-cli/veracross':
+        specifier: workspace:*
+        version: link:../../packages/oauth2-cli/veracross
+      '@qui-cli/core':
+        specifier: ^5.0.2
+        version: 5.0.2(@qui-cli/plugin@4.0.0)
+      '@qui-cli/log':
+        specifier: ^4.0.2
+        version: 4.0.2(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0))
+    devDependencies:
+      '@tsconfig/node24':
+        specifier: ^24.0.4
+        version: 24.0.4
+      del-cli:
+        specifier: ^7.0.0
+        version: 7.0.0
+      npm-run-all:
+        specifier: ^4.1.5
+        version: 4.1.5
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+
   packages/oauth2-cli/veracross:
     dependencies:
       '@oauth2-cli/qui-cli':
-        specifier: ^0.5.6
-        version: 0.5.6(@qui-cli/env-1password@1.2.6(@qui-cli/env@5.0.3(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0)))(@qui-cli/log@4.0.2(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0)))(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0))(@qui-cli/shell@3.1.1(@qui-cli/log@4.0.2(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0)))(@qui-cli/plugin@4.0.0)))(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0))(ejs@3.1.10)
+        specifier: ^0.5.9
+        version: 0.5.9(@qui-cli/env-1password@1.2.6(@qui-cli/env@5.0.3(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0)))(@qui-cli/log@4.0.2(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0)))(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0))(@qui-cli/shell@3.1.1(@qui-cli/log@4.0.2(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0)))(@qui-cli/plugin@4.0.0)))(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0))(ejs@3.1.10)
+      '@qui-cli/colors':
+        specifier: ^3.2.2
+        version: 3.2.2
     devDependencies:
+      '@qui-cli/env-1password':
+        specifier: ^1.2.6
+        version: 1.2.6(@qui-cli/env@5.0.3(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0)))(@qui-cli/log@4.0.2(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0)))(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0))(@qui-cli/shell@3.1.1(@qui-cli/log@4.0.2(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0)))(@qui-cli/plugin@4.0.0))
       '@qui-cli/plugin':
         specifier: ^4.0.0
         version: 4.0.0
@@ -600,8 +634,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@oauth2-cli/qui-cli@0.5.6':
-    resolution: {integrity: sha512-n8hj838WjCzhRr1jAQXOJiYJWYiug6OLN+qkhom175r1LbhkGIUMqMR2oYchUNHlyC5e8ltRvMhdw1ryFGXNHA==}
+  '@oauth2-cli/qui-cli@0.5.9':
+    resolution: {integrity: sha512-NXel7INDMMr4M5+HyLi7HKs/chhwAOLH1hkrklg3nqbTbIP05DNdyAZBeV7HxxHV3Ih7XDnO89wFR8/3YcXI4A==}
     peerDependencies:
       '@qui-cli/env-1password': '>=1'
       '@qui-cli/plugin': '>=3'
@@ -707,6 +741,11 @@ packages:
 
   '@qui-cli/colors@3.2.2':
     resolution: {integrity: sha512-QETPUG1K8LmqS+mPB2iXOOkuQH26Xrtxt50ZH+lOkeo1jViV+6k01PLT37yL6CaKfMr3VgwA3k5CAeOECR9Wwg==}
+
+  '@qui-cli/core@5.0.2':
+    resolution: {integrity: sha512-4W2UFynBSTZjFh19rOldpUoFw8DZM0lXiei/zv/s2WvYlv+Euc4If6619+KQslqBqTBe3fW7za9njrZUURVPng==}
+    peerDependencies:
+      '@qui-cli/plugin': '>=3'
 
   '@qui-cli/env-1password@1.2.6':
     resolution: {integrity: sha512-+nQcWBdPgikbsbkSMNMFop2n0yQHzp9baDlF8Qn2MWhlXV8RfBtgvq7S2bHxgyB+puBjtMDutcyGtcTfuB5nNA==}
@@ -1947,6 +1986,10 @@ packages:
 
   get-stream@6.0.0:
     resolution: {integrity: sha512-A1B3Bh1UmL0bidM/YX2NsCOTnGJePL9rO/M+Mw3m9f2gUpfokS0hi5Eah0WSUEWZdZhIZtMjkIYS7mDfOqNHbg==}
+    engines: {node: '>=10'}
+
+  get-stream@6.0.1:
+    resolution: {integrity: sha512-ts6Wi+2j3jQjqi70w5AlN8DFnkSwC+MqmxEzdEALB2qXZYV3X/b1CTfgPLGJNMeAWxdPfU8FO1ms3NUfaHCPYg==}
     engines: {node: '>=10'}
 
   get-symbol-description@1.1.0:
@@ -4759,7 +4802,7 @@ snapshots:
       proggy: 3.0.0
       promise-all-reject-late: 1.0.1
       promise-call-limit: 3.0.2
-      semver: 7.7.3
+      semver: 7.7.2
       ssri: 12.0.0
       treeverse: 3.0.0
       walk-up-path: 4.0.0
@@ -4768,11 +4811,11 @@ snapshots:
 
   '@npmcli/fs@4.0.0':
     dependencies:
-      semver: 7.7.3
+      semver: 7.7.2
 
   '@npmcli/fs@5.0.0':
     dependencies:
-      semver: 7.7.3
+      semver: 7.7.2
 
   '@npmcli/git@6.0.3':
     dependencies:
@@ -4782,7 +4825,7 @@ snapshots:
       npm-pick-manifest: 10.0.0
       proc-log: 5.0.0
       promise-retry: 2.0.1
-      semver: 7.7.3
+      semver: 7.7.2
       which: 5.0.0
 
   '@npmcli/git@7.0.1':
@@ -4793,7 +4836,7 @@ snapshots:
       npm-pick-manifest: 11.0.3
       proc-log: 6.1.0
       promise-retry: 2.0.1
-      semver: 7.7.3
+      semver: 7.7.2
       which: 6.0.0
 
   '@npmcli/installed-package-contents@3.0.0':
@@ -4819,7 +4862,7 @@ snapshots:
       json-parse-even-better-errors: 5.0.0
       pacote: 21.0.4
       proc-log: 6.1.0
-      semver: 7.7.3
+      semver: 7.7.2
     transitivePeerDependencies:
       - supports-color
 
@@ -4838,7 +4881,7 @@ snapshots:
       hosted-git-info: 9.0.2
       json-parse-even-better-errors: 5.0.0
       proc-log: 6.1.0
-      semver: 7.7.3
+      semver: 7.7.2
       validate-npm-package-license: 3.0.4
 
   '@npmcli/promise-spawn@8.0.3':
@@ -4873,7 +4916,7 @@ snapshots:
       enquirer: 2.3.6
       minimatch: 9.0.3
       nx: 22.3.3
-      semver: 7.7.3
+      semver: 7.7.2
       tslib: 2.8.1
       yargs-parser: 21.1.1
 
@@ -4907,7 +4950,7 @@ snapshots:
   '@nx/nx-win32-x64-msvc@22.3.3':
     optional: true
 
-  '@oauth2-cli/qui-cli@0.5.6(@qui-cli/env-1password@1.2.6(@qui-cli/env@5.0.3(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0)))(@qui-cli/log@4.0.2(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0)))(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0))(@qui-cli/shell@3.1.1(@qui-cli/log@4.0.2(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0)))(@qui-cli/plugin@4.0.0)))(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0))(ejs@3.1.10)':
+  '@oauth2-cli/qui-cli@0.5.9(@qui-cli/env-1password@1.2.6(@qui-cli/env@5.0.3(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0)))(@qui-cli/log@4.0.2(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0)))(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0))(@qui-cli/shell@3.1.1(@qui-cli/log@4.0.2(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0)))(@qui-cli/plugin@4.0.0)))(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0))(ejs@3.1.10)':
     dependencies:
       '@qui-cli/colors': 3.2.2
       '@qui-cli/env-1password': 1.2.6(@qui-cli/env@5.0.3(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0)))(@qui-cli/log@4.0.2(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0)))(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0))(@qui-cli/shell@3.1.1(@qui-cli/log@4.0.2(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0)))(@qui-cli/plugin@4.0.0))
@@ -5045,6 +5088,13 @@ snapshots:
   '@qui-cli/colors@3.2.2':
     dependencies:
       chalk: 5.6.2
+
+  '@qui-cli/core@5.0.2(@qui-cli/plugin@4.0.0)':
+    dependencies:
+      '@qui-cli/colors': 3.2.1
+      '@qui-cli/plugin': 4.0.0
+      jackspeak: 4.1.1
+      wrap-ansi: 9.0.2
 
   '@qui-cli/env-1password@1.2.6(@qui-cli/env@5.0.3(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0)))(@qui-cli/log@4.0.2(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0)))(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0))(@qui-cli/shell@3.1.1(@qui-cli/log@4.0.2(@qui-cli/plugin@4.0.0)(@qui-cli/root@3.0.6(@qui-cli/plugin@4.0.0)))(@qui-cli/plugin@4.0.0))':
     dependencies:
@@ -5753,7 +5803,7 @@ snapshots:
       handlebars: 4.7.8
       json-stringify-safe: 5.0.1
       meow: 8.1.2
-      semver: 7.7.3
+      semver: 7.7.2
       split: 1.0.1
 
   conventional-changelog@4.0.0:
@@ -6196,7 +6246,7 @@ snapshots:
       cross-spawn: 7.0.6
       get-stream: 6.0.0
       human-signals: 2.1.0
-      is-stream: 2.0.1
+      is-stream: 2.0.0
       merge-stream: 2.0.0
       npm-run-path: 4.0.1
       onetime: 5.1.2
@@ -6206,7 +6256,7 @@ snapshots:
   execa@5.1.1:
     dependencies:
       cross-spawn: 7.0.6
-      get-stream: 6.0.0
+      get-stream: 6.0.1
       human-signals: 2.1.0
       is-stream: 2.0.1
       merge-stream: 2.0.0
@@ -6442,6 +6492,8 @@ snapshots:
 
   get-stream@6.0.0: {}
 
+  get-stream@6.0.1: {}
+
   get-symbol-description@1.1.0:
     dependencies:
       call-bound: 1.0.4
@@ -6673,7 +6725,7 @@ snapshots:
       npm-package-arg: 13.0.1
       promzard: 2.0.0
       read: 4.1.0
-      semver: 7.7.3
+      semver: 7.7.2
       validate-npm-package-license: 3.0.4
       validate-npm-package-name: 6.0.2
 
@@ -7081,7 +7133,7 @@ snapshots:
       npm-package-arg: 13.0.1
       npm-registry-fetch: 19.1.0
       proc-log: 5.0.0
-      semver: 7.7.3
+      semver: 7.7.2
       sigstore: 4.1.0
       ssri: 12.0.0
     transitivePeerDependencies:
@@ -7133,7 +7185,7 @@ snapshots:
 
   log-symbols@4.1.0:
     dependencies:
-      chalk: 4.1.2
+      chalk: 4.1.0
       is-unicode-supported: 0.1.0
 
   log-symbols@6.0.0:
@@ -7167,7 +7219,7 @@ snapshots:
 
   make-dir@4.0.0:
     dependencies:
-      semver: 7.7.3
+      semver: 7.7.2
 
   make-fetch-happen@14.0.3:
     dependencies:
@@ -7703,7 +7755,7 @@ snapshots:
       array-differ: 3.0.0
       array-union: 2.1.0
       arrify: 2.0.1
-      minimatch: 3.1.2
+      minimatch: 3.0.5
 
   mute-stream@2.0.0: {}
 
@@ -7731,9 +7783,9 @@ snapshots:
       make-fetch-happen: 14.0.3
       nopt: 8.1.0
       proc-log: 5.0.0
-      semver: 7.7.3
+      semver: 7.7.2
       tar: 7.5.3
-      tinyglobby: 0.2.15
+      tinyglobby: 0.2.12
       which: 5.0.0
     transitivePeerDependencies:
       - supports-color
@@ -7755,7 +7807,7 @@ snapshots:
     dependencies:
       hosted-git-info: 4.1.0
       is-core-module: 2.16.1
-      semver: 7.7.3
+      semver: 7.7.2
       validate-npm-package-license: 3.0.4
 
   npm-bundled@4.0.0:
@@ -7768,11 +7820,11 @@ snapshots:
 
   npm-install-checks@7.1.2:
     dependencies:
-      semver: 7.7.3
+      semver: 7.7.2
 
   npm-install-checks@8.0.0:
     dependencies:
-      semver: 7.7.3
+      semver: 7.7.2
 
   npm-normalize-package-bin@4.0.0: {}
 
@@ -7782,14 +7834,14 @@ snapshots:
     dependencies:
       hosted-git-info: 8.1.0
       proc-log: 5.0.0
-      semver: 7.7.3
+      semver: 7.7.2
       validate-npm-package-name: 6.0.2
 
   npm-package-arg@13.0.1:
     dependencies:
       hosted-git-info: 9.0.2
       proc-log: 5.0.0
-      semver: 7.7.3
+      semver: 7.7.2
       validate-npm-package-name: 6.0.2
 
   npm-packlist@10.0.3:
@@ -7802,14 +7854,14 @@ snapshots:
       npm-install-checks: 7.1.2
       npm-normalize-package-bin: 4.0.0
       npm-package-arg: 12.0.2
-      semver: 7.7.3
+      semver: 7.7.2
 
   npm-pick-manifest@11.0.3:
     dependencies:
       npm-install-checks: 8.0.0
       npm-normalize-package-bin: 5.0.0
       npm-package-arg: 13.0.1
-      semver: 7.7.3
+      semver: 7.7.2
 
   npm-registry-fetch@19.1.0:
     dependencies:
@@ -7847,7 +7899,7 @@ snapshots:
       '@yarnpkg/parsers': 3.0.2
       '@zkochan/js-yaml': 0.0.7
       axios: 1.13.2
-      chalk: 4.1.2
+      chalk: 4.1.0
       cli-cursor: 3.1.0
       cli-spinners: 2.6.1
       cliui: 8.0.1
@@ -7867,7 +7919,7 @@ snapshots:
       open: 8.4.2
       ora: 5.3.0
       resolve.exports: 2.0.3
-      semver: 7.7.3
+      semver: 7.7.2
       string-width: 4.2.3
       tar-stream: 2.2.0
       tmp: 0.2.5
@@ -7969,9 +8021,9 @@ snapshots:
   ora@5.3.0:
     dependencies:
       bl: 4.1.0
-      chalk: 4.1.2
+      chalk: 4.1.0
       cli-cursor: 3.1.0
-      cli-spinners: 2.9.2
+      cli-spinners: 2.6.1
       is-interactive: 1.0.0
       log-symbols: 4.1.0
       strip-ansi: 6.0.1

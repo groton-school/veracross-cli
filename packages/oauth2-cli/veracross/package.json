@@ -23,11 +23,9 @@
     "build:compile": "tsc",
     "version": "commit-and-tag-version"
   },
-  "dependencies": {
-    "@oauth2-cli/qui-cli": "^0.5.9",
-    "@qui-cli/colors": "^3.2.2"
-  },
   "devDependencies": {
+    "@oauth2-cli/qui-cli": "^0.5.10",
+    "@qui-cli/colors": "^3.2.2",
     "@qui-cli/env-1password": "^1.2.7",
     "@qui-cli/plugin": "^4.0.0",
     "@tsconfig/node24": "^24.0.4",
@@ -37,6 +35,8 @@
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
+    "@oauth2-cli/qui-cli": ">=0.5",
+    "@qui-cli/colors": ">=3",
     "@qui-cli/env-1password": ">=1",
     "@qui-cli/plugin": ">=3"
   },

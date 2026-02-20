@@ -1,6 +1,6 @@
-import { register } from '@qui-cli/plugin';
-import * as Veracross from './Module.js';
+import { register, Registrar } from '@qui-cli/plugin';
+import { plugin } from './Veracross.js';
 
-export { Veracross };
+export * as Veracross from './Veracross.js';
 
-await register(Veracross);
+await register(plugin);

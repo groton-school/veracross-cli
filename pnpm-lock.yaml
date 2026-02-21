@@ -45,8 +45,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/oauth2-cli/veracross
       '@qui-cli/core':
-        specifier: ^6.0.0
-        version: 6.0.0(@qui-cli/plugin@4.1.0)
+        specifier: ^6.0.2
+        version: 6.0.2(@qui-cli/plugin@4.1.0)
       '@qui-cli/log':
         specifier: ^4.0.3
         version: 4.0.3(@qui-cli/plugin@4.1.0)(@qui-cli/root@3.1.0(@qui-cli/plugin@4.1.0))
@@ -734,8 +734,8 @@ packages:
   '@qui-cli/colors@3.2.3':
     resolution: {integrity: sha512-QYL9SxDEDjgFaKQ1EebYfZPt+7CHIMRUobG5jJHBayIRzLRqasJ9C1Tbx7pkfQp144h2L+cgQjAoRmZcW6VriA==}
 
-  '@qui-cli/core@6.0.0':
-    resolution: {integrity: sha512-zlgTPLzzZ+HKe39S37kr0tPt5N0ajC7hNg8fvsadyfk1Llm9vhg7LeBw7jOTarI52SCMSl+UBbV2x9inLmOHQg==}
+  '@qui-cli/core@6.0.2':
+    resolution: {integrity: sha512-iv0sgdu86stSsJIkS20+BPRpOeSwHn1Jrfg8DcGpcrT976E1FIBMfslmNdL4GHfgX6sr+I+cUQ+LzeR9WDmN9Q==}
     peerDependencies:
       '@qui-cli/plugin': '>=3'
 
@@ -4131,6 +4131,10 @@ packages:
   wordwrap@1.0.0:
     resolution: {integrity: sha512-gvVzJFlPycKc5dZN4yPkP8w7Dc37BtP1yczEneOb4uq34pXZcvrtRTmWV8W+Ume+XCxKgbjM+nevkyFPMybd4Q==}
 
+  wrap-ansi@10.0.0:
+    resolution: {integrity: sha512-SGcvg80f0wUy2/fXES19feHMz8E0JoXv2uNgHOu4Dgi2OrCy1lqwFYEJz1BLbDI0exjPMe/ZdzZ/YpGECBG/aQ==}
+    engines: {node: '>=20'}
+
   wrap-ansi@6.2.0:
     resolution: {integrity: sha512-r6lPcBGxZXlIcymEu7InxDMhdW0KDxpLgoFLcguasxCaJ/SOIZwINatK9KY/tf+ZrlywOKU0UDj3ATXUBfxJXA==}
     engines: {node: '>=8'}
@@ -5035,12 +5039,12 @@ snapshots:
     dependencies:
       chalk: 5.6.2
 
-  '@qui-cli/core@6.0.0(@qui-cli/plugin@4.1.0)':
+  '@qui-cli/core@6.0.2(@qui-cli/plugin@4.1.0)':
     dependencies:
       '@qui-cli/colors': 3.2.3
       '@qui-cli/plugin': 4.1.0
       jackspeak: 4.2.3
-      wrap-ansi: 9.0.2
+      wrap-ansi: 10.0.0
 
   '@qui-cli/env@5.1.1(@1password/sdk@0.3.1)(@qui-cli/colors@3.2.3)(@qui-cli/log@4.0.3(@qui-cli/plugin@4.1.0)(@qui-cli/root@3.1.0(@qui-cli/plugin@4.1.0)))(@qui-cli/plugin@4.1.0)(@qui-cli/root@3.1.0(@qui-cli/plugin@4.1.0))(@qui-cli/shell@3.1.2(@qui-cli/log@4.0.3(@qui-cli/plugin@4.1.0)(@qui-cli/root@3.1.0(@qui-cli/plugin@4.1.0)))(@qui-cli/plugin@4.1.0))':
     dependencies:
@@ -9003,6 +9007,12 @@ snapshots:
   word-wrap@1.2.5: {}
 
   wordwrap@1.0.0: {}
+
+  wrap-ansi@10.0.0:
+    dependencies:
+      ansi-styles: 6.2.3
+      string-width: 8.2.0
+      strip-ansi: 7.1.2
 
   wrap-ansi@6.2.0:
     dependencies:

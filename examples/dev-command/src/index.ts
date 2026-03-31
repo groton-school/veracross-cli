@@ -4,4 +4,6 @@ import { Log } from '@qui-cli/log';
 
 Veracross.configure({ credentials: { scope: 'contact_info:read' } });
 await Core.run();
-Log.info({ info: await Veracross.requestJSON('v3/contact_info/2') });
+Log.info({
+  info: await Veracross.request('v3/contact_info/2')
+});

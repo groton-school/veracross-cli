@@ -1,7 +1,6 @@
 import * as OAuth2 from '@oauth2-cli/qui-cli/extendable/index.js';
 import { Colors } from '@qui-cli/colors';
 import { Env } from '@qui-cli/env';
-import path from 'node:path';
 
 export type Credentials = OAuth2.Credentials & {
   school_route: string;
@@ -54,18 +53,10 @@ export class VeracrossPlugin extends OAuth2.OAuth2Plugin<Credentials> {
       this.configure({
         credentials: {
           school_route,
-          authorization_endpoint: path.join(
-            'https://accounts.veracross.com',
-            school_route,
-            'oauth/authorize'
-          ),
-          token_endpoint: path.join(
-            'https://accounts.veracross.com',
-            school_route,
-            'oauth/token'
-          )
+          authorization_endpoint: `https://accounts.veracross.com/${school_route}/oauth/authorize`,
+          token_endpoint: `https://accounts.veracross.com/${school_route}/oauth/token`
         },
-        base_url: path.join('https://api.veracross.com', school_route)
+        base_url: `https://api.veracross.com/${school_route}`
       });
     }
     await super.init(...args);

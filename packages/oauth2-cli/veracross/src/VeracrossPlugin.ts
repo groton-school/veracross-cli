@@ -1,6 +1,8 @@
 import * as OAuth2 from '@oauth2-cli/qui-cli/extendable/index.js';
 import { Colors } from '@qui-cli/colors';
 import { Env } from '@qui-cli/env';
+import { Log } from '@qui-cli/log';
+import ora from 'ora';
 
 export type Credentials = OAuth2.Credentials & {
   school_route: string;
@@ -60,5 +62,19 @@ export class VeracrossPlugin extends OAuth2.OAuth2Plugin<Credentials> {
       });
     }
     await super.init(...args);
+  }
+
+  public async run() {
+    const spinner = ora(`Authorizing Veracross access`).start();
+    if (!(await this.client.isAuthorized())) {
+      spinner.stop();
+      await this.client.authorize();
+    }
+    const message = `Veracross authorization complete for ${Colors.value(this.client.credentials.school_route)}`;
+    if (spinner.isSpinning) {
+      spinner.succeed(message);
+    } else {
+      Log.info(message);
+    }
   }
 }

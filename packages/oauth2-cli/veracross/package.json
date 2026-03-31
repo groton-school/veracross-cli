@@ -24,6 +24,9 @@
     "prepack": "run-s build",
     "release": "commit-and-tag-version"
   },
+  "dependencies": {
+    "ora": "^9.3.0"
+  },
   "devDependencies": {
     "@tsconfig/node-lts": "^24.0.0",
     "@types/node": "^24.12.0",
@@ -36,6 +39,7 @@
     "@oauth2-cli/qui-cli": ">=2",
     "@qui-cli/colors": ">=3",
     "@qui-cli/env": ">=5",
+    "@qui-cli/log": ">=3",
     "@qui-cli/plugin": ">=3"
   },
   "packageManager": "pnpm@10.28.0"

@@ -1,5 +1,7 @@
 packages:
   - examples/*
+  - packages/*
+  - '!/packages/oauth2-cli'
   - packages/oauth2-cli/*
 
 onlyBuiltDependencies:

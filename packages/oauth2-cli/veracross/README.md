@@ -23,8 +23,8 @@ Veracross.configure({ scope: 'contact_info:read' });
 // intialize the @qui-cli environment
 await Core.run();
 
-// request your data
-console.log(await Veracross.requestJSON('/v3/contact_info/2'));
+// request your data (note relative path)
+console.log(await Veracross.request('v3/contact_info/2'));
 ```
 
 See [@groton/veracross-cli](https://github.com/groton-school/veracross-cli#readme) for more information about the client.

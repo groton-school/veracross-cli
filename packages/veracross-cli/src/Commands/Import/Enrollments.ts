@@ -33,7 +33,8 @@ export function options(): Plugin.Options {
     pathToCsv: {
       description:
         `Path to a CSV file containing the columns ` +
-        `${Colors.value('person_id')} (valid Veracross Person ID values). ` +
+        `${Colors.value('person_id')} (valid Veracross Person ID values), ` +
+        `${Colors.value('school_year')} (Veracross school year identifier),` +
         `${Colors.value('internal_class_id')} (a valid Veracross internal ` +
         `class ID values), ${Colors.value('late_date_enrolled')} (optional ` +
         `dates for late enrollment), ${Colors.value('date_withdrawn')} ` +
@@ -68,6 +69,7 @@ export async function run() {
 
   const data: {
     person_id: number;
+    school_year: number;
     internal_class_id: number;
     late_date_enrolled?: DateString;
     date_withdrawn?: DateString;
@@ -80,6 +82,7 @@ export async function run() {
   let updates = 0;
   let missing: { person_id: number; internal_class_id: number }[] = [];
   for (const row of data) {
+    const { person_id, school_year, internal_class_id } = row;
     const enrollments = await Veracross.request<{
       data: {
         id: number;
@@ -90,7 +93,7 @@ export async function run() {
         notes?: string;
       }[];
     }>(
-      `v3/academics/enrollments${requestish.URLSearchParams.toString({ internal_class_id: row.internal_class_id, person_id: row.person_id })}`
+      `v3/academics/enrollments${requestish.URLSearchParams.toString({ school_year, internal_class_id, person_id })}`
     );
     if ('data' in enrollments) {
       const [enrollment] = enrollments.data;

@@ -9,6 +9,7 @@ import { Root } from '@qui-cli/root';
 import { parse } from 'csv/sync';
 import fs from 'node:fs';
 import path from 'node:path';
+import { diff } from 'node:util';
 import ora from 'ora';
 import * as requestish from 'requestish';
 
@@ -112,24 +113,22 @@ export async function run() {
         );
         let update = false;
         if (
-          row.late_date_enrolled &&
-          (!enrollment.late_date_enrolled ||
-            new Date(row.late_date_enrolled).toLocaleDateString() !=
-              new Date(enrollment.late_date_enrolled).toLocaleDateString())
+          unequal(
+            row.late_date_enrolled,
+            enrollment.late_date_enrolled,
+            canonicalDate
+          )
         ) {
           enrollment.late_date_enrolled = row.late_date_enrolled;
           update = true;
         }
         if (
-          row.date_withdrawn &&
-          (!enrollment.date_withdrawn ||
-            new Date(row.date_withdrawn).toLocaleDateString() !=
-              new Date(enrollment.date_withdrawn).toLocaleDateString())
+          unequal(row.date_withdrawn, enrollment.date_withdrawn, canonicalDate)
         ) {
           enrollment.date_withdrawn = row.date_withdrawn;
           update = true;
         }
-        if (row.notes && (!enrollment.notes || row.notes != enrollment.notes)) {
+        if (unequal(row.notes, enrollment.notes)) {
           enrollment.notes = row.notes;
           update = true;
         }
@@ -186,4 +185,16 @@ export async function run() {
       `${missing.length} records could not be found. The full list was written to ${Colors.path(errorPath)}`
     );
   }
+}
+
+function unequal(
+  a?: string,
+  b?: string,
+  canonical: (value: string) => string = (v: string) => v
+) {
+  return a && (!b || canonical(a) != canonical(b));
+}
+
+function canonicalDate(value: string) {
+  return new Date(value).toLocaleDateString();
 }

@@ -16,7 +16,12 @@ export type Configuration = Plugin.Configuration & {
   pathToCSV?: PathString;
 };
 
-const scope = ['academics.enrollments:list', 'academics.enrollments:update'];
+const scope = [
+  'academics.enrollments:list',
+  'academics.enrollments:update',
+  'summer.enrollments:list',
+  'summer.enrollments:update'
+];
 
 const config: Configuration = {};
 
@@ -83,6 +88,10 @@ export async function run() {
   let missing: { person_id: number; internal_class_id: number }[] = [];
   for (const row of data) {
     const { person_id, school_year, internal_class_id } = row;
+    let endpoint = 'academics';
+    if (school_year < 0) {
+      endpoint = 'summer';
+    }
     const enrollments = await Veracross.request<{
       data: {
         id: number;
@@ -93,7 +102,7 @@ export async function run() {
         notes?: string;
       }[];
     }>(
-      `v3/academics/enrollments${requestish.URLSearchParams.toString({ school_year, internal_class_id, person_id })}`
+      `v3/${endpoint}/enrollments${requestish.URLSearchParams.toString({ school_year, internal_class_id, person_id })}`
     );
     if ('data' in enrollments) {
       const [enrollment] = enrollments.data;
@@ -129,7 +138,7 @@ export async function run() {
           const update = { late_date_enrolled, date_withdrawn, notes };
           try {
             await Veracross.request(
-              `v3/academics/enrollments/${id}`,
+              `v3/${endpoint}/enrollments/${id}`,
               'PATCH',
               JSON.stringify({ data: update }),
               { 'Content-Type': 'application/json' }
@@ -166,8 +175,15 @@ export async function run() {
   Progress.stop();
   Log.info(`${updates} of ${data.length} enrollments required updates.`);
   if (missing.length) {
+    const errorPath = path.join(
+      config.pathToCSV,
+      '../' +
+        path.basename(config.pathToCSV, path.extname(config.pathToCSV)) +
+        '-errors.json'
+    );
+    fs.writeFileSync(errorPath, JSON.stringify(missing, null, 2));
     Log.warning(
-      `The following records could not be found: ${Log.syntaxColor(missing)}`
+      `${missing.length} records could not be found. The full list was written to ${Colors.path(errorPath)}`
     );
   }
 }

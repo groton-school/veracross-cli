@@ -113,16 +113,6 @@ export async function run() {
       undefined,
       { 'X-Page-Number': page, 'X-Page-Size': PAGE_SIZE }
     );
-    const {
-      'x-page-number': pageNumber = page,
-      'x-page-size': pageSize = PAGE_SIZE
-    } = (Array.from(response.headers.entries()) as [string, string][]).reduce(
-      (record, [key, value]) => {
-        record[key.toLowerCase()] = parseInt(value);
-        return record;
-      },
-      {} as Record<string, number>
-    );
     const { data } = (await Veracross.client().processResponse(response)) as {
       data: Course[];
     };
@@ -189,9 +179,9 @@ export async function run() {
       }
       Progress.increment();
     }
-    done = proposal.length === 0 || data.length < pageSize;
+    done = proposal.length === 0 || data.length < PAGE_SIZE;
     if (!done) {
-      page = pageNumber + 1;
+      page = page + 1;
     }
   } while (!done);
   Progress.stop();

@@ -70,7 +70,7 @@ export class VeracrossPlugin extends OAuth2.OAuth2Plugin<Credentials> {
       spinner.stop();
       await this.client.authorize();
     }
-    const message = `Veracross authorization complete for ${Colors.value(this.client.credentials.school_route)}`;
+    const message = `Authorization complete to ${Colors.value(this.client.credentials.school_route)} Veracross instance`;
     if (spinner.isSpinning) {
       spinner.succeed(message);
     } else {

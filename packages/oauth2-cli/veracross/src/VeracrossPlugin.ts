@@ -3,12 +3,12 @@ import { Colors } from '@qui-cli/colors';
 import { Env } from '@qui-cli/env';
 import { Log } from '@qui-cli/log';
 import ora from 'ora';
+import { Client, Credentials } from './Client.js';
 
-export type Credentials = OAuth2.Credentials & {
-  school_route: string;
-};
-
-export class VeracrossPlugin extends OAuth2.OAuth2Plugin<Credentials> {
+export class VeracrossPlugin extends OAuth2.OAuth2Plugin<
+  Credentials,
+  Client<Credentials>
+> {
   public constructor(name = 'Veracross API') {
     super(name);
     this.configure({

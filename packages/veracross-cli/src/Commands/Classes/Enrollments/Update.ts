@@ -9,9 +9,6 @@ import { Root } from '@qui-cli/root';
 import { parse } from 'csv/sync';
 import fs from 'node:fs';
 import path from 'node:path';
-import { diff } from 'node:util';
-import ora from 'ora';
-import * as requestish from 'requestish';
 
 export type Configuration = Plugin.Configuration & {
   pathToCSV?: PathString;
@@ -89,30 +86,25 @@ export async function run() {
   let missing: { person_id: number; internal_class_id: number }[] = [];
   for (const row of data) {
     const { person_id, school_year, internal_class_id } = row;
-    let endpoint = 'academics';
+    let endpoint: 'academics' | 'summer' = 'academics';
     if (school_year < 0) {
       endpoint = 'summer';
     }
-    const enrollments = await Veracross.request<{
-      data: {
-        id: number;
-        person_name?: string;
-        class_description?: string;
-        late_date_enrolled?: DateString<'YYYY-MM-DD'>;
-        date_withdrawn?: DateString<'YYYY-MM-DD'>;
-        notes?: string;
-      }[];
-    }>(
-      `v3/${endpoint}/enrollments${requestish.URLSearchParams.toString({ school_year, internal_class_id, person_id })}`
+    const { data: enrollments } = await Veracross.Data.GET(
+      `/${endpoint}/enrollments`,
+      { params: { query: { school_year, internal_class_id, person_id } } }
     );
-    if ('data' in enrollments) {
+
+    if (enrollments?.data) {
       const [enrollment] = enrollments.data;
       if (enrollment) {
         Progress.caption(
+          // @ts-expect-error 2339
           `${enrollment.person_name} / ${enrollment.class_description}`
         );
         let update = false;
         if (
+          row.late_date_enrolled &&
           unequal(
             row.late_date_enrolled,
             enrollment.late_date_enrolled,
@@ -123,46 +115,24 @@ export async function run() {
           update = true;
         }
         if (
+          row.date_withdrawn &&
           unequal(row.date_withdrawn, enrollment.date_withdrawn, canonicalDate)
         ) {
           enrollment.date_withdrawn = row.date_withdrawn;
           update = true;
         }
-        if (unequal(row.notes, enrollment.notes)) {
+        if (row.notes && unequal(row.notes, enrollment.notes)) {
           enrollment.notes = row.notes;
           update = true;
         }
         if (update) {
           const { id, late_date_enrolled, date_withdrawn, notes } = enrollment;
           const update = { late_date_enrolled, date_withdrawn, notes };
-          try {
-            await Veracross.request(
-              `v3/${endpoint}/enrollments/${id}`,
-              'PATCH',
-              JSON.stringify({ data: update }),
-              { 'Content-Type': 'application/json' }
-            );
-          } catch (error) {
-            if (
-              error &&
-              typeof error === 'object' &&
-              'cause' in error &&
-              error.cause &&
-              typeof error.cause === 'object' &&
-              'error' in error.cause &&
-              error.cause.error &&
-              typeof error.cause.error === 'object' &&
-              'cause' in error.cause.error &&
-              error.cause.error.cause &&
-              typeof error.cause.error.cause === 'object' &&
-              'body' in error.cause.error.cause &&
-              error.cause.error.cause.body === ''
-            ) {
-              //
-            } else {
-              throw new Error('Unexpected response', { cause: error });
-            }
-          }
+          await Veracross.Data.PATCH(`/${endpoint}/enrollments/{id}`, {
+            params: { path: { id } },
+            body: { data: update }
+          });
+
           updates++;
         }
       } else {

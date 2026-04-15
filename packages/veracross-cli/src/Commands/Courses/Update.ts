@@ -107,7 +107,7 @@ export async function run() {
 
   Progress.start({ max });
   do {
-    const response = await Veracross.requestRaw(
+    const response = await Veracross.client().requestRaw(
       'v3/academics/courses',
       'GET',
       undefined,
@@ -140,7 +140,7 @@ export async function run() {
           }
         }
         if (Object.keys(update).length > 0) {
-          const updateResponse = await Veracross.requestRaw(
+          const updateResponse = await Veracross.client().requestRaw(
             `v3/academics/courses/${course.id}`,
             'PATCH',
             JSON.stringify({ data: update }),

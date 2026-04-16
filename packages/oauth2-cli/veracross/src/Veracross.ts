@@ -1,6 +1,8 @@
+import * as API from './Data-API.js';
 import { VeracrossPlugin } from './VeracrossPlugin.js';
 
 export * from './VeracrossPlugin.js';
+export { API };
 
 export const plugin = new VeracrossPlugin();
 

@@ -1,4 +1,4 @@
-import { DateString, PathString } from '@battis/descriptive-types';
+import { PathString } from '@battis/descriptive-types';
 import { Veracross } from '@oauth2-cli/veracross';
 import { Colors } from '@qui-cli/colors';
 import { Positionals } from '@qui-cli/core';
@@ -14,32 +14,9 @@ export type Configuration = Plugin.Configuration & {
   pathToCsv?: PathString;
 };
 
-type Course = {
-  id: number;
-  course_id: string;
-  name: string;
-  subject_id: number;
-  subject_description: string;
-  department_id: number;
-  department_description: string;
-  catalog_title: string;
-  catalog_description: string;
-  classification: number;
-  course_type: string;
-  last_modified_date: DateString<'MM/DD/YYYY'>;
-};
-
-type CoursePatch = {
-  course_id?: string;
-  name?: string;
-  subject_id?: number;
-  subject_description?: string;
-  department_description?: string;
-  catalog_title?: string;
-  catalog_description?: string;
-  classification?: number;
-  course_type?: number;
-};
+type PatchData = NonNullable<
+  Veracross.API.paths['/academics/courses/{id}']['patch']['requestBody']
+>['content']['application/json']['data'];
 
 const PAGE_SIZE = 100;
 
@@ -92,7 +69,7 @@ export async function run() {
   if (!config.pathToCsv) {
     throw new Error(`${Colors.positionalArg('pathToCsv')} is required.`);
   }
-  let proposal: ({ internal_course_id: string } & CoursePatch)[] = parse(
+  let proposal: ({ internal_course_id: string } & PatchData)[] = parse(
     fs.readFileSync(path.resolve(Root.path(), config.pathToCsv)),
     {
       columns: true
@@ -107,66 +84,74 @@ export async function run() {
 
   Progress.start({ max });
   do {
-    const response = await Veracross.client().requestRaw(
-      'v3/academics/courses',
-      'GET',
-      undefined,
-      { 'X-Page-Number': page, 'X-Page-Size': PAGE_SIZE }
-    );
-    const { data } = (await Veracross.client().processResponse(response)) as {
-      data: Course[];
-    };
+    const {
+      data: { data } = {},
+      error,
+      response
+    } = await Veracross.Data.GET('/academics/courses', {
+      params: { header: { 'X-Page-Number': page } }
+    });
+    if (!data) {
+      throw new Error('Expected data missing from response', {
+        cause: {
+          error,
+          response: {
+            ok: response.ok,
+            status: response.status,
+            statusText: response.statusText,
+            headers: Object.fromEntries(response.headers.entries()),
+            body: await response.text()
+          }
+        }
+      });
+    }
     max += data.length;
     Progress.setMax(max);
     Progress.caption(`Page ${page} of data`);
 
-    for (const course of data) {
+    for (const retrieved of data) {
       const i = proposal.findIndex(
-        (row) => parseInt(row.internal_course_id) == course.id
+        (row) => parseInt(row.internal_course_id) == retrieved.id
       );
       if (i >= 0) {
-        Progress.caption(proposal[i].name || course.name);
-        const update: CoursePatch = {};
+        Progress.caption(proposal[i].name || retrieved.name);
+        const patch: PatchData = {};
         for (const key of Object.keys(proposal[i]) as (keyof {
           internal_course_id: number;
         } &
-          CoursePatch)[]) {
+          PatchData)[]) {
           if (
             key !== 'internal_course_id' &&
             proposal[i][key] &&
-            proposal[i][key] != course[key]
+            proposal[i][key] != retrieved[key]
           ) {
-            update[key] = proposal[i][key];
+            patch[key] = proposal[i][key];
           }
         }
-        if (Object.keys(update).length > 0) {
-          const updateResponse = await Veracross.client().requestRaw(
-            `v3/academics/courses/${course.id}`,
-            'PATCH',
-            JSON.stringify({ data: update }),
-            { 'Content-Type': 'application/json' }
+        if (Object.keys(patch).length > 0) {
+          const { response } = await Veracross.Data.PATCH(
+            '/academics/courses/{id}',
+            { params: { path: { id: retrieved.id }, body: { data: patch } } }
           );
-          if (updateResponse.status === 204) {
+          if (response.status === 204) {
             updated++;
             Log.debug({
-              id: course.id,
-              original: course,
+              id: retrieved.id,
+              retrieved,
               proposal: proposal[i],
-              update
+              patch
             });
           } else {
             throw new Error(
-              `Failed to update course ${Colors.value(course.id)}`,
+              `Failed to update course ${Colors.value(retrieved.id)}`,
               {
                 cause: {
                   response: {
-                    ok: updateResponse.ok,
-                    status: updateResponse.status,
-                    statusText: updateResponse.statusText,
-                    headers: Object.fromEntries(
-                      updateResponse.headers.entries()
-                    ),
-                    body: await updateResponse.text()
+                    ok: response.ok,
+                    status: response.status,
+                    statusText: response.statusText,
+                    headers: Object.fromEntries(response.headers.entries()),
+                    body: await response.text()
                   }
                 }
               }

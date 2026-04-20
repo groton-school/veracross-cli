@@ -25,6 +25,7 @@
     "prepack": "run-s build"
   },
   "dependencies": {
+    "@1password/sdk": "^0.4.0",
     "@oauth2-cli/veracross": "workspace:*",
     "@qui-cli/colors": "^3.2.4",
     "@qui-cli/core": "^6.0.4",

@@ -42,14 +42,16 @@ export function options(): Plugin.Options {
   Positionals.allowOnlyNamedArgs();
   return {
     man: [
-      { level: 1, text: 'Course Update' },
+      { level: 1, text: 'Class Update' },
       {
         text:
           `This command will review the provided CSV and check the ` +
           `provided course values against the list of classes in Veracross. ` +
           `Any differences between the CSV value and the database value will ` +
           `be updated to reflect the CSV.`
-      }
+      },
+      { level: 2, text: 'Required Veracross API scopes' },
+      ...scope.map((s) => ({ text: Colors.value(s) }))
     ]
   };
 }

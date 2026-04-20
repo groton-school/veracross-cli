@@ -49,7 +49,14 @@ export function options(): Plugin.Options {
   Positionals.allowOnlyNamedArgs();
   return {
     man: [
-      { level: 1, text: 'Required Veracross API scopes' },
+      { level: 1, text: 'Class Enrollment Update' },
+      {
+        text:
+          `This script will adjust the ${Colors.value(`late_date_enrolled`)} ` +
+          `and ${Colors.value('date_withdrawn')} calues in student ` +
+          `enrollments based on the provided CSV file.`
+      },
+      { level: 2, text: 'Required Veracross API scopes' },
       ...scope.map((s) => ({ text: Colors.value(s) }))
     ]
   };
@@ -59,9 +66,8 @@ export function init(args: Plugin.ExpectedArguments<typeof options>) {
   const pathToCSV = Positionals.get('pathToCsv');
   configure({ pathToCSV });
   Veracross.configure({
-    credentials: {
-      scope
-    }
+    reason: 'vc classes enrollments update',
+    credentials: { scope }
   });
 }
 

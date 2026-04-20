@@ -51,7 +51,9 @@ export function options(): Plugin.Options {
           `provided course values against the list of courses in Veracross. ` +
           `Any differences between the CSV value and the database value will ` +
           `be updated to reflect the CSV.`
-      }
+      },
+      { level: 2, text: 'Required Veracross API scopes' },
+      ...scope.map((s) => ({ text: Colors.value(s) }))
     ]
   };
 }

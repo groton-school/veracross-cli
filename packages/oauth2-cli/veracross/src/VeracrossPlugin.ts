@@ -77,4 +77,10 @@ export class VeracrossPlugin extends OAuth2.OAuth2Plugin<
       Log.info(message);
     }
   }
+
+  protected instantiateClient(
+    options: OAuth2.Options<Credentials>
+  ): Client<Credentials> {
+    return new Client(options);
+  }
 }

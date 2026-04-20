@@ -96,7 +96,7 @@ export async function run() {
     if (school_year < 0) {
       endpoint = 'summer';
     }
-    const { data: enrollments } = await Veracross.Data.GET(
+    const { data: enrollments } = await Veracross.client().Data.GET(
       `/${endpoint}/enrollments`,
       { params: { query: { school_year, internal_class_id, person_id } } }
     );
@@ -134,7 +134,7 @@ export async function run() {
         if (update) {
           const { id, late_date_enrolled, date_withdrawn, notes } = enrollment;
           const update = { late_date_enrolled, date_withdrawn, notes };
-          await Veracross.Data.PATCH(`/${endpoint}/enrollments/{id}`, {
+          await Veracross.client().Data.PATCH(`/${endpoint}/enrollments/{id}`, {
             params: { path: { id } },
             body: { data: update }
           });

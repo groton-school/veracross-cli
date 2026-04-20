@@ -88,7 +88,7 @@ export async function run() {
       data: { data } = {},
       error,
       response
-    } = await Veracross.Data.GET('/academics/classes', {
+    } = await Veracross.client().Data.GET('/academics/classes', {
       params: { header: { 'X-Page-Number': page } }
     });
     if (!data) {
@@ -129,7 +129,7 @@ export async function run() {
           }
         }
         if (Object.keys(patch).length > 0) {
-          const { response } = await Veracross.Data.PATCH(
+          const { response, error } = await Veracross.client().Data.PATCH(
             '/academics/classes/{id}',
             {
               params: {

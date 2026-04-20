@@ -21,17 +21,15 @@ export class Client<C extends Credentials> extends OAuth2.Client<C> {
     this.Data.use(this.authorizationMiddleware());
   }
 
-  private async onRequest({ request }: MiddlewareCallbackParams) {
-    request.headers.set(
-      'Authorization',
-      `Bearer ${(await this.getToken()).access_token}`
-    );
-    return request;
-  }
-
   private authorizationMiddleware(): Middleware {
     return {
-      onRequest: this.onRequest.bind(this)
+      onRequest: (async ({ request }: MiddlewareCallbackParams) => {
+        request.headers.set(
+          'Authorization',
+          `Bearer ${(await this.getToken()).access_token}`
+        );
+        return request;
+      }).bind(this)
     };
   }
 }

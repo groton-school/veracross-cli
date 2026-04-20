@@ -61,6 +61,7 @@ export function options(): Plugin.Options {
 export function init() {
   configure({ pathToCsv: Positionals.get('pathToCsv') });
   Veracross.configure({
+    reason: 'vc courses update',
     credentials: {
       scope
     }

@@ -56,6 +56,15 @@ export function options(): Plugin.Options {
   };
 }
 
+export function init() {
+  const pathToCSV = Positionals.get('pathToCsv');
+  configure({ pathToCSV });
+  Veracross.configure({
+    reason: 'vc classes update',
+    credentials: { scope }
+  });
+}
+
 export async function run() {
   if (!config.pathToCsv) {
     throw new Error(`${Colors.positionalArg('pathToCsv')} is required.`);

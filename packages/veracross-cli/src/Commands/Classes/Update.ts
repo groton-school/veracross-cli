@@ -69,7 +69,7 @@ export async function run() {
   if (!config.pathToCsv) {
     throw new Error(`${Colors.positionalArg('pathToCsv')} is required.`);
   }
-  let proposal: ({ internal_course_id: string } & PatchData)[] = parse(
+  let proposal: ({ internal_class_id: string } & PatchData)[] = parse(
     fs.readFileSync(path.resolve(Root.path(), config.pathToCsv)),
     {
       columns: true
@@ -110,17 +110,17 @@ export async function run() {
 
     for (const retrieved of data) {
       const i = proposal.findIndex(
-        (row) => parseInt(row.internal_course_id) == retrieved.id
+        (row) => parseInt(row.internal_class_id) == retrieved.id
       );
       if (i >= 0) {
         Progress.caption(proposal[i].name || retrieved.description);
         const patch: PatchData = {};
         for (const key of Object.keys(proposal[i]) as (keyof {
-          internal_course_id: number;
+          internal_class_id: number;
         } &
           PatchData)[]) {
           if (
-            key !== 'internal_course_id' &&
+            key !== 'internal_class_id' &&
             proposal[i][key] &&
             proposal[i][key] != retrieved[key]
           ) {

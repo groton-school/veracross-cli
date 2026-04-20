@@ -133,7 +133,12 @@ export async function run() {
         if (Object.keys(patch).length > 0) {
           const { response, error } = await Veracross.client().Data.PATCH(
             '/academics/courses/{id}',
-            { params: { path: { id: retrieved.id }, body: { data: patch } } }
+            {
+              params: {
+                path: { id: retrieved.id }
+              },
+              body: { data: patch }
+            }
           );
           if (response.status === 204) {
             updated++;

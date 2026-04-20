@@ -132,9 +132,9 @@ export async function run() {
             '/academics/classes/{id}',
             {
               params: {
-                path: { id: retrieved.id },
-                body: { data: patch }
-              }
+                path: { id: retrieved.id }
+              },
+              body: { data: patch }
             }
           );
           if (response.status === 204) {

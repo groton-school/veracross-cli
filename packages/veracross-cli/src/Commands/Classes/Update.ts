@@ -99,8 +99,7 @@ export async function run() {
             ok: response.ok,
             status: response.status,
             statusText: response.statusText,
-            headers: Object.fromEntries(response.headers.entries()),
-            body: await response.text()
+            headers: Object.fromEntries(response.headers.entries())
           }
         }
       });
@@ -151,13 +150,15 @@ export async function run() {
               `Failed to update course ${Colors.value(retrieved.id)}`,
               {
                 cause: {
+                  retrieved,
+                  patch,
                   response: {
                     ok: response.ok,
                     status: response.status,
                     statusText: response.statusText,
-                    headers: Object.fromEntries(response.headers.entries()),
-                    body: await response.text()
-                  }
+                    headers: Object.fromEntries(response.headers.entries())
+                  },
+                  error
                 }
               }
             );

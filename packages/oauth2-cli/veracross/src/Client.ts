@@ -1,10 +1,7 @@
 import * as OAuth2 from '@oauth2-cli/qui-cli/extendable/index.js';
-import { Log } from '@qui-cli/log';
-import createClient, {
-  Middleware,
-  MiddlewareCallbackParams
-} from 'openapi-fetch';
+import createClient from 'openapi-fetch';
 import { paths } from './Data-API.js';
+import * as Middleware from './Middleware/index.js';
 
 export type Credentials = OAuth2.Credentials & {
   school_route: string;
@@ -18,18 +15,7 @@ export class Client<C extends Credentials> extends OAuth2.Client<C> {
     this.Data = createClient<paths>({
       baseUrl: `https://api.veracross.com/${this.credentials.school_route}/v3`
     });
-    this.Data.use(this.authorizationMiddleware());
-  }
-
-  private authorizationMiddleware(): Middleware {
-    return {
-      onRequest: (async ({ request }: MiddlewareCallbackParams) => {
-        request.headers.set(
-          'Authorization',
-          `Bearer ${(await this.getToken()).access_token}`
-        );
-        return request;
-      }).bind(this)
-    };
+    this.Data.use(new Middleware.Authorization(this));
+    this.Data.use(new Middleware.RetryWithScope(this));
   }
 }

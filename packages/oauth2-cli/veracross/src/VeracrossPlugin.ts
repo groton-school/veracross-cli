@@ -65,12 +65,12 @@ export class VeracrossPlugin extends OAuth2.OAuth2Plugin<
   }
 
   public async run() {
-    const spinner = ora(`Authorizing Veracross access`).start();
+    const spinner = ora(`Authorizing ${this.client.name} access`).start();
     if (!(await this.client.isAuthorized())) {
       spinner.stop();
       await this.client.authorize();
     }
-    const message = `Authorization complete to ${Colors.value(this.client.credentials.school_route)} Veracross instance`;
+    const message = `Authorization complete to ${Colors.value(this.client.credentials.school_route)} ${this.client.name} instance using stored credentials`;
     if (spinner.isSpinning) {
       spinner.succeed(message);
     } else {

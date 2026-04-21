@@ -1,7 +1,5 @@
 import { Token } from '@oauth2-cli/qui-cli/extendable/index.js';
-import { Colors } from '@qui-cli/colors';
 import { Middleware } from 'openapi-fetch';
-import ora from 'ora';
 import { Client, Credentials } from '../Client.js';
 
 export class RetryWithScope<C extends Credentials = Credentials> {
@@ -26,7 +24,10 @@ export class RetryWithScope<C extends Credentials = Credentials> {
           )
         ) {
           try {
-            await this.client.authorize();
+            await this.client.authorize({
+              reason: `added scope ${scope}`
+            });
+
             request.headers.set(
               'Authorization',
               `Bearer ${(await this.client.getToken()).access_token}`
@@ -34,7 +35,7 @@ export class RetryWithScope<C extends Credentials = Credentials> {
             return await fetch(request);
           } catch (error) {
             throw new Error(
-              `Could not authorize ${this.client.name} with scope ${Colors.value(scope)}`,
+              `Could not authorize ${this.client.name} with scope ${scope}`,
               { cause: error }
             );
           }

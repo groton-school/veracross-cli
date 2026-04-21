@@ -14,17 +14,23 @@ npm install @oauth2-cli/veracross @qui-cli/core
 ## Usage
 
 ```ts
-import { Veracross } from '@oauth2-cli/veracross';
-import { Core } from '@qui-cli/core';
+// configure scopes
+Veracross.configure({
+  reason: 'example',
+  credentials: { scope: 'contact_info:read' }
+});
 
-// configure any necessary scopes
-Veracross.configure({ scope: 'contact_info:read' });
-
-// intialize the @qui-cli environment
+// intialize @qui-cli environment
 await Core.run();
 
-// request your data (note relative path)
-console.log(await Veracross.request('v3/contact_info/2'));
+// dump the result of an API request to the console
+console.log(
+  (
+    await Veracross.Data().GET('/contact_info/{id}', {
+      params: { path: { id: 2 } }
+    })
+  ).response
+);
 ```
 
 See [@groton/veracross-cli](https://github.com/groton-school/veracross-cli#readme) for more information about the client.

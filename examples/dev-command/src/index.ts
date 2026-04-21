@@ -7,8 +7,10 @@ Veracross.configure({
   credentials: { scope: 'contact_info:read' }
 });
 await Core.run();
-Log.info({
-  info: await Veracross.Data().GET('/contact_info/{id}', {
-    params: { path: { id: 2 } }
-  })
-});
+Log.info(
+  (
+    await Veracross.Data().GET('/contact_info/{id}', {
+      params: { path: { id: 2 } }
+    })
+  ).response
+);

@@ -8,7 +8,7 @@ Veracross.configure({
 });
 await Core.run();
 Log.info({
-  info: await Veracross.client().Data.GET('/contact_info/{id}', {
+  info: await Veracross.Data().GET('/contact_info/{id}', {
     params: { path: { id: 2 } }
   })
 });

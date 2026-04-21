@@ -18,7 +18,9 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "clean": "del ./dist",
-    "spec": "openapi-typescript \"https://stoplight.io/api/v1/projects/veracross/docs/nodes/reference/Data-API.yaml\" -o ./src/Data-API.d.ts",
+    "spec": "run-p spec:*",
+    "spec:data": "openapi-typescript \"https://stoplight.io/api/v1/projects/veracross/docs/nodes/reference/Data-API.yaml\" -o ./src/Data-API.ts",
+    "spec:files": "openapi-typescript \"https://stoplight.io/api/v1/projects/veracross/docs/nodes/reference/Files-API.yaml\" -o ./src/Files-API.ts",
     "build": "run-s build:*",
     "build:clean": "run-s clean",
     "build:compile": "tsc",

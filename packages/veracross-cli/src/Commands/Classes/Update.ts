@@ -13,7 +13,7 @@ import path from 'node:path';
 export type Configuration = Plugin.Configuration & { pathToCsv?: PathString };
 
 type PatchData = NonNullable<
-  Veracross.API.paths['/academics/courses/{id}']['patch']['requestBody']
+  Veracross.DataAPI.paths['/academics/courses/{id}']['patch']['requestBody']
 >['content']['application/json']['data'];
 
 const PAGE_SIZE = 100;

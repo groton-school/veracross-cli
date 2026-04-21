@@ -3535,7 +3535,10 @@ export interface paths {
         /** List Finance: AP Invoices */
         get: operations["list_finance_ap_invoices"];
         put?: never;
-        /** Create Finance: AP Invoices */
+        /**
+         * Create Finance: AP Invoices
+         * @description The duplicate (non-shown) ID fields without `_id` are only for backwards compatibility, and should eventually be removed.
+         */
         post: operations["create_finance_ap_invoices"];
         delete?: never;
         options?: never;
@@ -3567,7 +3570,7 @@ export interface paths {
         patch: operations["update_finance_ap_invoices"];
         trace?: never;
     };
-    "/finance/gl_accounts": {
+    "/finance/gl_accounts/": {
         parameters: {
             query?: never;
             header?: {
@@ -31907,13 +31910,13 @@ export interface operations {
                             invoice_number: string;
                             /** @description Vendor */
                             vendor: string;
+                            /** @description Vendor ID */
+                            vendor_id: number;
                             /**
                              * Format: date
                              * @description Invoice Date
                              */
                             invoice_date: string;
-                            /** @description Vendor ID */
-                            vendor_id: number;
                             /**
                              * Format: date
                              * @description Due Date
@@ -31928,6 +31931,8 @@ export interface operations {
                             description: string;
                             /** @description AP GL Account */
                             readonly ap_gl_account: string;
+                            /** @description AP GL Account ID */
+                            ap_gl_account_id: number;
                             /** @description AP GL Cost Center - Read Only */
                             readonly ap_gl_cost_center: number;
                             /** @description Gross Amount - Read Only */
@@ -31948,6 +31953,8 @@ export interface operations {
                              *     Person who must approve this expense prior to its posting and payment
                              */
                             readonly approval_person: string;
+                            /** @description Approval Person ID */
+                            approval_person_id: number;
                             /**
                              * Format: date
                              * @description Last Modified Date
@@ -32032,16 +32039,12 @@ export interface operations {
                         due_date?: string;
                         /** @description Description */
                         description?: string;
-                        /** @description AP GL Account */
-                        readonly ap_gl_account?: string;
-                        /**
-                         * @description Approval Person
-                         *
-                         *     Person who must approve this expense prior to its posting and payment
-                         */
-                        readonly approval_person?: string;
-                        /** @description Vendor */
-                        vendor?: string;
+                        /** @description AP GL Account ID */
+                        ap_gl_account_id?: number;
+                        /** @description Approval Person ID */
+                        approval_person_id?: number;
+                        /** @description Vendor ID */
+                        vendor_id?: number;
                     };
                 };
             };
@@ -32111,13 +32114,13 @@ export interface operations {
                             invoice_number: string;
                             /** @description Vendor */
                             vendor: string;
+                            /** @description Vendor ID */
+                            vendor_id: number;
                             /**
                              * Format: date
                              * @description Invoice Date
                              */
                             invoice_date: string;
-                            /** @description Vendor ID */
-                            vendor_id: number;
                             /**
                              * Format: date
                              * @description Due Date
@@ -32132,6 +32135,8 @@ export interface operations {
                             description: string;
                             /** @description AP GL Account */
                             readonly ap_gl_account: string;
+                            /** @description AP GL Account ID */
+                            ap_gl_account_id: number;
                             /** @description AP GL Cost Center - Read Only */
                             readonly ap_gl_cost_center: number;
                             /** @description Gross Amount - Read Only */
@@ -32152,6 +32157,8 @@ export interface operations {
                              *     Person who must approve this expense prior to its posting and payment
                              */
                             readonly approval_person: string;
+                            /** @description Approval Person ID */
+                            approval_person_id: number;
                             /**
                              * Format: date
                              * @description Last Modified Date
@@ -32229,13 +32236,13 @@ export interface operations {
                         invoice_number?: string;
                         /** @description Vendor */
                         vendor?: string;
+                        /** @description Vendor ID */
+                        vendor_id?: number;
                         /**
                          * Format: date
                          * @description Invoice Date
                          */
                         invoice_date?: string;
-                        /** @description Vendor ID */
-                        vendor_id?: number;
                         /**
                          * Format: date
                          * @description Due Date
@@ -32250,6 +32257,8 @@ export interface operations {
                         description?: string;
                         /** @description AP GL Account */
                         readonly ap_gl_account?: string;
+                        /** @description AP GL Account ID */
+                        ap_gl_account_id?: number;
                         /** @description AP GL Cost Center - Read Only */
                         readonly ap_gl_cost_center?: number;
                         /** @description Gross Amount - Read Only */
@@ -32270,6 +32279,8 @@ export interface operations {
                          *     Person who must approve this expense prior to its posting and payment
                          */
                         readonly approval_person?: string;
+                        /** @description Approval Person ID */
+                        approval_person_id?: number;
                         /**
                          * Format: date
                          * @description Last Modified Date
@@ -32318,6 +32329,8 @@ export interface operations {
     list_finance_gl_accounts: {
         parameters: {
             query?: {
+                /** @description Posting Prohibited? */
+                posting_prohibited?: boolean;
                 /** @description Last Modified Date */
                 on_or_after_last_modified_date?: string;
                 /** @description Last Modified Date */
@@ -32414,6 +32427,8 @@ export interface operations {
                             readonly budget_remaining: number;
                             /** @description Posting Type */
                             posting_type: number;
+                            /** @description Posting Prohibited? */
+                            posting_prohibited: boolean;
                             /** @description Billing Subledger */
                             billing_subledger: boolean;
                             /**
@@ -32557,6 +32572,8 @@ export interface operations {
                             readonly budget_remaining: number;
                             /** @description Posting Type */
                             posting_type: number;
+                            /** @description Posting Prohibited? */
+                            posting_prohibited: boolean;
                             /** @description Billing Subledger */
                             billing_subledger: boolean;
                             /**
@@ -32668,6 +32685,7 @@ export interface operations {
     list_finance_projects: {
         parameters: {
             query?: {
+                archived?: string;
                 /** @description Last Modified Date */
                 on_or_after_last_modified_date?: string;
                 /** @description Last Modified Date */

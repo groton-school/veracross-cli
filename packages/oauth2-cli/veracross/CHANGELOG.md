@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.2.1](https://github.com/groton-school/veracross-cli/compare/oauth2-cli/veracross/0.2.0...oauth2-cli/veracross/0.2.1) (2026-04-21)
+
+
+### Features
+
+* add Files API support ([0f4518a](https://github.com/groton-school/veracross-cli/commit/0f4518a8c001ea88c7931dff64b28708048b7028))
+* attempt to re-authorize client if token is missing scope ([097f5f5](https://github.com/groton-school/veracross-cli/commit/097f5f5db96d4bbef7009733d6ebd85f138162bf))
+* authorize Veracross API access and identify school short_route on run ([1cab074](https://github.com/groton-school/veracross-cli/commit/1cab07496dfc4df8d450b1a85c959640978b84b0))
+* export Data API types for reuse as API ([ff8250c](https://github.com/groton-school/veracross-cli/commit/ff8250c02cad515336556a6414432d3da95180b8))
+* generate Intellisense types from API documentation, using OpenAPI ([177439c](https://github.com/groton-school/veracross-cli/commit/177439c0d10d7efc9a7d9bbeac5d3ecee370d0bc))
+
+
+### Bug Fixes
+
+* update peer dependencies ([650817c](https://github.com/groton-school/veracross-cli/commit/650817c2cb453152abae7fc0f2b20c8df149459f))
+
 ## [0.2.0](https://github.com/groton-school/veracross-cli/compare/oauth2-cli/veracross/0.1.3...oauth2-cli/veracross/0.2.0) (2026-02-20)
 
 

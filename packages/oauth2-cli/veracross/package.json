@@ -17,12 +17,18 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "clean": "del ./dist",
+    "clean": "run-p clean:*",
+    "clean:dist": "del ./dist",
+    "clean:spec": "del ./src/spec/*-API.ts",
+    "clean:gen": "del ./src/gen/*-API/*",
     "spec": "run-p spec:*",
-    "spec:data": "openapi-typescript \"https://stoplight.io/api/v1/projects/veracross/docs/nodes/reference/Data-API.yaml\" -o ./src/Data-API.ts",
-    "spec:files": "openapi-typescript \"https://stoplight.io/api/v1/projects/veracross/docs/nodes/reference/Files-API.yaml\" -o ./src/Files-API.ts",
+    "spec:data-api": "openapi-typescript \"https://stoplight.io/api/v1/projects/veracross/docs/nodes/reference/Data-API.yaml\" -o ./src/spec/Data-API.ts",
+    "spec:files-api": "openapi-typescript \"https://stoplight.io/api/v1/projects/veracross/docs/nodes/reference/Files-API.yaml\" -o ./src/spec/Files-API.ts",
+    "gen": "run-p gen:*",
+    "gen:data-api": "openapi-generator-cli generate -i \"https://stoplight.io/api/v1/projects/veracross/docs/nodes/reference/Data-API.yaml\" -o ./src/gen/Data-API -g typescript-fetch -p importFileExtension=.js",
+    "gen:files-api": "openapi-generator-cli generate -i \"https://stoplight.io/api/v1/projects/veracross/docs/nodes/reference/Files-API.yaml\" -o ./src/gen/Files-API -g typescript-fetch -p importFileExtension=.js",
     "build": "run-s build:*",
-    "build:clean": "run-s clean",
+    "build:clean": "run-s clean:dist",
     "build:compile": "tsc",
     "prepack": "run-s build",
     "release": "commit-and-tag-version"
@@ -33,6 +39,7 @@
     "ora": "^9.3.0"
   },
   "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.31.1",
     "@tsconfig/node-lts": "^24.0.0",
     "@types/node": "^24.12.2",
     "commit-and-tag-version": "^12.7.1",

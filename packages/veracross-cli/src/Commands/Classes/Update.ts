@@ -10,7 +10,15 @@ import { parse } from 'csv/sync';
 import fs from 'node:fs';
 import path from 'node:path';
 
-export type Configuration = Plugin.Configuration & { pathToCsv?: PathString };
+export type Configuration = Plugin.Configuration & {
+  pathToCsv?: PathString;
+  endpoint?:
+    | 'academics'
+    | 'extended_care'
+    | 'non-academics'
+    | 'programs'
+    | 'summer';
+};
 
 type PatchData = NonNullable<
   Veracross.DataAPI.paths['/academics/courses/{id}']['patch']['requestBody']
@@ -18,9 +26,20 @@ type PatchData = NonNullable<
 
 const PAGE_SIZE = 100;
 
-const config: Configuration = {};
+const config: Configuration = { endpoint: 'academics' };
 
-const scope = ['academics.classes:list', 'academics.classes:update'];
+const scope = [
+  'academics.classes:read',
+  'academics.classes:update',
+  'extended_care.classes:update',
+  'extended_care.classes:read',
+  'non-academics.classes:read',
+  'non-academics.classes:update',
+  'programs.classes:update',
+  'programs.classes:read',
+  'summer.classes:read',
+  'summer.classes:update'
+];
 
 export function configure(proposal: Configuration = {}) {
   for (const key in proposal) {
@@ -52,13 +71,20 @@ export function options(): Plugin.Options {
       },
       { level: 2, text: 'Required Veracross API scopes' },
       ...scope.map((s) => ({ text: Colors.value(s) }))
-    ]
+    ],
+    opt: {
+      endpoint: {
+        description: 'Class endpoint to use',
+        hint: 'academics|extended_care|non-academics|programs|summer',
+        default: config.endpoint
+      }
+    }
   };
 }
 
-export function init() {
+export function init({ values }: Plugin.ExpectedArguments<typeof options>) {
   const pathToCsv = Positionals.get('pathToCsv');
-  configure({ pathToCsv });
+  configure({ pathToCsv, ...values });
   Veracross.configure({
     reason: 'vc classes update',
     credentials: { scope }
@@ -69,7 +95,10 @@ export async function run() {
   if (!config.pathToCsv) {
     throw new Error(`${Colors.positionalArg('pathToCsv')} is required.`);
   }
-  let proposal: ({ internal_class_id: string } & PatchData)[] = parse(
+  if (!config.endpoint) {
+    throw new Error(`${Colors.optionArg('--endpoint')} is required`);
+  }
+  let proposals: ({ internal_class_id: string } & PatchData)[] = parse(
     fs.readFileSync(path.resolve(Root.path(), config.pathToCsv)),
     {
       columns: true
@@ -77,104 +106,82 @@ export async function run() {
   );
 
   let done = false;
-  let max = 0;
   let page = 1;
-  let updated = 0;
-  let unchanged = 0;
+  const updated: PatchData[] = [];
+  const unchanged: PatchData[] = [];
+  const missing: PatchData[] = [];
 
-  Progress.start({ max });
-  do {
-    const {
-      data: { data } = {},
-      error,
-      response
-    } = await Veracross.Data().GET('/academics/classes', {
-      params: { header: { 'X-Page-Number': page } }
-    });
-    if (!data) {
-      throw new Error('Expected data missing from response', {
-        cause: {
-          error,
-          response: {
-            ok: response.ok,
-            status: response.status,
-            statusText: response.statusText,
-            headers: Object.fromEntries(response.headers.entries())
-          }
-        }
-      });
-    }
-    max += data.length;
-    Progress.setMax(max);
-    Progress.caption(`Page ${page} of data`);
+  Progress.start({ max: proposals.length });
 
-    for (const retrieved of data) {
-      const i = proposal.findIndex(
-        (row) => parseInt(row.internal_class_id) == retrieved.id
-      );
-      if (i >= 0) {
-        Progress.caption(proposal[i].name || retrieved.description);
-        const patch: PatchData = {};
-        for (const key of Object.keys(proposal[i]) as (keyof {
-          internal_class_id: number;
-        } &
-          PatchData)[]) {
-          if (
-            key !== 'internal_class_id' &&
-            proposal[i][key] &&
-            proposal[i][key] != retrieved[key]
-          ) {
-            patch[key] = proposal[i][key];
-          }
+  for (const proposal of proposals) {
+    const { data: { data: retrieved } = {} } = await Veracross.Data().GET(
+      `/${config.endpoint}/classes/{id}`,
+      { params: { path: { id: parseInt(proposal.internal_class_id) } } }
+    );
+    Progress.caption(
+      proposal.name ||
+        retrieved?.description ||
+        `Internal Class ID ${proposal.internal_class_id}`
+    );
+    if (retrieved) {
+      const patch: PatchData = {};
+      for (const key of Object.keys(proposal) as (keyof {
+        internal_class_id: number;
+      } &
+        PatchData)[]) {
+        if (
+          key !== 'internal_class_id' &&
+          key in retrieved &&
+          proposal[key] &&
+          proposal[key] != retrieved[key]
+        ) {
+          patch[key] = proposal[key];
         }
-        if (Object.keys(patch).length > 0) {
-          const { response, error } = await Veracross.Data().PATCH(
-            '/academics/classes/{id}',
+      }
+      if (Object.keys(patch).length > 0) {
+        const { response, error } = await Veracross.Data().PATCH(
+          `/${config.endpoint}/classes/{id}`,
+          {
+            params: {
+              path: { id: retrieved.id }
+            },
+            body: { data: patch }
+          }
+        );
+        if (response.status === 204) {
+          updated.push(patch);
+          Log.debug({
+            id: retrieved.id,
+            retrieved,
+            proposal,
+            patch
+          });
+        } else {
+          throw new Error(
+            `Failed to update course ${Colors.value(retrieved.id)}`,
             {
-              params: {
-                path: { id: retrieved.id }
-              },
-              body: { data: patch }
+              cause: {
+                retrieved,
+                patch,
+                response: {
+                  ok: response.ok,
+                  status: response.status,
+                  statusText: response.statusText,
+                  headers: Object.fromEntries(response.headers.entries())
+                },
+                error
+              }
             }
           );
-          if (response.status === 204) {
-            updated++;
-            Log.debug({
-              id: retrieved.id,
-              retrieved,
-              proposal: proposal[i],
-              patch
-            });
-          } else {
-            throw new Error(
-              `Failed to update course ${Colors.value(retrieved.id)}`,
-              {
-                cause: {
-                  retrieved,
-                  patch,
-                  response: {
-                    ok: response.ok,
-                    status: response.status,
-                    statusText: response.statusText,
-                    headers: Object.fromEntries(response.headers.entries())
-                  },
-                  error
-                }
-              }
-            );
-          }
-        } else {
-          unchanged++;
         }
-        proposal.splice(i, 1);
+      } else {
+        unchanged.push(retrieved);
       }
-      Progress.increment();
+    } else {
+      missing.push(proposal);
     }
-    done = proposal.length === 0 || data.length < PAGE_SIZE;
-    if (!done) {
-      page = page + 1;
-    }
-  } while (!done);
+    Progress.increment();
+  }
   Progress.stop();
-  Log.debug({ updated, unchanged, remaining: proposal });
+  Log.debug({ updated, unchanged, missing });
 }

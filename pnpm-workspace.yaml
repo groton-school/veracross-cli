@@ -4,5 +4,9 @@ packages:
   - '!/packages/oauth2-cli'
   - packages/oauth2-cli/*
 
+allowBuilds:
+  '@openapitools/openapi-generator-cli': true
+  nx: true
+
 onlyBuiltDependencies:
   - nx

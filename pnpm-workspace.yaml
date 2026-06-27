@@ -1,12 +1,13 @@
-packages:
-  - examples/*
-  - packages/*
-  - '!/packages/oauth2-cli'
-  - packages/oauth2-cli/*
+publicHoistPattern:
+  - '*eslint*'
+  - '*prettier*'
 
 allowBuilds:
   '@openapitools/openapi-generator-cli': true
   nx: true
 
-onlyBuiltDependencies:
-  - nx
+packages:
+  - examples/*
+  - packages/*
+  - '!/packages/oauth2-cli'
+  - packages/oauth2-cli/*

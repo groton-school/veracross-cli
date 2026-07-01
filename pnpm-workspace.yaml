@@ -1,13 +1,19 @@
 publicHoistPattern:
-  - '*eslint*'
-  - '*prettier*'
-
+  - "*eslint*"
+  - "*prettier*"
+  - "@commitlint/*"
+  - commit-and-tag-version
+  - lerna
+  - monorepo-package-paths
+  - npm-run-all
 allowBuilds:
-  '@openapitools/openapi-generator-cli': true
+  "@openapitools/openapi-generator-cli": true
   nx: true
-
 packages:
   - examples/*
   - packages/*
-  - '!/packages/oauth2-cli'
+  - "!/packages/oauth2-cli"
   - packages/oauth2-cli/*
+minimumReleaseAgeExclude:
+  - "@battis/*"
+  - "@groton/*"

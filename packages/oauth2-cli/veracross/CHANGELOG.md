@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.2.3](https://github.com/groton-school/veracross-cli/compare/oauth2-cli/veracross/0.2.2...oauth2-cli/veracross/0.2.3) (2026-07-11)
+
+
+### Bug Fixes
+
+* export Client, spec, Middleware types ([7c3df70](https://github.com/groton-school/veracross-cli/commit/7c3df70ea4b5035f30911f0c45f4aa86eeccfc1a))
+
 ## [0.2.1](https://github.com/groton-school/veracross-cli/compare/oauth2-cli/veracross/0.2.0...oauth2-cli/veracross/0.2.1) (2026-04-21)
 
 ### Features

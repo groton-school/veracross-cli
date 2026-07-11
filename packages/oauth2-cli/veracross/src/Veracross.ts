@@ -2,6 +2,7 @@ import { VeracrossPlugin } from './VeracrossPlugin.js';
 
 export * from './spec/index.js';
 export * from './VeracrossPlugin.js';
+export * as Types from './Types.js';
 
 export const plugin = new VeracrossPlugin();
 

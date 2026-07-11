@@ -24,13 +24,14 @@
     "setup": "run-s setup:*",
     "setup:prettier": "setup-prettier -f",
     "setup:eslint": "setup-eslint -f",
-    "setup:commit": "setup-commit -f"
+    "setup:commit": "setup-commit -f",
+    "setup:monorepo": "setup-monorepo -f"
   },
   "devDependencies": {
     "@battis/commit": "^0.0.4",
-    "@battis/eslint": "^3.0.2",
+    "@battis/eslint": "^3.0.5",
     "@battis/monorepo": "^0.0.3",
-    "@battis/prettier": "^2.0.4",
+    "@battis/prettier": "^2.0.10",
     "@examples/dev-command": "workspace:*",
     "@groton/veracross-cli": "workspace:*",
     "@qui-cli/colors": "^3.2.4",

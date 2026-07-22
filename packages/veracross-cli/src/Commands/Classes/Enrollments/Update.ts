@@ -1,4 +1,4 @@
-import { DateString, PathString, URLString } from '@battis/descriptive-types';
+import { DateString, PathString } from '@battis/descriptive-types';
 import { Veracross } from '@oauth2-cli/veracross';
 import { Colors } from '@qui-cli/colors';
 import { Positionals } from '@qui-cli/core';
@@ -21,6 +21,22 @@ const scope = [
   'summer.enrollments:update'
 ];
 
+Positionals.require({
+  pathToCsv: {
+    description:
+      `Path to a CSV file containing the columns ` +
+      `${Colors.value('person_id')} (valid Veracross Person ID values), ` +
+      `${Colors.value('school_year')} (Veracross school year identifier),` +
+      `${Colors.value('internal_class_id')} (a valid Veracross internal ` +
+      `class ID values), ${Colors.value('late_date_enrolled')} (optional ` +
+      `dates for late enrollment), ${Colors.value('date_withdrawn')} ` +
+      `(optional dates for withdrawal), and ${Colors.value('notes')} (comments on the enrollment). ${Colors.value('person_id')}-` +
+      `${Colors.value('internal_course_id')} pairs should be unique (the last ` +
+      ` value for a given pairing will be the one that is applied).`
+  }
+});
+Positionals.allowOnlyNamedArgs();
+
 const config: Configuration = {};
 
 export function configure(proposal: Configuration = {}) {
@@ -32,21 +48,6 @@ export function configure(proposal: Configuration = {}) {
 }
 
 export function options(): Plugin.Options {
-  Positionals.require({
-    pathToCsv: {
-      description:
-        `Path to a CSV file containing the columns ` +
-        `${Colors.value('person_id')} (valid Veracross Person ID values), ` +
-        `${Colors.value('school_year')} (Veracross school year identifier),` +
-        `${Colors.value('internal_class_id')} (a valid Veracross internal ` +
-        `class ID values), ${Colors.value('late_date_enrolled')} (optional ` +
-        `dates for late enrollment), ${Colors.value('date_withdrawn')} ` +
-        `(optional dates for withdrawal), and ${Colors.value('notes')} (comments on the enrollment). ${Colors.value('person_id')}-` +
-        `${Colors.value('internal_course_id')} pairs should be unique (the last ` +
-        ` value for a given pairing will be the one that is applied).`
-    }
-  });
-  Positionals.allowOnlyNamedArgs();
   return {
     man: [
       { level: 1, text: 'Class Enrollment Update' },
@@ -62,7 +63,7 @@ export function options(): Plugin.Options {
   };
 }
 
-export function init(args: Plugin.ExpectedArguments<typeof options>) {
+export function init(_: Plugin.ExpectedArguments<typeof options>) {
   const pathToCSV = Positionals.get('pathToCsv');
   configure({ pathToCSV });
   Veracross.configure({
@@ -89,7 +90,7 @@ export async function run() {
 
   Progress.start({ max: data.length });
   let updates = 0;
-  let missing: { person_id: number; internal_class_id: number }[] = [];
+  const missing: { person_id: number; internal_class_id: number }[] = [];
   for (const row of data) {
     const { person_id, school_year, internal_class_id } = row;
     let endpoint: 'academics' | 'summer' = 'academics';

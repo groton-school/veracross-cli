@@ -4,15 +4,26 @@ import { Colors } from '@qui-cli/colors';
 import { Positionals } from '@qui-cli/core';
 import { Log } from '@qui-cli/log';
 import * as Plugin from '@qui-cli/plugin';
-import { Progress } from '@qui-cli/progress';
 import { Root } from '@qui-cli/root';
-import { parse } from 'csv/sync';
+import { parse, stringify } from 'csv/sync';
 import fs from 'node:fs';
 import path from 'node:path';
+import { ArrayElement } from '@battis/typescript-tricks';
+import ora from 'ora';
 
 export type Configuration = Plugin.Configuration & {
   pathToCSV?: PathString;
 };
+
+interface EnrollmentUpdate {
+  person_id: number;
+  internal_class_id: number;
+  school_year: number;
+  late_date_enrolled?: DateString;
+  date_withdrawn?: DateString;
+  notes?: string;
+  exclude_from_transcript?: boolean;
+}
 
 const scope = [
   'academics.enrollments:list',
@@ -26,13 +37,13 @@ Positionals.require({
     description:
       `Path to a CSV file containing the columns ` +
       `${Colors.value('person_id')} (valid Veracross Person ID values), ` +
-      `${Colors.value('school_year')} (Veracross school year identifier),` +
       `${Colors.value('internal_class_id')} (a valid Veracross internal ` +
       `class ID values), ${Colors.value('late_date_enrolled')} (optional ` +
-      `dates for late enrollment), ${Colors.value('date_withdrawn')} ` +
-      `(optional dates for withdrawal), and ${Colors.value('notes')} (comments on the enrollment). ${Colors.value('person_id')}-` +
-      `${Colors.value('internal_course_id')} pairs should be unique (the last ` +
-      ` value for a given pairing will be the one that is applied).`
+      `date for late enrollment), ${Colors.value('date_withdrawn')} ` +
+      `(optional date for withdrawal), and ${Colors.value('notes')} ` +
+      `(optional notes about the enrollment), and/or ` +
+      `${Colors.varName('exclude_from_transcript')} (optional boolean to ` +
+      `exclude that person's grades in that class from their transcript).`
   }
 });
 Positionals.allowOnlyNamedArgs();
@@ -53,8 +64,7 @@ export function options(): Plugin.Options {
       { level: 1, text: 'Class Enrollment Update' },
       {
         text:
-          `This script will adjust the ${Colors.value(`late_date_enrolled`)} ` +
-          `and ${Colors.value('date_withdrawn')} calues in student ` +
+          `This script will adjust the metadata in student ` +
           `enrollments based on the provided CSV file.`
       },
       { level: 2, text: 'Required Veracross API scopes' },
@@ -77,99 +87,131 @@ export async function run() {
     throw new Error(`${Colors.positionalArg('pathToCSV')} is required`);
   }
 
-  const data: {
-    person_id: number;
-    school_year: number;
-    internal_class_id: number;
-    late_date_enrolled?: DateString;
-    date_withdrawn?: DateString;
-    notes?: string;
-  }[] = parse(fs.readFileSync(path.resolve(Root.path(), config.pathToCSV)), {
-    columns: true
+  const pathToCSV = path.resolve(Root.path(), config.pathToCSV);
+  const data: EnrollmentUpdate[] = parse(fs.readFileSync(pathToCSV), {
+    columns: true,
+    cast: (value, context) => {
+      if (context.column === 'exclude_from_transcript') {
+        return value.toUpperCase() === 'TRUE'
+          ? true
+          : value.toLowerCase() === 'FALSE'
+            ? false
+            : undefined;
+      }
+      return value;
+    }
   });
 
-  Progress.start({ max: data.length });
-  let updates = 0;
-  const missing: { person_id: number; internal_class_id: number }[] = [];
-  for (const row of data) {
-    const { person_id, school_year, internal_class_id } = row;
-    let endpoint: 'academics' | 'summer' = 'academics';
-    if (school_year < 0) {
-      endpoint = 'summer';
-    }
-    const { data: enrollments } = await Veracross.Data().GET(
-      `/${endpoint}/enrollments`,
-      { params: { query: { school_year, internal_class_id, person_id } } }
-    );
+  const errors: (EnrollmentUpdate & { row: number; error: string })[] = [];
+  const errorsPath = path.resolve(
+    path.dirname(pathToCSV),
+    `${path.basename(pathToCSV, path.extname(pathToCSV))} - errors${path.extname(pathToCSV)}`
+  );
 
-    if (enrollments?.data) {
-      const [enrollment] = enrollments.data;
-      if (enrollment) {
-        Progress.caption(
-          // @ts-expect-error 2339
-          `${enrollment.person_name} / ${enrollment.class_description}`
-        );
-        let update = false;
-        if (
-          row.late_date_enrolled &&
-          unequal(
-            row.late_date_enrolled,
-            enrollment.late_date_enrolled,
-            canonicalDate
-          )
-        ) {
-          enrollment.late_date_enrolled = row.late_date_enrolled;
-          update = true;
+  for (let i = 0; i < data.length; i++) {
+    const {
+      person_id,
+      internal_class_id,
+      school_year,
+      late_date_enrolled,
+      date_withdrawn,
+      notes,
+      exclude_from_transcript
+    } = data[i];
+    const spinner = ora(
+      `Person ID ${Colors.value(person_id)} / Internal Class ID ${Colors.value(internal_class_id)}`
+    ).start();
+    const endpoints: ('academics' | 'summer' | undefined)[] =
+      school_year > 0 ? ['academics'] : ['summer'];
+    let enrollment:
+      | ArrayElement<
+          Veracross.Types.spec.DataAPI.paths['/academics/enrollments']['get']['responses']['200']['content']['application/json']['data']
+        >
+      | ArrayElement<
+          Veracross.Types.spec.DataAPI.paths['/summer/enrollments']['get']['responses']['200']['content']['application/json']['data']
+        >
+      | undefined = undefined;
+    let endpoint: ArrayElement<typeof endpoints>;
+    for (endpoint = endpoints.shift(); endpoint && !enrollment;) {
+      spinner.text = `${spinner.text.replace(/: searching.*/, '')}: searching ${Colors.value(endpoint)}`;
+      const { data, error } = await Veracross.Data().GET(
+        `/${endpoint}/enrollments`,
+        {
+          params: { query: { person_id, internal_class_id, school_year } }
         }
-        if (
-          row.date_withdrawn &&
-          unequal(row.date_withdrawn, enrollment.date_withdrawn, canonicalDate)
-        ) {
-          enrollment.date_withdrawn = row.date_withdrawn;
-          update = true;
-        }
-        if (row.notes && unequal(row.notes, enrollment.notes)) {
-          enrollment.notes = row.notes;
-          update = true;
-        }
-        if (update) {
-          const { id, late_date_enrolled, date_withdrawn, notes } = enrollment;
-          const update = { late_date_enrolled, date_withdrawn, notes };
-          await Veracross.Data().PATCH(`/${endpoint}/enrollments/{id}`, {
-            params: { path: { id } },
-            body: { data: update }
-          });
-
-          updates++;
-        }
+      );
+      if (error || !data.data.length) {
+        endpoint = endpoints.shift();
       } else {
-        missing.push(row);
+        // there really can only be one!
+        enrollment = data.data.shift();
       }
     }
-    Progress.increment();
+
+    if (endpoint && enrollment) {
+      const update: Partial<
+        Omit<EnrollmentUpdate, 'person_id' | 'internal_class_id'>
+      > = {};
+      if (
+        late_date_enrolled &&
+        unequalDates(late_date_enrolled, enrollment.late_date_enrolled)
+      ) {
+        update.late_date_enrolled = late_date_enrolled;
+      }
+      if (
+        date_withdrawn &&
+        unequalDates(date_withdrawn, enrollment.date_withdrawn)
+      ) {
+        update.date_withdrawn = date_withdrawn;
+      }
+      if (notes && notes !== enrollment.notes) {
+        update.notes = notes;
+      }
+      if (
+        exclude_from_transcript !== undefined &&
+        exclude_from_transcript !== enrollment.exclude_from_transcript
+      ) {
+        update.exclude_from_transcript = exclude_from_transcript;
+      }
+      if (Object.keys(update).length > 0) {
+        spinner.text = `Update ${spinner.text}: ${Log.syntaxColor(update).replaceAll(/\s+|\n/g, ' ')}`;
+        const { error } = await Veracross.Data().PATCH(
+          `/${endpoint}/enrollments/{id}`,
+          { params: { path: { id: enrollment.id } }, body: { data: update } }
+        );
+        if (error) {
+          errors.push({ row: i + 1, ...data[i], error: error.error });
+          fs.writeFileSync(errorsPath, stringify(errors, { header: true }));
+          spinner.fail(`${spinner.text}: ${Colors.error(error.error)}`);
+        } else {
+          spinner.succeed();
+        }
+      } else {
+        spinner.info(`${spinner.text}: no update necessary`);
+      }
+    } else {
+      errors.push({ row: i + 1, ...data[i], error: 'not found' });
+      fs.writeFileSync(errorsPath, stringify(errors, { header: true }));
+      spinner.fail(
+        `${spinner.text.replace(/: searching.*/, '')}: ${Colors.error('not found')}`
+      );
+    }
   }
-  Progress.stop();
-  Log.info(`${updates} of ${data.length} enrollments required updates.`);
-  if (missing.length) {
-    const errorPath = path.join(
-      config.pathToCSV,
-      '../' +
-        path.basename(config.pathToCSV, path.extname(config.pathToCSV)) +
-        '-errors.json'
+
+  Log.info(`${data.length - errors.length} enrollments updated.`);
+  if (errors.length) {
+    const errorsPath = path.resolve(
+      path.dirname(pathToCSV),
+      `${path.basename(pathToCSV, path.extname(pathToCSV))} - errors${path.extname(pathToCSV)}`
     );
-    fs.writeFileSync(errorPath, JSON.stringify(missing, null, 2));
-    Log.warning(
-      `${missing.length} records could not be found. The full list was written to ${Colors.path(errorPath)}`
+    Log.error(
+      `${errors.length} errors occurred. Details written to ${Colors.path(errorsPath)}`
     );
   }
 }
 
-function unequal(
-  a?: string,
-  b?: string,
-  canonical: (value: string) => string = (v: string) => v
-) {
-  return a && (!b || canonical(a) != canonical(b));
+function unequalDates(a?: string, b?: string) {
+  return a && (!b || canonicalDate(a) != canonicalDate(b));
 }
 
 function canonicalDate(value: string) {

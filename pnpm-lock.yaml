@@ -152,6 +152,9 @@ importers:
       '@battis/descriptive-types':
         specifier: ^0.2.6
         version: 0.2.6
+      '@battis/typescript-tricks':
+        specifier: ^0.8.6
+        version: 0.8.6
       '@tsconfig/node-lts':
         specifier: ^24.0.0
         version: 24.0.0
@@ -255,6 +258,9 @@ packages:
 
   '@battis/typescript-tricks@0.8.5':
     resolution: {integrity: sha512-9OUrULoCaA/o4eszyWVmEi97NPPihko3x2HDuyRRCC8ZcZyT+msTNdANM/jrbg59yWbamw1Vogql9SkgDXta9Q==}
+
+  '@battis/typescript-tricks@0.8.6':
+    resolution: {integrity: sha512-IjxqJrC0giWbLAZbDc+nN6vrI3GV0kKrDSX+U9ijn+upU7wzmBrBO/IScw+vpSDbs5MHln7y3jSgebaIbDk42Q==}
 
   '@borewit/text-codec@0.2.2':
     resolution: {integrity: sha512-DDaRehssg1aNrH4+2hnj1B7vnUGEjU6OIlyRdkMd0aUdIUvKXrJfXsy8LVtXAy7DRvYVluWbMspsRhz2lcW0mQ==}
@@ -970,6 +976,7 @@ packages:
 
   '@qui-cli/validators@3.0.5':
     resolution: {integrity: sha512-5rB+1upioiQcfZIyGPyZhmuJNV8AQR/2WBb4bb1w513Au9y3e+tP+3QG0D7E6qHG8tfkf0WkmFlwJZ+OaTLw3A==}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
     peerDependencies:
       '@qui-cli/root': '>=3'
 
@@ -4822,6 +4829,8 @@ snapshots:
   '@battis/typescript-tricks@0.8.4': {}
 
   '@battis/typescript-tricks@0.8.5': {}
+
+  '@battis/typescript-tricks@0.8.6': {}
 
   '@borewit/text-codec@0.2.2': {}
 
@@ -9213,7 +9222,7 @@ snapshots:
   requestish@0.1.12:
     dependencies:
       '@battis/descriptive-types': 0.2.6
-      '@battis/typescript-tricks': 0.8.5
+      '@battis/typescript-tricks': 0.8.6
 
   require-directory@2.1.1: {}
 

@@ -118,9 +118,8 @@ export async function run() {
       notes,
       exclude_from_transcript
     } = data[i];
-    const spinner = ora(
-      `Person ID ${Colors.value(person_id)} / Internal Class ID ${Colors.value(internal_class_id)}`
-    ).start();
+    const identifier = `Person ID ${Colors.value(person_id)} / Internal Class ID ${Colors.value(internal_class_id)}`;
+    const spinner = ora(identifier).start();
     const endpoints: ('academics' | 'summer' | undefined)[] =
       school_year > 0 ? ['academics'] : ['summer'];
     let enrollment:
@@ -133,7 +132,7 @@ export async function run() {
       | undefined = undefined;
     let endpoint: ArrayElement<typeof endpoints>;
     for (endpoint = endpoints.shift(); endpoint && !enrollment;) {
-      spinner.text = `${spinner.text.replace(/: searching.*/, '')}: searching ${Colors.value(endpoint)}`;
+      spinner.text = `${identifier}: searching ${Colors.value(endpoint)}`;
       const { data, error } = await Veracross.Data().GET(
         `/${endpoint}/enrollments`,
         {
@@ -174,7 +173,7 @@ export async function run() {
         update.exclude_from_transcript = exclude_from_transcript;
       }
       if (Object.keys(update).length > 0) {
-        spinner.text = `Update ${spinner.text}: ${Log.syntaxColor(update).replaceAll(/\s+|\n/g, ' ')}`;
+        spinner.text = `Update ${identifier}: ${Log.syntaxColor(update).replaceAll(/\s+|\n/g, ' ')}`;
         const { error } = await Veracross.Data().PATCH(
           `/${endpoint}/enrollments/{id}`,
           { params: { path: { id: enrollment.id } }, body: { data: update } }
@@ -187,14 +186,12 @@ export async function run() {
           spinner.succeed();
         }
       } else {
-        spinner.info(`${spinner.text}: no update necessary`);
+        spinner.info(`${identifier}: no update necessary`);
       }
     } else {
       errors.push({ row: i + 1, ...data[i], error: 'not found' });
       fs.writeFileSync(errorsPath, stringify(errors, { header: true }));
-      spinner.fail(
-        `${spinner.text.replace(/: searching.*/, '')}: ${Colors.error('not found')}`
-      );
+      spinner.fail(`${identifier}: ${Colors.error('not found')}`);
     }
   }
 

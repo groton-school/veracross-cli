@@ -31,7 +31,7 @@ const scope = [
 
 Positionals.require({
   pathToCsv: {
-    description: `Path to a CSV file`
+    description: `Path to a CSV file of grades to suppress`
   }
 });
 Positionals.allowOnlyNamedArgs();
@@ -51,7 +51,28 @@ export function options(): Plugin.Options {
     man: [
       { level: 1, text: 'Suppress Grades' },
       {
-        text: `This script suppresses grades from report cards.`
+        text: `Suppress (delete) grades. This is a destructive process, meant to be run as the last step in processing report card updates for students who have switched sections.`
+      },
+      {
+        text: `The CSV file at ${Colors.positionalArg('pathToCsv')} ${Colors.keyword('must')} include the following columns:`
+      },
+      {
+        text: `  - ${Colors.varName('grade_id')} (valid Veracross posted grade ID)`
+      },
+      {
+        text: `  - ${Colors.varName('person_id')} (valid Veracross student person IDs)`
+      },
+      {
+        text: `  - ${Colors.varName('internal_class_id')} (valid Veracross class IDs)`
+      },
+      {
+        text: `  - ${Colors.varName('grading_period')} (valid grading period abbreviations)`
+      },
+      {
+        text: `  - ${Colors.varName('posted_grade')} (previously posted numeric grade that to be suppressed)`
+      },
+      {
+        text: `Grades will ${Colors.keyword('only')} be suppressed if all ID values and the grade value match.`
       },
       { level: 2, text: 'Required Veracross API scopes' },
       ...scope.map((s) => ({ text: Colors.value(s) }))

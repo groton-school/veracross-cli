@@ -34,16 +34,7 @@ const scope = [
 
 Positionals.require({
   pathToCsv: {
-    description:
-      `Path to a CSV file containing the columns ` +
-      `${Colors.value('person_id')} (valid Veracross Person ID values), ` +
-      `${Colors.value('internal_class_id')} (a valid Veracross internal ` +
-      `class ID values), ${Colors.value('late_date_enrolled')} (optional ` +
-      `date for late enrollment), ${Colors.value('date_withdrawn')} ` +
-      `(optional date for withdrawal), and ${Colors.value('notes')} ` +
-      `(optional notes about the enrollment), and/or ` +
-      `${Colors.varName('exclude_from_transcript')} (optional boolean to ` +
-      `exclude that person's grades in that class from their transcript).`
+    description: `Path to a CSV file of enrollment updates`
   }
 });
 Positionals.allowOnlyNamedArgs();
@@ -64,8 +55,17 @@ export function options(): Plugin.Options {
       { level: 1, text: 'Class Enrollment Update' },
       {
         text:
-          `This script will adjust the metadata in student ` +
-          `enrollments based on the provided CSV file.`
+          `Update enrollments whose data differes from that provided in ` +
+          `${Colors.positionalArg('pathToCsv')}. The CSV file provided must ` +
+          `include the columns ${Colors.value('person_id')} (valid Veracross ` +
+          `Person ID values), ${Colors.value('internal_class_id')} (valid ` +
+          `Veracross internal class ID values), ` +
+          `${Colors.value('late_date_enrolled')} (optional dates for late ` +
+          `enrollment), ${Colors.value('date_withdrawn')} (optional dates for ` +
+          `withdrawal), and ${Colors.value('notes')} (optional notes about ` +
+          `the enrollment), and/or ` +
+          `${Colors.varName('exclude_from_transcript')} (optional boolean to ` +
+          `exclude that person's grades in that class from their transcript).`
       },
       { level: 2, text: 'Required Veracross API scopes' },
       ...scope.map((s) => ({ text: Colors.value(s) }))

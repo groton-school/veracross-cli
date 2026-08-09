@@ -201,7 +201,11 @@ export async function run() {
       spinner.fail(`${identifier}: ${Colors.error(error)}`);
     } else {
       spinner.succeed(
-        `${identifier}: suppressed ${Colors.value(grade?.student.name)}'s in ${Colors.value(grade?.posted_grade)} for ${Colors.value(grade?.class.description)} in ${Colors.value(grade?.grading_period.description)}`
+        `${identifier}: suppressed ${Colors.value(
+          `${grade?.student.name.replace(/^(.+), (.+)$/, '$2 $1')}'s`
+        )} grade of ${Colors.value(grade?.posted_grade)} for ${Colors.value(
+          grade?.class.description
+        )} in ${Colors.value(grade?.grading_period.description)} term`
       );
     }
   }

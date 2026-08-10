@@ -4,6 +4,30 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+catalogs:
+  default:
+    '@battis/descriptive-types':
+      specifier: ^0.3.1
+      version: 0.3.1
+    '@battis/typescript-tricks':
+      specifier: ^0.8.6
+      version: 0.8.6
+    '@tsconfig/node-lts':
+      specifier: ^24.0.0
+      version: 24.0.0
+    '@types/node':
+      specifier: ^24.13.3
+      version: 24.13.3
+    del-cli:
+      specifier: ^7.0.0
+      version: 7.0.0
+    npm-run-all:
+      specifier: ^4.1.5
+      version: 4.1.5
+    typescript:
+      specifier: ^5.9.3
+      version: 5.9.3
+
 importers:
 
   .:
@@ -92,22 +116,22 @@ importers:
         specifier: ^2.40.1
         version: 2.40.1(encoding@0.1.13)
       '@tsconfig/node-lts':
-        specifier: ^24.0.0
+        specifier: 'catalog:'
         version: 24.0.0
       '@types/node':
-        specifier: ^24.13.3
+        specifier: 'catalog:'
         version: 24.13.3
       del-cli:
-        specifier: ^7.0.0
+        specifier: 'catalog:'
         version: 7.0.0
       npm-run-all:
-        specifier: ^4.1.5
+        specifier: 'catalog:'
         version: 4.1.5
       openapi-typescript:
         specifier: ^7.13.0
         version: 7.13.0(typescript@5.9.3)
       typescript:
-        specifier: ^5.9.3
+        specifier: 'catalog:'
         version: 5.9.3
 
   packages/veracross-cli:
@@ -150,28 +174,28 @@ importers:
         version: 0.1.12
     devDependencies:
       '@battis/descriptive-types':
-        specifier: ^0.2.6
-        version: 0.2.6
+        specifier: 'catalog:'
+        version: 0.3.1
       '@battis/typescript-tricks':
-        specifier: ^0.8.6
+        specifier: 'catalog:'
         version: 0.8.6
       '@inquirer/confirm':
         specifier: ^6.1.1
         version: 6.1.1(@types/node@24.13.3)
       '@tsconfig/node-lts':
-        specifier: ^24.0.0
+        specifier: 'catalog:'
         version: 24.0.0
       '@types/node':
-        specifier: ^24.13.3
+        specifier: 'catalog:'
         version: 24.13.3
       del-cli:
-        specifier: ^7.0.0
+        specifier: 'catalog:'
         version: 7.0.0
       npm-run-all:
-        specifier: ^4.1.5
+        specifier: 'catalog:'
         version: 4.1.5
       typescript:
-        specifier: ^5.9.3
+        specifier: 'catalog:'
         version: 5.9.3
 
 packages:

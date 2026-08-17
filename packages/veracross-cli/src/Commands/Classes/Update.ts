@@ -1,3 +1,5 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { PathString } from '@battis/descriptive-types';
 import { Veracross } from '@oauth2-cli/veracross';
 import { Colors } from '@qui-cli/colors';
@@ -7,17 +9,11 @@ import * as Plugin from '@qui-cli/plugin';
 import { Progress } from '@qui-cli/progress';
 import { Root } from '@qui-cli/root';
 import { parse } from 'csv/sync';
-import fs from 'node:fs';
-import path from 'node:path';
 
 export type Configuration = Plugin.Configuration & {
   pathToCsv?: PathString;
   endpoint?:
-    | 'academics'
-    | 'extended_care'
-    | 'non-academics'
-    | 'programs'
-    | 'summer';
+    'academics' | 'extended_care' | 'non-academics' | 'programs' | 'summer';
 };
 
 type PatchData = NonNullable<

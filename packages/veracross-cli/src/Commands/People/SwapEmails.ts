@@ -1,3 +1,5 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { PathString } from '@battis/descriptive-types';
 import { Veracross } from '@oauth2-cli/veracross';
 import { Colors } from '@qui-cli/colors';
@@ -6,8 +8,6 @@ import { Log } from '@qui-cli/log';
 import * as Plugin from '@qui-cli/plugin';
 import { parse } from 'csv/sync';
 import ora from 'ora';
-import fs from 'node:fs';
-import path from 'node:path';
 
 export type Configuration = Plugin.Configuration & {
   pathToCsv?: PathString;

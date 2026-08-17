@@ -79,6 +79,7 @@ export function options() {
 
 export function init({ values }: Plugin.ExpectedArguments<typeof options>) {
   const pathToCsv = Positionals.get('pathToCsv');
+  // @ts-expect-error 2345
   configure({ pathToCsv, ...values });
   Veracross.configure({
     reason: 'vc classes update',

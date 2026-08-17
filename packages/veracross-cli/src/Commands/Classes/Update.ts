@@ -9,6 +9,7 @@ import * as Plugin from '@qui-cli/plugin';
 import { Progress } from '@qui-cli/progress';
 import { Root } from '@qui-cli/root';
 import { parse } from 'csv/sync';
+import { CSV } from '../../lib/index.js';
 
 export type Configuration = Plugin.Configuration & {
   pathToCsv?: PathString;
@@ -98,7 +99,8 @@ export async function run() {
   const proposals: ({ internal_class_id: string } & PatchData)[] = parse(
     fs.readFileSync(path.resolve(Root.path(), config.pathToCsv)),
     {
-      columns: true
+      columns: true,
+      cast: CSV.cast({ internal_class_id: 'int' })
     }
   );
 

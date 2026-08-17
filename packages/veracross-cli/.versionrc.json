@@ -1,5 +1,5 @@
 {
   "path": ".",
-  "tag-prefix": "veracross-cli",
+  "tag-prefix": "veracross-cli/",
   "releaseCommitMessageFormat": "chore: release @groton/veracross-cli@{{currentTag}}"
 }

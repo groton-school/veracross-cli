@@ -30,8 +30,6 @@ type PatchData = NonNullable<
   Veracross.DataAPI.paths['/academics/courses/{id}']['patch']['requestBody']
 >['content']['application/json']['data'];
 
-const PAGE_SIZE = 100;
-
 const config: Configuration = { endpoint: 'academics' };
 
 const scope = [
@@ -95,15 +93,14 @@ export async function run() {
   if (!config.endpoint) {
     throw new Error(`${Colors.optionArg('--endpoint')} is required`);
   }
-  let proposals: ({ internal_class_id: string } & PatchData)[] = parse(
+
+  const proposals: ({ internal_class_id: string } & PatchData)[] = parse(
     fs.readFileSync(path.resolve(Root.path(), config.pathToCsv)),
     {
       columns: true
     }
   );
 
-  let done = false;
-  let page = 1;
   const updated: PatchData[] = [];
   const unchanged: PatchData[] = [];
   const missing: PatchData[] = [];

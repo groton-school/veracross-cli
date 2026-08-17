@@ -91,7 +91,7 @@ export function init({
 }
 
 export async function run() {
-  let data: { resource_id: number[]; event_id: number[] }[] = [];
+  const data: { resource_id: number[]; event_id: number[] }[] = [];
   if (config.pathToCSV) {
     const pathToCSV = path.resolve(Root.path(), config.pathToCSV);
     if (!fs.existsSync(pathToCSV)) {

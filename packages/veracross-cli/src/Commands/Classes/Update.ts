@@ -16,6 +16,16 @@ export type Configuration = Plugin.Configuration & {
     'academics' | 'extended_care' | 'non-academics' | 'programs' | 'summer';
 };
 
+Positionals.require({
+  pathToCsv: {
+    description:
+      `The relative path to a CSV file containing at least the column ` +
+      `${Colors.value('internal_class_id')} and one other column with the ` +
+      `name of an API accessible course field.`
+  }
+});
+Positionals.allowOnlyNamedArgs();
+
 type PatchData = NonNullable<
   Veracross.DataAPI.paths['/academics/courses/{id}']['patch']['requestBody']
 >['content']['application/json']['data'];
@@ -45,15 +55,6 @@ export function configure(proposal: Configuration = {}) {
   }
 }
 
-  Positionals.require({
-    pathToCsv: {
-      description:
-        `The relative path to a CSV file containing at least the column ` +
-        `${Colors.value('internal_class_id')} and one other column with the ` +
-        `name of an API accessible course field.`
-    }
-  });
-  Positionals.allowOnlyNamedArgs();
 export function options() {
   return {
     man: [

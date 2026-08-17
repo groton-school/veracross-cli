@@ -31,7 +31,7 @@ export function configure(proposal: Configuration = {}) {
   }
 }
 
-export function options(): Plugin.Options {
+export function options() {
   Positionals.require({
     pathToCSV: {
       description:

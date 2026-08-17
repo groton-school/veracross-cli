@@ -45,7 +45,6 @@ export function configure(proposal: Configuration = {}) {
   }
 }
 
-export function options(): Plugin.Options {
   Positionals.require({
     pathToCsv: {
       description:
@@ -55,6 +54,7 @@ export function options(): Plugin.Options {
     }
   });
   Positionals.allowOnlyNamedArgs();
+export function options() {
   return {
     man: [
       { level: 1, text: 'Class Update' },

@@ -31,7 +31,7 @@ export function configure(proposal: Configuration = {}) {
   }
 }
 
-export function options(): Plugin.Options {
+export function options() {
   return {
     man: [
       { level: 1, text: 'Class Enrollment Update' },

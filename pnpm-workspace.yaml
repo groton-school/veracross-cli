@@ -9,6 +9,7 @@ publicHoistPattern:
 allowBuilds:
   '@openapitools/openapi-generator-cli': true
   nx: true
+  puppeteer: true
 packages:
   - examples/*
   - packages/*

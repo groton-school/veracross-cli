@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Redirect</title>
+    <script type="text/javascript">
+      /* global document, self, top */
+      const params = new URL(self.location.href).searchParams;
+
+      document.title = params.get('title') || document.title;
+
+      const url = params.get('redirect');
+      try {
+        top.location.replace(url);
+      } catch (_) {
+        const css = document.createElement('link');
+        css.href =
+          'https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css';
+        css.rel = 'stylesheet';
+        document.head.appendChild(css);
+
+        const button = params.get('button') || `Go to ${url}`;
+        const note = params.get('note');
+        const link = document.createElement('div');
+        link.innerHTML = `<a class="btn btn-primary" href="${url}" target="_top">${button}</a>`;
+        document.body.appendChild(link);
+
+        const instructions = document.createElement('div');
+        instructions.classList.add('pt-3');
+        instructions.innerHTML =
+          (note ? `<p>${note}</p>` : '') +
+          "<p>Don't want to have to click here again? Enable redirects by " +
+          'clicking on the icon in the location bar above.<br/>' +
+          `<img src="./redirects.png" height="200" /></p>`;
+        document.body.appendChild(instructions);
+      }
+    </script>
+  </head>
+  <body></body>
+</html>

@@ -21,7 +21,7 @@ minimumReleaseAgeExclude:
 catalog:
   '@battis/descriptive-types': ^0.3.1
   '@battis/typescript-tricks': ^0.8.6
-  '@tsconfig/node-lts': ^24.0.0
+  '@tsconfig/node-lts': ^24.0.1
   '@types/express': ^5.0.6
   '@types/node': ^24.13.3
   del-cli: ^7.0.0

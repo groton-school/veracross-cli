@@ -34,7 +34,7 @@ importers:
     devDependencies:
       '@battis/commit':
         specifier: ^0.0.10
-        version: 0.0.10(@commitlint/config-conventional@21.2.0)(@commitlint/config-pnpm-scopes@21.2.0)(@qui-cli/log@4.0.4(@qui-cli/colors@3.2.5)(@qui-cli/plugin@4.1.2(@qui-cli/colors@3.2.5))(@qui-cli/root@3.1.2(@qui-cli/plugin@4.1.2(@qui-cli/colors@3.2.5))))(@qui-cli/plugin@4.1.2(@qui-cli/colors@3.2.5))(@types/node@24.13.3)(commit-and-tag-version@12.7.3)(typescript@5.9.3)
+        version: 0.0.10(@commitlint/config-conventional@21.2.2)(@commitlint/config-pnpm-scopes@21.2.2)(@qui-cli/log@4.0.4(@qui-cli/colors@3.2.5)(@qui-cli/plugin@4.1.2(@qui-cli/colors@3.2.5))(@qui-cli/root@3.1.2(@qui-cli/plugin@4.1.2(@qui-cli/colors@3.2.5))))(@qui-cli/plugin@4.1.2(@qui-cli/colors@3.2.5))(@types/node@24.13.3)(commit-and-tag-version@13.1.2(conventional-commits-filter@6.0.1)(conventional-commits-parser@7.1.2))(typescript@5.9.3)
       '@battis/eslint':
         specifier: ^3.0.6
         version: 3.0.6(@eslint/js@10.0.1(eslint@10.6.0))(@eslint/markdown@8.0.2)(@qui-cli/colors@3.2.5)(@qui-cli/log@4.0.4(@qui-cli/colors@3.2.5)(@qui-cli/plugin@4.1.2(@qui-cli/colors@3.2.5))(@qui-cli/root@3.1.2(@qui-cli/plugin@4.1.2(@qui-cli/colors@3.2.5))))(@qui-cli/plugin@4.1.2(@qui-cli/colors@3.2.5))(@types/node@24.13.3)(eslint-config-prettier@10.1.8(eslint@10.6.0))(eslint-plugin-html@8.1.4)(eslint@10.6.0)(globals@17.7.0)(typescript-eslint@8.62.1(eslint@10.6.0)(typescript@5.9.3))
@@ -322,20 +322,32 @@ packages:
     resolution: {integrity: sha512-Ir+AOibqzrIsL6ajt3Rz3LskB7OiMVHqltZmspbW/TJuTVuyOMirVqAkjfY6JISiLHgyNqicAC8AyHHGzNd/dA==}
     engines: {node: '>=0.1.90'}
 
-  '@commitlint/config-conventional@21.2.0':
-    resolution: {integrity: sha512-Qf8WRDVcyVd14if6VTWenebxFbKnVnbzPUJjlzjkyJGeHK2xCGd63Dr1XZzj0plXKQb9P0BfOxoc1HVeCo2BWQ==}
+  '@commitlint/config-conventional@21.2.2':
+    resolution: {integrity: sha512-NxA37SZviusFUEYOQZ5hNnZ1h7O/KiemPkxjOlpzKJNnWxThiwc6/SaZhaPa8fyLvfRBAywhQhJJk8XESHWlpQ==}
     engines: {node: '>=22.12.0'}
 
-  '@commitlint/config-pnpm-scopes@21.2.0':
-    resolution: {integrity: sha512-VbMpxIO0/fku5RkP/C1iI/g2ECHfpV5FzlSjJMCGJ4LVi2eW0/NKRTVX3cMU50badcTGQxYWqgPGp0ieHeLtWA==}
+  '@commitlint/config-pnpm-scopes@21.2.2':
+    resolution: {integrity: sha512-wopa9LyTC55jTq+8X2XFHQvu0AEtnL6eP2VRmrzKDtehS5PtU7n374E9fIB8akBJSrI7TkfpHPmwjmZzOMdonA==}
     engines: {node: '>=22.12.0'}
 
   '@commitlint/types@21.2.0':
     resolution: {integrity: sha512-7zVFCDB2reMvJH5dmbKnOQPjZEvjdJTH8jc0U/PIPU1r3/+vf5pD1HlfitV2MWsWXrvu7u39iY1lyLUPOaN0Gw==}
     engines: {node: '>=22.12.0'}
 
-  '@conventional-changelog/template@1.2.1':
-    resolution: {integrity: sha512-TzlTVpKPjaqW6qOYjQcYUDuGsLCNsvFHVBXkYGTAnf5V37jCWrE5haKNXzz0WZUtVHjrpV76L1buANjwXMfT8w==}
+  '@conventional-changelog/git-client@3.1.0':
+    resolution: {integrity: sha512-Tqa/gHco2WJWa740NRjOrfKVvzIqxkZpecb8bemaQ8sKM5PXb1UK4uTyTb/1wIqNuOVaDOFxyBdhTIQZn6gdjQ==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      conventional-commits-filter: ^6.0.1
+      conventional-commits-parser: ^7.0.1
+    peerDependenciesMeta:
+      conventional-commits-filter:
+        optional: true
+      conventional-commits-parser:
+        optional: true
+
+  '@conventional-changelog/template@1.4.0':
+    resolution: {integrity: sha512-aalGyl7dbB5PArRebDIX43ZvBlXrYm9uWzGJ26t+4SzJVPsOuvfILGGbw5X4yX7i50YEmJ8zvbiWnqH/AAnZqg==}
     engines: {node: '>=22'}
 
   '@dabh/diagnostics@2.0.8':
@@ -1131,6 +1143,18 @@ packages:
     resolution: {integrity: sha512-qv7+G3J2cc6wwFj3yKvXOamzqhMwSk1ogPGmhpS8iXllcPrJaIIBA+4HbttlHVu1pqWTdmaCH/WE7UOC51kdoA==}
     engines: {node: ^20.17.0 || >=22.9.0}
 
+  '@simple-libs/child-process-utils@2.0.0':
+    resolution: {integrity: sha512-dvNoRKLijXnD0XoJAz94pbNuB5GQgDr55UhpSPhffDkTT0Cmcqh9jSCOtwfT2d4H6MI9E7c4SgtMuJXZ6F3c6A==}
+    engines: {node: '>=22'}
+
+  '@simple-libs/hosted-git-info@2.0.0':
+    resolution: {integrity: sha512-55XwK/GYgV58PuN8lZFhI1qRxdKoMLJocXl/yM1EPqazFDmM4QWY7q6BxPCPDNKTNunj794DSD4h0H7SrqUdMg==}
+    engines: {node: '>=22'}
+
+  '@simple-libs/normalize-package-data@1.0.0':
+    resolution: {integrity: sha512-/EOmFBekV9tGee8gac/k+5Ox3twkypNqh5TfxA9vTkmcJkjm6f1xqrlstDNOrEhTvnYyVtU6Du2ZhY/IV1+9GA==}
+    engines: {node: '>=22'}
+
   '@simple-libs/stream-utils@2.0.0':
     resolution: {integrity: sha512-fCTuZK4QBa+39Oz9l4OGfJfz+GpwCp3AqO7Zch3to99xHPgstVsRFpeQ8LNd2o1Gv8raL2mCFwiaHh7bFSp5DQ==}
     engines: {node: '>=22'}
@@ -1696,9 +1720,9 @@ packages:
     resolution: {integrity: sha512-rKZTGo4fzKYna8UcL0isTg5wkBNla7bxTypLwZQXjIdi++IdP1OJ41rI5Mti3/jltkPujbu4i9LIARYA+zpotQ==}
     engines: {node: '>= 12.0.0'}
 
-  commit-and-tag-version@12.7.3:
-    resolution: {integrity: sha512-rbauuCDU98yEHMy/LrNNu8HLTuGv7C2kN/3GXC59L18aJGii0eiryCESb1SEHXNFem2/2ngWG/Pq6qaCqw3aCw==}
-    engines: {node: '>=18'}
+  commit-and-tag-version@13.1.2:
+    resolution: {integrity: sha512-NEBJycEVXM6XExM7k9WunQAIMccFAHv3/ZtmA2s4L0VI0P6srUwrbCoNbE+Exo2B86agc9/NVty4m3PAxGPgTA==}
+    engines: {node: '>=22'}
     hasBin: true
 
   common-ancestor-path@1.0.1:
@@ -1744,23 +1768,9 @@ packages:
     resolution: {integrity: sha512-j/O/d7GcZCyNl7/hwZAb606rzqkyvaDctLmckbxLzHvFBzTJHuGEdodATcP3yIRoDrLHkIATJuvzbFlp/ki2cQ==}
     engines: {node: '>=18'}
 
-  conventional-changelog-angular@6.0.0:
-    resolution: {integrity: sha512-6qLgrBF4gueoC7AFVHu51nHL9pF9FRjXrH+ceVf7WmAfH3gs+gEYOkvxhjMPjZu57I4AGUGoNTY8V7Hrgf1uqg==}
-    engines: {node: '>=14'}
-
   conventional-changelog-angular@7.0.0:
     resolution: {integrity: sha512-ROjNchA9LgfNMTTFSIWPzebCwOGFdgkEq45EnvvrmSLvCtAw0HSmrCs7/ty+wAeYUZyNay0YMUNYFTRL72PkBQ==}
     engines: {node: '>=16'}
-
-  conventional-changelog-atom@3.0.0:
-    resolution: {integrity: sha512-pnN5bWpH+iTUWU3FaYdw5lJmfWeqSyrUkG+wyHBI9tC1dLNnHkbAOg1SzTQ7zBqiFrfo55h40VsGXWMdopwc5g==}
-    engines: {node: '>=14'}
-    deprecated: This preset is deprecated. Please use conventional-changelog-conventionalcommits or conventional-changelog-angular instead.
-
-  conventional-changelog-codemirror@3.0.0:
-    resolution: {integrity: sha512-wzchZt9HEaAZrenZAUUHMCFcuYzGoZ1wG/kTRMICxsnW5AXohYMRxnyecP9ob42Gvn5TilhC0q66AtTPRSNMfw==}
-    engines: {node: '>=14'}
-    deprecated: This preset is deprecated. Please use conventional-changelog-conventionalcommits or conventional-changelog-angular instead.
 
   conventional-changelog-config-spec@2.1.0:
     resolution: {integrity: sha512-IpVePh16EbbB02V+UA+HQnnPIohgXvJRxHcS5+Uwk4AT5LjzCZJm5sp/yqs5C6KZJ1jMsV4paEV13BN1pvDuxQ==}
@@ -1769,61 +1779,45 @@ packages:
     resolution: {integrity: sha512-n4Kr1HFMTf3iMbES0TMxKIcYtUUv4rKqyQQp2JwfOEfFCOfGT3Tq4mCyJ8S9/YPyWhydjfKrrvnyl+gCjA+mJQ==}
     engines: {node: '>=22'}
 
-  conventional-changelog-conventionalcommits@6.1.0:
-    resolution: {integrity: sha512-3cS3GEtR78zTfMzk0AizXKKIdN4OvSh7ibNz6/DPbhWWQu7LqE/8+/GqSodV+sywUR2gpJAdP/1JFf4XtN7Zpw==}
-    engines: {node: '>=14'}
+  conventional-changelog-conventionalcommits@10.4.0:
+    resolution: {integrity: sha512-Rriac6ZrAlVm6cy9Bz4NSp+WMHpwNXoPIYex+HjCgduAVUSbnew29DQjQw0C4g9u3HtSYzGiGY+pdBXAZo+4aA==}
+    engines: {node: '>=22'}
 
   conventional-changelog-core@5.0.1:
     resolution: {integrity: sha512-Rvi5pH+LvgsqGwZPZ3Cq/tz4ty7mjijhr3qR4m9IBXNbxGGYgTVVO+duXzz9aArmHxFtwZ+LRkrNIMDQzgoY4A==}
     engines: {node: '>=14'}
     deprecated: Deprecated and no longer maintained. Please use conventional-changelog instead.
 
-  conventional-changelog-core@5.0.2:
-    resolution: {integrity: sha512-RhQOcDweXNWvlRwUDCpaqXzbZemKPKncCWZG50Alth72WITVd6nhVk9MJ6w1k9PFNBcZ3YwkdkChE+8+ZwtUug==}
-    engines: {node: '>=14'}
-    deprecated: Deprecated and no longer maintained. Please use conventional-changelog instead.
-
-  conventional-changelog-ember@3.0.0:
-    resolution: {integrity: sha512-7PYthCoSxIS98vWhVcSphMYM322OxptpKAuHYdVspryI0ooLDehRXWeRWgN+zWSBXKl/pwdgAg8IpLNSM1/61A==}
-    engines: {node: '>=14'}
-    deprecated: This preset is deprecated. Please use conventional-changelog-conventionalcommits or conventional-changelog-angular instead.
-
-  conventional-changelog-eslint@4.0.0:
-    resolution: {integrity: sha512-nEZ9byP89hIU0dMx37JXQkE1IpMmqKtsaR24X7aM3L6Yy/uAtbb+ogqthuNYJkeO1HyvK7JsX84z8649hvp43Q==}
-    engines: {node: '>=14'}
-    deprecated: This preset is deprecated. Please use conventional-changelog-conventionalcommits or conventional-changelog-angular instead.
-
-  conventional-changelog-express@3.0.0:
-    resolution: {integrity: sha512-HqxihpUMfIuxvlPvC6HltA4ZktQEUan/v3XQ77+/zbu8No/fqK3rxSZaYeHYant7zRxQNIIli7S+qLS9tX9zQA==}
-    engines: {node: '>=14'}
-    deprecated: This preset is deprecated. Please use conventional-changelog-conventionalcommits or conventional-changelog-angular instead.
-
-  conventional-changelog-jquery@4.0.0:
-    resolution: {integrity: sha512-TTIN5CyzRMf8PUwyy4IOLmLV2DFmPtasKN+x7EQKzwSX8086XYwo+NeaeA3VUT8bvKaIy5z/JoWUvi7huUOgaw==}
-    engines: {node: '>=14'}
-    deprecated: This preset is deprecated. Please use conventional-changelog-conventionalcommits or conventional-changelog-angular instead.
-
-  conventional-changelog-jshint@3.0.0:
-    resolution: {integrity: sha512-bQof4byF4q+n+dwFRkJ/jGf9dCNUv4/kCDcjeCizBvfF81TeimPZBB6fT4HYbXgxxfxWXNl/i+J6T0nI4by6DA==}
-    engines: {node: '>=14'}
-    deprecated: This preset is deprecated. Please use conventional-changelog-conventionalcommits or conventional-changelog-angular instead.
-
   conventional-changelog-preset-loader@3.0.0:
     resolution: {integrity: sha512-qy9XbdSLmVnwnvzEisjxdDiLA4OmV3o8db+Zdg4WiFw14fP3B6XNz98X0swPPpkTd/pc1K7+adKgEDM1JCUMiA==}
     engines: {node: '>=14'}
+
+  conventional-changelog-preset-loader@6.0.1:
+    resolution: {integrity: sha512-GZ8E3RQzXQb3JFy0pKl8oeSf7ENIhvAMvJr+PlWkavZOesLHHdhkfNJ4SvW35eo1Fu2+EyVxWQ1tVvtzAG2iWg==}
+    engines: {node: '>=22'}
 
   conventional-changelog-writer@6.0.1:
     resolution: {integrity: sha512-359t9aHorPw+U+nHzUXHS5ZnPBOizRxfQsWT5ZDHBfvfxQOAik+yfuhKXG66CN5LEWPpMNnIMHUTCKeYNprvHQ==}
     engines: {node: '>=14'}
     hasBin: true
 
-  conventional-changelog@4.0.0:
-    resolution: {integrity: sha512-JbZjwE1PzxQCvm+HUTIr+pbSekS8qdOZzMakdFyPtdkEWwFvwEJYONzjgMm0txCb2yBcIcfKDmg8xtCKTdecNQ==}
-    engines: {node: '>=14'}
+  conventional-changelog-writer@9.2.1:
+    resolution: {integrity: sha512-StlYSmW3wLedRaqohJMpP3YuWiAqtgD0/cpsai9frdDkXv7rxj0hRbpJrubPYvJxJsjplONsOobEQnPuS9UgCg==}
+    engines: {node: '>=22'}
+    hasBin: true
+
+  conventional-changelog@8.1.0:
+    resolution: {integrity: sha512-idt1JK+3+Nt7gqH/d/sEYWdDeR+5XPov/jssmFN6XxmYSRlonTWSDWhWUPkmm0zbwYjtVdt+4My5aiPkKyvocw==}
+    engines: {node: '>=22'}
+    hasBin: true
 
   conventional-commits-filter@3.0.0:
     resolution: {integrity: sha512-1ymej8b5LouPx9Ox0Dw/qAO2dVdfpRFq28e5Y0jJEU8ZrLdy0vOSkkIInwmxErFGhg6SALro60ZrwYFVTUDo4Q==}
     engines: {node: '>=14'}
+
+  conventional-commits-filter@6.0.1:
+    resolution: {integrity: sha512-cs+LadpH7Kpw0M3k8wurk+sOVVDAENA0iK4OBOrkL94j5lEVYRJ4j3zd2bhY9qgzyrPqthdcYT3axzRN7AliMg==}
+    engines: {node: '>=22'}
 
   conventional-commits-parser@4.0.0:
     resolution: {integrity: sha512-WRv5j1FsVM5FISJkoYMR6tPk07fkKT0UodruX4je86V4owk451yjXAKzKAPOs9l7y59E2viHUS9eQ+dfUA9NSg==}
@@ -1832,6 +1826,11 @@ packages:
 
   conventional-commits-parser@7.1.2:
     resolution: {integrity: sha512-O+x4N2yH+ijvqWlIyTHsXTAP+algNWgGbjY2duCe8w2vUMvUB95cLRslCPfTMQyLAKlet3bhZTdu6ozn4M+QJQ==}
+    engines: {node: '>=22'}
+    hasBin: true
+
+  conventional-recommended-bump@12.1.0:
+    resolution: {integrity: sha512-HTNG3kEZXOOfKwrEx54ljURU9bG4nVPQzXMyCSeUcA/PE8EpNpQNujSrbXNBI8QZyN35zM+pVw+FuQk4KqHSHg==}
     engines: {node: '>=22'}
     hasBin: true
 
@@ -2003,10 +2002,6 @@ packages:
   dequal@2.0.3:
     resolution: {integrity: sha512-0je+qPKHEMohvfRTCEo3CrPG6cAzAYgmzKyxRiYSSDkS6eGJdyVJm7WaYA5ECaAD9wLB2T4EEeymA5aFVcYXCA==}
     engines: {node: '>=6'}
-
-  detect-indent@6.1.0:
-    resolution: {integrity: sha512-reYkTUJAZb9gUuZ2RvVCNhVHdg62RHnJ7WJl8ftMi4diZ6NWlciOzQN88pUhSELEwflJht4oQDv0F0BMlwaYtA==}
-    engines: {node: '>=8'}
 
   detect-indent@7.0.2:
     resolution: {integrity: sha512-y+8xyqdGLL+6sh0tVeHcfP/QDd8gUgbasolJJpY7NgeQGSZ739bDtSiaiDgtoicy+mtYB81dKLxO9xRhCyIB3A==}
@@ -2289,11 +2284,11 @@ packages:
   fast-wrap-ansi@0.2.2:
     resolution: {integrity: sha512-7F2Fl+TjRSenLqlU3UjSH0iyqopqoZIu7eZVpEirP2g1GtWa2G/ecEmBdgz31+Mxr+ELclgg6sokpSFIQiZ02Q==}
 
-  fast-xml-builder@1.3.0:
-    resolution: {integrity: sha512-F74cZEdCvuw9P41GAC3rod4X04jjWGM1JPEv/GWSqFTWLsdyMSBMBMlm9Hk3GLBgLBbdBNY8yee0pQh2RBVESQ==}
+  fast-xml-builder@1.3.1:
+    resolution: {integrity: sha512-pIM/1n3ntFXKYrUZwW7QCK0gAW7XY+wzj1YMIV3tLDvPj/V+zTGJK5e3/4WJfwj0qWw2ElNXiTixda/R+3YSug==}
 
-  fast-xml-parser@5.10.1:
-    resolution: {integrity: sha512-IEMIf7298kXuZSRFoGfMYrl7is8LpavODgbNz1cwIudv7KwVFnuU+UsMporfq6PD6aXSlawZlARiA3UywCTfMw==}
+  fast-xml-parser@5.11.0:
+    resolution: {integrity: sha512-9IGxMqvqLOnqP+Egi1nqDHKv5k8aZ7r9n558enxcucmyVGEBNPAU+MOg/8jPIS7rO7sSq4gFm1/nHtiaubMruw==}
     hasBin: true
 
   fastq@1.20.1:
@@ -2301,6 +2296,9 @@ packages:
 
   fault@2.0.1:
     resolution: {integrity: sha512-WtySTkS4OKev5JtpHXnib4Gxiurzh5NCGvWrFaZ34m6JehfTUhKZvn9njTfw48t6JumVQOmrKqpmGcdwxnhqBQ==}
+
+  fd-package-json@2.0.0:
+    resolution: {integrity: sha512-jKmm9YtsNXN789RS/0mSzOC1NUq9mkVd65vbSSVsKdjGvYXBuE4oWe2QOEoFeRmJg+lPuZxpmrfFclNhoRMneQ==}
 
   fdir@6.5.0:
     resolution: {integrity: sha512-tIbYtZbucOs0BRGqPJkshJUYdL+SDH7dVM8gjy+ERp3WAUjLEFJE+02kanyHtwjWOnwrKYBiwAmM0p4kLJAnXg==}
@@ -2984,10 +2982,6 @@ packages:
 
   js-yaml@4.3.0:
     resolution: {integrity: sha512-1td788aAnnZ5qs7V2QIRl1owjtYpbKt749Y3xauqQgwIIGF/xXWz1wMTEBx5O3LK3lXLVuqXPdPxj2BoFHaW9Q==}
-    hasBin: true
-
-  js-yaml@4.3.1:
-    resolution: {integrity: sha512-CY6crGq313MX8GkwvB7tzgp99vjQxY1++5y10/BKN/GUfHqWaOGQMNZkBvqSzsZKWk/ijwHlWzzkLulsGHhjWQ==}
     hasBin: true
 
   jsesc@3.1.0:
@@ -4429,8 +4423,8 @@ packages:
     resolution: {integrity: sha512-laJTa3Jb+VQpaC6DseHhF7dXVqHTfJPCRDaEbid/drOhgitgYku/letMUqOXFoWV0zIIUbjpdH2t+tYj4bQMRQ==}
     engines: {node: '>=8'}
 
-  strnum@2.4.1:
-    resolution: {integrity: sha512-M9eUSMT2dCB2cTNPG7UYj6KuK7RJR2SN2+yCV/fTW3xzTCS6EaGZ5pSMgDIjB7r8zSfTGk+dvvn9rTjpVS9Mwg==}
+  strnum@2.4.2:
+    resolution: {integrity: sha512-rDG3Ah4TV0k1hWvLSzkZtMmLN9+eS+h3knq4MP6A42Y3Yh5qGNnOUs1jJkoSr8FG5dsL28c7KgkIBzSEykqtuw==}
 
   strtok3@10.3.5:
     resolution: {integrity: sha512-ki4hZQfh5rX0QDLLkOCj+h+CVNkqmp/CMf8v8kZpkNVK6jGQooMytqzLZYUVYIZcFZ6yDB70EfD8POcFXiF5oA==}
@@ -4853,10 +4847,6 @@ packages:
     resolution: {integrity: sha512-7dSzzRQ++CKnNI/krKnYRV7JKKPUXMEh61soaHKg9mrWEhzFWhFnxPxGl+69cD1Ou63C13NUPCnmIcrvqCuM6w==}
     engines: {node: '>=12'}
 
-  yargs@17.7.3:
-    resolution: {integrity: sha512-GZtjxm/J/4TSxuL3FNYjCmLktBTnIw/rVmKSIyKeYAZpmJB2ig9VauCC5xsa82GNKVKDAqpOn3KVzNt0zmrU0g==}
-    engines: {node: '>=12'}
-
   yargs@18.0.0:
     resolution: {integrity: sha512-4UEqdc2RYGHZc7Doyqkrqiln3p9X2DZVxaGbwhn2pi7MrRagKaOcIKe8L3OxYcbhXLgLFUS3zAYuQjKBQgmuNg==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=23}
@@ -4949,15 +4939,15 @@ snapshots:
       '@babel/helper-string-parser': 7.29.7
       '@babel/helper-validator-identifier': 7.29.7
 
-  '@battis/commit@0.0.10(@commitlint/config-conventional@21.2.0)(@commitlint/config-pnpm-scopes@21.2.0)(@qui-cli/log@4.0.4(@qui-cli/colors@3.2.5)(@qui-cli/plugin@4.1.2(@qui-cli/colors@3.2.5))(@qui-cli/root@3.1.2(@qui-cli/plugin@4.1.2(@qui-cli/colors@3.2.5))))(@qui-cli/plugin@4.1.2(@qui-cli/colors@3.2.5))(@types/node@24.13.3)(commit-and-tag-version@12.7.3)(typescript@5.9.3)':
+  '@battis/commit@0.0.10(@commitlint/config-conventional@21.2.2)(@commitlint/config-pnpm-scopes@21.2.2)(@qui-cli/log@4.0.4(@qui-cli/colors@3.2.5)(@qui-cli/plugin@4.1.2(@qui-cli/colors@3.2.5))(@qui-cli/root@3.1.2(@qui-cli/plugin@4.1.2(@qui-cli/colors@3.2.5))))(@qui-cli/plugin@4.1.2(@qui-cli/colors@3.2.5))(@types/node@24.13.3)(commit-and-tag-version@13.1.2(conventional-commits-filter@6.0.1)(conventional-commits-parser@7.1.2))(typescript@5.9.3)':
     dependencies:
-      '@commitlint/config-conventional': 21.2.0
-      '@commitlint/config-pnpm-scopes': 21.2.0
+      '@commitlint/config-conventional': 21.2.2
+      '@commitlint/config-pnpm-scopes': 21.2.2
       '@qui-cli/colors': 3.2.5
       '@qui-cli/core': 7.1.0(@qui-cli/colors@3.2.5)(@qui-cli/plugin@4.1.2(@qui-cli/colors@3.2.5))
       '@qui-cli/init': 2.0.1(@qui-cli/colors@3.2.5)(@qui-cli/core@7.1.0(@qui-cli/colors@3.2.5)(@qui-cli/plugin@4.1.2(@qui-cli/colors@3.2.5)))(@qui-cli/log@4.0.4(@qui-cli/colors@3.2.5)(@qui-cli/plugin@4.1.2(@qui-cli/colors@3.2.5))(@qui-cli/root@3.1.2(@qui-cli/plugin@4.1.2(@qui-cli/colors@3.2.5))))(@qui-cli/plugin@4.1.2(@qui-cli/colors@3.2.5))(@types/node@24.13.3)(typescript@5.9.3)
       '@qui-cli/shell': 3.1.5(@qui-cli/colors@3.2.5)(@qui-cli/log@4.0.4(@qui-cli/colors@3.2.5)(@qui-cli/plugin@4.1.2(@qui-cli/colors@3.2.5))(@qui-cli/root@3.1.2(@qui-cli/plugin@4.1.2(@qui-cli/colors@3.2.5))))(@qui-cli/plugin@4.1.2(@qui-cli/colors@3.2.5))
-      commit-and-tag-version: 12.7.3
+      commit-and-tag-version: 13.1.2(conventional-commits-filter@6.0.1)(conventional-commits-parser@7.1.2)
       ora: 9.4.1
     transitivePeerDependencies:
       - '@qui-cli/log'
@@ -5045,12 +5035,12 @@ snapshots:
 
   '@colors/colors@1.6.0': {}
 
-  '@commitlint/config-conventional@21.2.0':
+  '@commitlint/config-conventional@21.2.2':
     dependencies:
       '@commitlint/types': 21.2.0
-      conventional-changelog-conventionalcommits: 10.2.1
+      conventional-changelog-conventionalcommits: 10.4.0
 
-  '@commitlint/config-pnpm-scopes@21.2.0':
+  '@commitlint/config-pnpm-scopes@21.2.2':
     dependencies:
       '@pnpm/read-project-manifest': 6.0.10
       read-yaml-file: 3.0.0
@@ -5060,7 +5050,16 @@ snapshots:
       conventional-commits-parser: 7.1.2
       picocolors: 1.1.1
 
-  '@conventional-changelog/template@1.2.1': {}
+  '@conventional-changelog/git-client@3.1.0(conventional-commits-filter@6.0.1)(conventional-commits-parser@7.1.2)':
+    dependencies:
+      '@simple-libs/child-process-utils': 2.0.0
+      '@simple-libs/stream-utils': 2.0.0
+      semver: 7.8.5
+    optionalDependencies:
+      conventional-commits-filter: 6.0.1
+      conventional-commits-parser: 7.1.2
+
+  '@conventional-changelog/template@1.4.0': {}
 
   '@dabh/diagnostics@2.0.8':
     dependencies:
@@ -6050,6 +6049,17 @@ snapshots:
       '@sigstore/core': 3.2.1
       '@sigstore/protobuf-specs': 0.5.1
 
+  '@simple-libs/child-process-utils@2.0.0':
+    dependencies:
+      '@simple-libs/stream-utils': 2.0.0
+
+  '@simple-libs/hosted-git-info@2.0.0': {}
+
+  '@simple-libs/normalize-package-data@1.0.0':
+    dependencies:
+      '@simple-libs/hosted-git-info': 2.0.0
+      semver: 7.8.5
+
   '@simple-libs/stream-utils@2.0.0': {}
 
   '@sinclair/typebox@0.34.52': {}
@@ -6625,23 +6635,26 @@ snapshots:
 
   comment-parser@1.4.8: {}
 
-  commit-and-tag-version@12.7.3:
+  commit-and-tag-version@13.1.2(conventional-commits-filter@6.0.1)(conventional-commits-parser@7.1.2):
     dependencies:
-      chalk: 2.4.2
-      conventional-changelog: 4.0.0
+      '@conventional-changelog/git-client': 3.1.0(conventional-commits-filter@6.0.1)(conventional-commits-parser@7.1.2)
+      chalk: 5.6.2
+      conventional-changelog: 8.1.0(conventional-commits-filter@6.0.1)
       conventional-changelog-config-spec: 2.1.0
-      conventional-changelog-conventionalcommits: 6.1.0
-      conventional-recommended-bump: 7.0.1
-      detect-indent: 6.1.0
+      conventional-changelog-conventionalcommits: 10.2.1
+      conventional-recommended-bump: 12.1.0
+      detect-indent: 7.0.2
       detect-newline: 3.1.0
       dotgitignore: 2.1.0
-      fast-xml-parser: 5.10.1
+      fast-xml-parser: 5.11.0
       figures: 3.2.0
       find-up: 5.0.0
-      git-semver-tags: 5.0.1
       semver: 7.8.5
       yaml: 2.9.0
-      yargs: 17.7.3
+      yargs: 17.7.2
+    transitivePeerDependencies:
+      - conventional-commits-filter
+      - conventional-commits-parser
 
   common-ancestor-path@1.0.1: {}
 
@@ -6684,27 +6697,19 @@ snapshots:
 
   content-type@2.0.0: {}
 
-  conventional-changelog-angular@6.0.0:
-    dependencies:
-      compare-func: 2.0.0
-
   conventional-changelog-angular@7.0.0:
     dependencies:
       compare-func: 2.0.0
-
-  conventional-changelog-atom@3.0.0: {}
-
-  conventional-changelog-codemirror@3.0.0: {}
 
   conventional-changelog-config-spec@2.1.0: {}
 
   conventional-changelog-conventionalcommits@10.2.1:
     dependencies:
-      '@conventional-changelog/template': 1.2.1
+      '@conventional-changelog/template': 1.4.0
 
-  conventional-changelog-conventionalcommits@6.1.0:
+  conventional-changelog-conventionalcommits@10.4.0:
     dependencies:
-      compare-func: 2.0.0
+      '@conventional-changelog/template': 1.4.0
 
   conventional-changelog-core@5.0.1:
     dependencies:
@@ -6720,33 +6725,9 @@ snapshots:
       read-pkg: 3.0.0
       read-pkg-up: 3.0.0
 
-  conventional-changelog-core@5.0.2:
-    dependencies:
-      add-stream: 1.0.0
-      conventional-changelog-writer: 6.0.1
-      conventional-commits-parser: 4.0.0
-      dateformat: 3.0.3
-      get-pkg-repo: 4.2.1
-      git-raw-commits: 3.0.0
-      git-remote-origin-url: 2.0.0
-      git-semver-tags: 5.0.1
-      normalize-package-data: 3.0.3
-      read-pkg: 3.0.0
-      read-pkg-up: 3.0.0
-
-  conventional-changelog-ember@3.0.0: {}
-
-  conventional-changelog-eslint@4.0.0: {}
-
-  conventional-changelog-express@3.0.0: {}
-
-  conventional-changelog-jquery@4.0.0: {}
-
-  conventional-changelog-jshint@3.0.0:
-    dependencies:
-      compare-func: 2.0.0
-
   conventional-changelog-preset-loader@3.0.0: {}
+
+  conventional-changelog-preset-loader@6.0.1: {}
 
   conventional-changelog-writer@6.0.1:
     dependencies:
@@ -6758,24 +6739,33 @@ snapshots:
       semver: 7.8.5
       split: 1.0.1
 
-  conventional-changelog@4.0.0:
+  conventional-changelog-writer@9.2.1:
     dependencies:
-      conventional-changelog-angular: 6.0.0
-      conventional-changelog-atom: 3.0.0
-      conventional-changelog-codemirror: 3.0.0
-      conventional-changelog-conventionalcommits: 6.1.0
-      conventional-changelog-core: 5.0.2
-      conventional-changelog-ember: 3.0.0
-      conventional-changelog-eslint: 4.0.0
-      conventional-changelog-express: 3.0.0
-      conventional-changelog-jquery: 4.0.0
-      conventional-changelog-jshint: 3.0.0
-      conventional-changelog-preset-loader: 3.0.0
+      '@conventional-changelog/template': 1.4.0
+      '@simple-libs/stream-utils': 2.0.0
+      argue-cli: 3.1.0
+      conventional-commits-filter: 6.0.1
+      semver: 7.8.5
+
+  conventional-changelog@8.1.0(conventional-commits-filter@6.0.1):
+    dependencies:
+      '@conventional-changelog/git-client': 3.1.0(conventional-commits-filter@6.0.1)(conventional-commits-parser@7.1.2)
+      '@simple-libs/hosted-git-info': 2.0.0
+      '@simple-libs/normalize-package-data': 1.0.0
+      argue-cli: 3.1.0
+      conventional-changelog-preset-loader: 6.0.1
+      conventional-changelog-writer: 9.2.1
+      conventional-commits-parser: 7.1.2
+      fd-package-json: 2.0.0
+    transitivePeerDependencies:
+      - conventional-commits-filter
 
   conventional-commits-filter@3.0.0:
     dependencies:
       lodash.ismatch: 4.4.0
       modify-values: 1.0.1
+
+  conventional-commits-filter@6.0.1: {}
 
   conventional-commits-parser@4.0.0:
     dependencies:
@@ -6788,6 +6778,14 @@ snapshots:
     dependencies:
       '@simple-libs/stream-utils': 2.0.0
       argue-cli: 3.1.0
+
+  conventional-recommended-bump@12.1.0:
+    dependencies:
+      '@conventional-changelog/git-client': 3.1.0(conventional-commits-filter@6.0.1)(conventional-commits-parser@7.1.2)
+      argue-cli: 3.1.0
+      conventional-changelog-preset-loader: 6.0.1
+      conventional-commits-filter: 6.0.1
+      conventional-commits-parser: 7.1.2
 
   conventional-recommended-bump@7.0.1:
     dependencies:
@@ -6809,7 +6807,7 @@ snapshots:
     dependencies:
       env-paths: 2.2.1
       import-fresh: 3.3.1
-      js-yaml: 4.3.1
+      js-yaml: 4.3.0
       parse-json: 5.2.0
     optionalDependencies:
       typescript: 5.9.3
@@ -6957,8 +6955,6 @@ snapshots:
   deprecation@2.3.1: {}
 
   dequal@2.0.3: {}
-
-  detect-indent@6.1.0: {}
 
   detect-indent@7.0.2: {}
 
@@ -7333,18 +7329,18 @@ snapshots:
     dependencies:
       fast-string-width: 3.0.2
 
-  fast-xml-builder@1.3.0:
+  fast-xml-builder@1.3.1:
     dependencies:
       path-expression-matcher: 1.6.2
       xml-naming: 0.3.0
 
-  fast-xml-parser@5.10.1:
+  fast-xml-parser@5.11.0:
     dependencies:
       '@nodable/entities': 3.0.0
-      fast-xml-builder: 1.3.0
+      fast-xml-builder: 1.3.1
       is-unsafe: 2.0.0
       path-expression-matcher: 1.6.2
-      strnum: 2.4.1
+      strnum: 2.4.2
       xml-naming: 0.3.0
 
   fastq@1.20.1:
@@ -7354,6 +7350,10 @@ snapshots:
   fault@2.0.1:
     dependencies:
       format: 0.2.2
+
+  fd-package-json@2.0.0:
+    dependencies:
+      walk-up-path: 4.0.0
 
   fdir@6.5.0(picomatch@4.0.5):
     optionalDependencies:
@@ -8034,10 +8034,6 @@ snapshots:
       argparse: 2.0.1
 
   js-yaml@4.3.0:
-    dependencies:
-      argparse: 2.0.1
-
-  js-yaml@4.3.1:
     dependencies:
       argparse: 2.0.1
 
@@ -9581,12 +9577,12 @@ snapshots:
 
   read-yaml-file@2.1.0:
     dependencies:
-      js-yaml: 4.3.1
+      js-yaml: 4.3.0
       strip-bom: 4.0.0
 
   read-yaml-file@3.0.0:
     dependencies:
-      js-yaml: 4.3.1
+      js-yaml: 4.3.0
       strip-bom: 5.0.0
 
   read@4.1.0:
@@ -10018,7 +10014,7 @@ snapshots:
     dependencies:
       min-indent: 1.0.1
 
-  strnum@2.4.1:
+  strnum@2.4.2:
     dependencies:
       anynum: 1.0.1
 
@@ -10408,7 +10404,7 @@ snapshots:
 
   write-yaml-file@5.0.0:
     dependencies:
-      js-yaml: 4.3.1
+      js-yaml: 4.3.0
       write-file-atomic: 5.0.1
 
   ws@8.21.3: {}
@@ -10449,16 +10445,6 @@ snapshots:
       yargs-parser: 20.2.9
 
   yargs@17.7.2:
-    dependencies:
-      cliui: 8.0.1
-      escalade: 3.2.0
-      get-caller-file: 2.0.5
-      require-directory: 2.1.1
-      string-width: 4.2.3
-      y18n: 5.0.8
-      yargs-parser: 21.1.1
-
-  yargs@17.7.3:
     dependencies:
       cliui: 8.0.1
       escalade: 3.2.0

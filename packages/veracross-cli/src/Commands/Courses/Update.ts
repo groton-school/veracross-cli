@@ -1,3 +1,5 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { PathString } from '@battis/descriptive-types';
 import { Veracross } from '@oauth2-cli/veracross';
 import { Colors } from '@qui-cli/colors';
@@ -7,12 +9,20 @@ import * as Plugin from '@qui-cli/plugin';
 import { Progress } from '@qui-cli/progress';
 import { Root } from '@qui-cli/root';
 import { parse } from 'csv/sync';
-import fs from 'node:fs';
-import path from 'node:path';
 
 export type Configuration = Plugin.Configuration & {
   pathToCsv?: PathString;
 };
+
+Positionals.require({
+  pathToCsv: {
+    description:
+      `The relative path to a CSV file containing at least the column ` +
+      `${Colors.value('internal_course_id')} and one other column with the ` +
+      `name of an API accessible course field.`
+  }
+});
+Positionals.allowOnlyNamedArgs();
 
 type PatchData = NonNullable<
   Veracross.DataAPI.paths['/academics/courses/{id}']['patch']['requestBody']
@@ -33,15 +43,6 @@ export function configure(proposal: Configuration = {}) {
 }
 
 export function options(): Plugin.Options {
-  Positionals.require({
-    pathToCsv: {
-      description:
-        `The relative path to a CSV file containing at least the column ` +
-        `${Colors.value('internal_course_id')} and one other column with the ` +
-        `name of an API accessible course field.`
-    }
-  });
-  Positionals.allowOnlyNamedArgs();
   return {
     man: [
       { level: 1, text: 'Course Update' },

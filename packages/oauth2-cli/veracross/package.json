@@ -39,7 +39,7 @@
     "ora": "^9.4.1"
   },
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "^2.40.1",
+    "@openapitools/openapi-generator-cli": "^2.41.0",
     "@tsconfig/node-lts": "catalog:",
     "@types/node": "catalog:",
     "del-cli": "catalog:",

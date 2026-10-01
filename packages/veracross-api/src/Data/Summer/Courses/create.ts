@@ -1,0 +1,19 @@
+import { client } from '@/Client.js';
+import { EndpointOptions } from '@/types/EndpointOptions.js';
+
+export const CREATE_SCOPE = 'summer.courses:create';
+
+/** Create Summer: Courses */
+export async function create({ 
+    data,
+    ...rest
+}: EndpointOptions<'create_summer_courses'>): Promise<number|undefined> {
+    const { data: {data: { id } = {}} = {},  error } = await client().POST('/summer/courses', {
+        params: { ...rest },
+        body: { data }
+    });
+    if (error) {
+        throw new Error('Error creating Course', { cause: error });
+    }
+    return id;
+}

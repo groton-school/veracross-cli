@@ -1,0 +1,21 @@
+import { client } from '@/Client.js';
+import { EndpointOptions } from '@/types/EndpointOptions.js';
+import { ResponseData } from '@/types/ResponseBody.js'
+
+export const READ_SCOPE = 'summer.courses:read';
+
+export type Course = ResponseData<'read_summer_courses'>;
+
+/** Read Summer: Courses */
+export async function read({ 
+    id, 
+    ...rest
+}: EndpointOptions<'read_summer_courses'>): Promise<Course> {
+    const {data,error} = await client().GET('/summer/courses/{id}', {
+        params: { path: { id,  }, ...rest }
+    });
+    if (error) {
+        throw new Error('Error retrieving Course', { cause: error });
+    }
+    return data.data;
+}

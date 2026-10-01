@@ -1,0 +1,21 @@
+import { client } from '@/Client.js';
+import { EndpointOptions } from '@/types/EndpointOptions.js';
+import { ResponseData } from '@/types/ResponseBody.js'
+
+export const READ_SCOPE = 'programs.classes:read';
+
+export type Classe = ResponseData<'read_programs_classes'>;
+
+/** Read Programs: Classes */
+export async function read({ 
+    id, 
+    ...rest
+}: EndpointOptions<'read_programs_classes'>): Promise<Classe> {
+    const {data,error} = await client().GET('/programs/classes/{id}', {
+        params: { path: { id,  }, ...rest }
+    });
+    if (error) {
+        throw new Error('Error retrieving Classe', { cause: error });
+    }
+    return data.data;
+}

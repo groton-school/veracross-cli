@@ -1,0 +1,19 @@
+import { client } from '@/Client.js';
+import { EndpointOptions } from '@/types/EndpointOptions.js';
+
+export const UPDATE_SCOPE = '{{scope}}';
+
+/** {{operation.summary}} */
+export async function update({ {{#if params.path.length}}{{#each params.path}}
+    {{this}}, {{/each}}{{/if}}
+    data,
+    ...rest
+}: EndpointOptions<'{{operation.operationId}}'>): Promise<void> {
+    const { error } = await client().PATCH('{{endpoint}}', {
+        params: { {{#if params.path.length}}path: { {{#each params.path}}{{this}}, {{/each}} }, {{/if}}...rest },
+        body: { data }
+    });
+    if (error) {
+        throw new Error('Error updating {{typeName}}', { cause: error });
+    }
+}

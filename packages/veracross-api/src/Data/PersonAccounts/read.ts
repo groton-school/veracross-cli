@@ -1,0 +1,21 @@
+import { client } from '@/Client.js';
+import { EndpointOptions } from '@/types/EndpointOptions.js';
+import { ResponseData } from '@/types/ResponseBody.js'
+
+export const READ_SCOPE = 'person_accounts:read';
+
+export type ReadPersonAccount = ResponseData<'read_person_accounts'>;
+
+/** Read Person Accounts */
+export async function read({ 
+    id, 
+    ...rest
+}: EndpointOptions<'read_person_accounts'>): Promise<ReadPersonAccount> {
+    const {data,error} = await client().GET('/person_accounts/{id}', {
+        params: { path: { id,  }, ...rest }
+    });
+    if (error) {
+        throw new Error('Error retrieving ReadPersonAccount', { cause: error });
+    }
+    return data.data;
+}

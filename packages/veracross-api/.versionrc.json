@@ -1,0 +1,5 @@
+{
+  "path": ".",
+  "tag-prefix": "veracross-api/",
+  "releaseCommitMessageFormat": "chore(veracross-api): @groton/veracross-api@{{currentTag}}"
+}

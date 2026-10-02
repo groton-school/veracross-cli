@@ -1,6 +1,6 @@
-import { client } from '@/Client.js';
-import { EndpointOptions } from '@/types/EndpointOptions.js';
-import { ResponseData } from '@/types/ResponseBody.js'
+import { client } from '#Client.js';
+import { EndpointOptions } from '#types/EndpointOptions.js';
+import { ResponseData } from '#types/ResponseBody.js'
 
 export const READ_SCOPE = 'academics.classes.meeting_times:read';
 

@@ -1,6 +1,6 @@
-import { client, defaults } from '@/Client.js';
-import { EndpointOptions } from '@/types/EndpointOptions.js';
-import { ResponseData } from '@/types/ResponseBody.js';
+import { client, defaults } from '#Client.js';
+import { EndpointOptions } from '#types/EndpointOptions.js';
+import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'finance.purchase_request_workflow_gl_accounts:list';
 

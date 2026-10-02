@@ -1,5 +1,5 @@
+import { paths } from '#spec/Data-API.js';
 import * as OpenAPI from 'openapi-fetch';
-import { paths } from './spec/Data-API.js';
 
 export interface Defaults {
   DEFAULT_PAGE_SIZE: number;

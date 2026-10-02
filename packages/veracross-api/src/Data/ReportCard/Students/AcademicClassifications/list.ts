@@ -1,6 +1,6 @@
-import { client, defaults } from '@/Client.js';
-import { EndpointOptions } from '@/types/EndpointOptions.js';
-import { ResponseData } from '@/types/ResponseBody.js';
+import { client, defaults } from '#Client.js';
+import { EndpointOptions } from '#types/EndpointOptions.js';
+import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'report_card.students.academic_classifications:list';
 

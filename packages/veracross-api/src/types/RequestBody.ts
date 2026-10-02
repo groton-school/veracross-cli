@@ -1,5 +1,5 @@
-import { operations } from '@/spec/Data-API.js';
 import { WritableKeys } from '@battis/typescript-tricks';
+import { operations } from '#spec/Data-API.js';
 
 export type RequestBody<O extends keyof operations> =
   'requestBody' extends keyof operations[O]

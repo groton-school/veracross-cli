@@ -1,6 +1,6 @@
-import { client, defaults } from '@/Client.js';
-import { EndpointOptions } from '@/types/EndpointOptions.js';
-import { ResponseData } from '@/types/ResponseBody.js';
+import { client, defaults } from '#Client.js';
+import { EndpointOptions } from '#types/EndpointOptions.js';
+import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'academics.config.blocks_by_block_groups:list';
 

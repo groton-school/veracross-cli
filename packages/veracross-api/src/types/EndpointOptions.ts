@@ -1,4 +1,4 @@
-import { operations } from '@/spec/Data-API.js';
+import { operations } from '#spec/Data-API.js';
 import { RequestData } from './RequestBody.js';
 import {
   RequestCookie,

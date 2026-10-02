@@ -1,5 +1,5 @@
-import { client } from '@/Client.js';
-import { EndpointOptions } from '@/types/EndpointOptions.js';
+import { client } from '#Client.js';
+import { EndpointOptions } from '#types/EndpointOptions.js';
 
 export const UPDATE_SCOPE = 'academics.classes.assignments:update';
 

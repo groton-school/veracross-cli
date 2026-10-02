@@ -1,4 +1,4 @@
-import { operations } from '@/spec/Data-API.js';
+import { operations } from '#spec/Data-API.js';
 
 export type RequestParameters<O extends keyof operations> =
   'parameters' extends keyof operations[O]

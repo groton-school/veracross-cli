@@ -1,4 +1,4 @@
-import { operations } from '@/spec/Data-API.js';
+import { operations } from '#spec/Data-API.js';
 
 export type ResponseBody<O extends keyof operations> =
   'responses' extends keyof operations[O]

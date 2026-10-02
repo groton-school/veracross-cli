@@ -1,5 +1,5 @@
-import { client } from '@/Client.js';
-import { EndpointOptions } from '@/types/EndpointOptions.js';
+import { client } from '#Client.js';
+import { EndpointOptions } from '#types/EndpointOptions.js';
 
 export const CREATE_SCOPE = 'finance.ap_disbursements:create';
 

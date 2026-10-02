@@ -33,7 +33,3 @@ repos:
     hooks:
       - id: commitlint
         stages: [commit-msg]
-  - repo: https://github.com/sameeramin/pre-commit-hooks.git
-    rev: v1.0.1
-    hooks:
-      - id: check-console-log

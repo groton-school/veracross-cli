@@ -149,6 +149,15 @@ importers:
       '@battis/workspace':
         specifier: ^0.0.12
         version: 0.0.12(@qui-cli/plugin@4.2.0(@qui-cli/colors@3.2.5))(@qui-cli/root@3.1.2(@qui-cli/plugin@4.2.0(@qui-cli/colors@3.2.5)))(@types/node@24.19.0)(commit-and-tag-version@13.1.2(conventional-commits-filter@6.0.1)(conventional-commits-parser@7.1.2))(typescript@5.9.3)
+      '@qui-cli/colors':
+        specifier: ^3.2.5
+        version: 3.2.5
+      '@qui-cli/core':
+        specifier: ^6.0.4
+        version: 6.0.4(@qui-cli/colors@3.2.5)(@qui-cli/plugin@4.2.0(@qui-cli/colors@3.2.5))
+      '@qui-cli/plugin':
+        specifier: ^4.2.0
+        version: 4.2.0(@qui-cli/colors@3.2.5)
       '@tsconfig/node-lts':
         specifier: 'catalog:'
         version: 24.0.1
@@ -173,6 +182,9 @@ importers:
       openapi-typescript:
         specifier: ^7.13.0
         version: 7.13.0(typescript@5.9.3)
+      ora:
+        specifier: ^9.4.1
+        version: 9.4.1
       typescript:
         specifier: 'catalog:'
         version: 5.9.3

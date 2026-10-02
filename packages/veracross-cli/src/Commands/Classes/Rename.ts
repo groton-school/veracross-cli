@@ -102,7 +102,7 @@ export async function run() {
   if (!config.replace) {
     throw new Error(`${Colors.optionArg('--replace')} must be defined`);
   }
-  const classes: Veracross.DataAPI.operations['list_academics_classes']['responses']['200']['content']['application/json']['data'] =
+  const classes: Veracross.Types.spec.DataAPI.operations['list_academics_classes']['responses']['200']['content']['application/json']['data'] =
     [];
   let page = 1;
   let done: boolean;

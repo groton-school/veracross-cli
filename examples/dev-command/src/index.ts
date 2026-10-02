@@ -4,13 +4,7 @@ import { Log } from '@qui-cli/log';
 
 Veracross.configure({
   reason: 'dev-command',
-  credentials: { scope: 'contact_info:read' }
+  credentials: { scope: Veracross.v3.ContactInfo.READ_SCOPE }
 });
 await Core.run();
-Log.info(
-  (
-    await Veracross.Data().GET('/contact_info/{id}', {
-      params: { path: { id: 2 } }
-    })
-  ).response
-);
+Log.info(await Veracross.v3.ContactInfo.read({ id: 2 }));

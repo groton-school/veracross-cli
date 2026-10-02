@@ -34,17 +34,16 @@
     "release": "commit-and-tag-version --noBumpWhenEmptyChanges"
   },
   "dependencies": {
+    "@groton/veracross-api": "workspace:*",
     "@oauth2-cli/qui-cli": "^2.0.7",
     "openapi-fetch": "^0.17.0",
     "ora": "^9.4.1"
   },
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "^2.41.0",
     "@tsconfig/node-lts": "catalog:",
     "@types/node": "catalog:",
     "del-cli": "catalog:",
     "npm-run-all": "catalog:",
-    "openapi-typescript": "^7.13.0",
     "typescript": "catalog:"
   },
   "peerDependencies": {

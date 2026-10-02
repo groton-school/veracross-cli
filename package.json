@@ -18,13 +18,7 @@
     "release:build": "lerna run --concurrency 1 release",
     "release:git": "git push --follow-tags",
     "release:login": "pnpm login",
-    "release:publish": "pnpm publish -r --access public",
-    "postinstall": "run-s setup",
-    "setup": "run-s setup:*",
-    "setup:prettier": "setup-prettier -f",
-    "setup:eslint": "setup-eslint -f",
-    "setup:commit": "setup-commit -f",
-    "setup:monorepo": "setup-monorepo -f"
+    "release:publish": "pnpm publish -r --access public"
   },
   "devDependencies": {
     "@battis/commit": "^0.0.10",

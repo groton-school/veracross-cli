@@ -28,7 +28,7 @@ Positionals.require({
 Positionals.allowOnlyNamedArgs();
 
 type PatchData = NonNullable<
-  Veracross.DataAPI.paths['/academics/courses/{id}']['patch']['requestBody']
+  Veracross.Types.spec.DataAPI.paths['/academics/courses/{id}']['patch']['requestBody']
 >['content']['application/json']['data'];
 
 const config: Configuration = { endpoint: 'academics' };

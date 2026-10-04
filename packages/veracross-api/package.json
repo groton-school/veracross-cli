@@ -1,6 +1,6 @@
 {
   "name": "@groton/veracross-api",
-  "version": "0.0.2",
+  "version": "0.0.10",
   "description": "",
   "keywords": [],
   "homepage": "https://github.com/groton-school/veracross-cli/tree/main/packages/veracross-api#readme",
@@ -24,7 +24,7 @@
     "build": "run-s build:**",
     "build:scripts:clean": "del ./build",
     "build:scripts": "tsc -p ./tsconfig.scripts.json",
-    "build:data": "del ./src/Authorization ./src/Data ./src/Files",
+    "build:clean": "del ./src/Authorization ./src/Data ./src/Files",
     "build:generate": "./scripts/generate",
     "build:compile": "tsc",
     "prepack": "run-s build",

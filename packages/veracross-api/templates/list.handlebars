@@ -1,17 +1,18 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/{{specFile}}';
+import { client, defaults } from '#{{apiName}}/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = '{{scope}}';
 
-export type {{typeName}}Collection = ResponseData<'{{operation.operationId}}'>;
+export type {{typeName}}Collection = ResponseData<operations, '{{operation.operationId}}'>;
 
 /** {{operation.summary}} */
 export async function list({ {{#if params.path.length}}{{#each params.path}}
     {{this}}, {{/each}}{{/if}}
     header,
     ...rest
-}: EndpointOptions<'{{operation.operationId}}'>): Promise<{{typeName}}Collection> {
+}: EndpointOptions<operations, '{{operation.operationId}}'>): Promise<{{typeName}}Collection> {
     const collection: {{typeName}}Collection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

@@ -1,4 +1,5 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 
 export const UPDATE_SCOPE = 'resource_reservations.resources:update';
@@ -8,7 +9,7 @@ export async function update({
     resource_id, 
     data,
     ...rest
-}: EndpointOptions<'update_resource_reservations_resources'>): Promise<void> {
+}: EndpointOptions<operations, 'update_resource_reservations_resources'>): Promise<void> {
     const { error } = await client().PATCH('/resource_reservations/resources/{resource_id}', {
         params: { path: { resource_id,  }, ...rest },
         body: { data }

@@ -1,4 +1,5 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 
 export const UPDATE_SCOPE = 'behavior_incident_types:update';
@@ -8,7 +9,7 @@ export async function update({
     id, 
     data,
     ...rest
-}: EndpointOptions<'update_behavior_incident_types'>): Promise<void> {
+}: EndpointOptions<operations, 'update_behavior_incident_types'>): Promise<void> {
     const { error } = await client().PATCH('/behavior_incident_types/{id}', {
         params: { path: { id,  }, ...rest },
         body: { data }

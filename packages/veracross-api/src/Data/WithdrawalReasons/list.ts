@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'withdrawal_reasons:list';
 
-export type ListWithdrawalReasonCollection = ResponseData<'list_withdrawal_reasons'>;
+export type ListWithdrawalReasonCollection = ResponseData<operations, 'list_withdrawal_reasons'>;
 
 /** List Withdrawal Reasons */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_withdrawal_reasons'>): Promise<ListWithdrawalReasonCollection> {
+}: EndpointOptions<operations, 'list_withdrawal_reasons'>): Promise<ListWithdrawalReasonCollection> {
     const collection: ListWithdrawalReasonCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

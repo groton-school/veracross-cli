@@ -1,4 +1,5 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 
 export const CREATE_SCOPE = 'standardized_tests.score_types:create';
@@ -7,7 +8,7 @@ export const CREATE_SCOPE = 'standardized_tests.score_types:create';
 export async function create({ 
     data,
     ...rest
-}: EndpointOptions<'create_standardized_tests_score_types'>): Promise<number|undefined> {
+}: EndpointOptions<operations, 'create_standardized_tests_score_types'>): Promise<number|undefined> {
     const { data: {data: { id } = {}} = {},  error } = await client().POST('/standardized_tests/score_types', {
         params: { ...rest },
         body: { data }

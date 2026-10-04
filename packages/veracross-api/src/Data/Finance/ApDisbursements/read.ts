@@ -1,16 +1,17 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js'
 
 export const READ_SCOPE = 'finance.ap_disbursements:read';
 
-export type ApDisbursement = ResponseData<'read_finance_ap_disbursements'>;
+export type ApDisbursement = ResponseData<operations, 'read_finance_ap_disbursements'>;
 
 /** Read Finance: AP Disbursements */
 export async function read({ 
     id, 
     ...rest
-}: EndpointOptions<'read_finance_ap_disbursements'>): Promise<ApDisbursement> {
+}: EndpointOptions<operations, 'read_finance_ap_disbursements'>): Promise<ApDisbursement> {
     const {data,error} = await client().GET('/finance/ap_disbursements/{id}', {
         params: { path: { id,  }, ...rest }
     });

@@ -1,18 +1,32 @@
-import { operations } from '#spec/Data-API.js';
+export type RequestParameters<
+  M,
+  O extends keyof M
+> = 'parameters' extends keyof M[O] ? M[O]['parameters'] : never;
 
-export type RequestParameters<O extends keyof operations> =
-  'parameters' extends keyof operations[O]
-    ? operations[O]['parameters']
-    : never;
+export type RequestPath<
+  M,
+  O extends keyof M
+> = 'path' extends keyof RequestParameters<M, O>
+  ? RequestParameters<M, O>['path']
+  : never;
 
-export type RequestPath<O extends keyof operations> =
-  RequestParameters<O>['path'];
+export type RequestQuery<
+  M,
+  O extends keyof M
+> = 'query' extends keyof RequestParameters<M, O>
+  ? RequestParameters<M, O>['query']
+  : never;
 
-export type RequestQuery<O extends keyof operations> =
-  RequestParameters<O>['query'];
+export type RequestHeader<
+  M,
+  O extends keyof M
+> = 'header' extends keyof RequestParameters<M, O>
+  ? RequestParameters<M, O>['header']
+  : never;
 
-export type RequestHeader<O extends keyof operations> =
-  RequestParameters<O>['header'];
-
-export type RequestCookie<O extends keyof operations> =
-  RequestParameters<O>['cookie'];
+export type RequestCookie<
+  M,
+  O extends keyof M
+> = 'cookie' extends keyof RequestParameters<M, O>
+  ? RequestParameters<M, O>['cookie']
+  : never;

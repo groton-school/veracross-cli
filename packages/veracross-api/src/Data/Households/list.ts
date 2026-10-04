@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'households:list';
 
-export type ListHouseholdCollection = ResponseData<'list_households'>;
+export type ListHouseholdCollection = ResponseData<operations, 'list_households'>;
 
 /** List Households */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_households'>): Promise<ListHouseholdCollection> {
+}: EndpointOptions<operations, 'list_households'>): Promise<ListHouseholdCollection> {
     const collection: ListHouseholdCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'development.gifts:list';
 
-export type GiftCollection = ResponseData<'list_development_gifts'>;
+export type GiftCollection = ResponseData<operations, 'list_development_gifts'>;
 
 /** List Development: Gifts */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_development_gifts'>): Promise<GiftCollection> {
+}: EndpointOptions<operations, 'list_development_gifts'>): Promise<GiftCollection> {
     const collection: GiftCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

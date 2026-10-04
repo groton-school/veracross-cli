@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'ethnicities:list';
 
-export type ListEthnicitieCollection = ResponseData<'list_ethnicities'>;
+export type ListEthnicitieCollection = ResponseData<operations, 'list_ethnicities'>;
 
 /** List Ethnicities */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_ethnicities'>): Promise<ListEthnicitieCollection> {
+}: EndpointOptions<operations, 'list_ethnicities'>): Promise<ListEthnicitieCollection> {
     const collection: ListEthnicitieCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

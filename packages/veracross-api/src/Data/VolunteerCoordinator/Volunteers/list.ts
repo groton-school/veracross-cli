@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'volunteer_coordinator.volunteers:list';
 
-export type VolunteerCollection = ResponseData<'list_volunteer_coordinator_volunteers'>;
+export type VolunteerCollection = ResponseData<operations, 'list_volunteer_coordinator_volunteers'>;
 
 /** List Volunteer Coordinator: Volunteers */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_volunteer_coordinator_volunteers'>): Promise<VolunteerCollection> {
+}: EndpointOptions<operations, 'list_volunteer_coordinator_volunteers'>): Promise<VolunteerCollection> {
     const collection: VolunteerCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

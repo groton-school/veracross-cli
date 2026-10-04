@@ -1,17 +1,18 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'admission.relatives.relationships:list';
 
-export type RelativeRelationshipCollection = ResponseData<'list_admission_relative_relationships'>;
+export type RelativeRelationshipCollection = ResponseData<operations, 'list_admission_relative_relationships'>;
 
 /** List Admission: Relative Relationships */
 export async function list({ 
     relative_id, 
     header,
     ...rest
-}: EndpointOptions<'list_admission_relative_relationships'>): Promise<RelativeRelationshipCollection> {
+}: EndpointOptions<operations, 'list_admission_relative_relationships'>): Promise<RelativeRelationshipCollection> {
     const collection: RelativeRelationshipCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'finance.purchase_request_workflow_gl_accounts:list';
 
-export type PurchaseRequestWorkflowGlAccountCollection = ResponseData<'list_finance_purchase_request_workflow_gl_accounts'>;
+export type PurchaseRequestWorkflowGlAccountCollection = ResponseData<operations, 'list_finance_purchase_request_workflow_gl_accounts'>;
 
 /** List Finance: Purchase Request Workflow GL Accounts */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_finance_purchase_request_workflow_gl_accounts'>): Promise<PurchaseRequestWorkflowGlAccountCollection> {
+}: EndpointOptions<operations, 'list_finance_purchase_request_workflow_gl_accounts'>): Promise<PurchaseRequestWorkflowGlAccountCollection> {
     const collection: PurchaseRequestWorkflowGlAccountCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

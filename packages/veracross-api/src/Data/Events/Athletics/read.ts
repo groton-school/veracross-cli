@@ -1,16 +1,17 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js'
 
 export const READ_SCOPE = 'events.athletics:read';
 
-export type Athletic = ResponseData<'read_events_athletics'>;
+export type Athletic = ResponseData<operations, 'read_events_athletics'>;
 
 /** Read Events: Athletics */
 export async function read({ 
     event_id, 
     ...rest
-}: EndpointOptions<'read_events_athletics'>): Promise<Athletic> {
+}: EndpointOptions<operations, 'read_events_athletics'>): Promise<Athletic> {
     const {data,error} = await client().GET('/events/athletics/{event_id}', {
         params: { path: { event_id,  }, ...rest }
     });

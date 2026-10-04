@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'academics.permissions:list';
 
-export type ClassesPermissionCollection = ResponseData<'list_academics_classes_permissions'>;
+export type ClassesPermissionCollection = ResponseData<operations, 'list_academics_classes_permissions'>;
 
 /** List Academics: Classes - Permissions */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_academics_classes_permissions'>): Promise<ClassesPermissionCollection> {
+}: EndpointOptions<operations, 'list_academics_classes_permissions'>): Promise<ClassesPermissionCollection> {
     const collection: ClassesPermissionCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

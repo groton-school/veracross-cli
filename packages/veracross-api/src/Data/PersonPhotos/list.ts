@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'person_photos:list';
 
-export type ListPersonPhotoCollection = ResponseData<'list_person_photo'>;
+export type ListPersonPhotoCollection = ResponseData<operations, 'list_person_photo'>;
 
 /** List Person Photo */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_person_photo'>): Promise<ListPersonPhotoCollection> {
+}: EndpointOptions<operations, 'list_person_photo'>): Promise<ListPersonPhotoCollection> {
     const collection: ListPersonPhotoCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

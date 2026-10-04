@@ -1,17 +1,18 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'calendars.parent_calendars:list';
 
-export type ParentCalendarCollection = ResponseData<'list_calendars_parent_calendars'>;
+export type ParentCalendarCollection = ResponseData<operations, 'list_calendars_parent_calendars'>;
 
 /** List Calendars: Parent Calendars */
 export async function list({ 
     parent_id, 
     header,
     ...rest
-}: EndpointOptions<'list_calendars_parent_calendars'>): Promise<ParentCalendarCollection> {
+}: EndpointOptions<operations, 'list_calendars_parent_calendars'>): Promise<ParentCalendarCollection> {
     const collection: ParentCalendarCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

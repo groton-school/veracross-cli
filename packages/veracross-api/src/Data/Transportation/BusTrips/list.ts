@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'transportation.bus_trips:list';
 
-export type BusTripCollection = ResponseData<'list_transportation_bus_trips'>;
+export type BusTripCollection = ResponseData<operations, 'list_transportation_bus_trips'>;
 
 /** List Transportation: Bus Trips */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_transportation_bus_trips'>): Promise<BusTripCollection> {
+}: EndpointOptions<operations, 'list_transportation_bus_trips'>): Promise<BusTripCollection> {
     const collection: BusTripCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

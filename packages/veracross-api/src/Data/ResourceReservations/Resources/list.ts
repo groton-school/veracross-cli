@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'resource_reservations.resources:list';
 
-export type ResourceCollection = ResponseData<'list_resource_reservations_resources'>;
+export type ResourceCollection = ResponseData<operations, 'list_resource_reservations_resources'>;
 
 /** List Resource Reservations: Resources */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_resource_reservations_resources'>): Promise<ResourceCollection> {
+}: EndpointOptions<operations, 'list_resource_reservations_resources'>): Promise<ResourceCollection> {
     const collection: ResourceCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

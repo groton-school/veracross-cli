@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'portal_membership:list';
 
-export type ListPortalMembershipCollection = ResponseData<'list_portal_membership'>;
+export type ListPortalMembershipCollection = ResponseData<operations, 'list_portal_membership'>;
 
 /** List Portal Membership */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_portal_membership'>): Promise<ListPortalMembershipCollection> {
+}: EndpointOptions<operations, 'list_portal_membership'>): Promise<ListPortalMembershipCollection> {
     const collection: ListPortalMembershipCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

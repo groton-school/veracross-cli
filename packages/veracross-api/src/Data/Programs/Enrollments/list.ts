@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'programs.enrollments:list';
 
-export type EnrollmentCollection = ResponseData<'list_programs_enrollments'>;
+export type EnrollmentCollection = ResponseData<operations, 'list_programs_enrollments'>;
 
 /** List Programs: Enrollments */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_programs_enrollments'>): Promise<EnrollmentCollection> {
+}: EndpointOptions<operations, 'list_programs_enrollments'>): Promise<EnrollmentCollection> {
     const collection: EnrollmentCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

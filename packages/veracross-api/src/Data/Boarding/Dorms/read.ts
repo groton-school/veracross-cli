@@ -1,16 +1,17 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js'
 
 export const READ_SCOPE = 'boarding.dorms:read';
 
-export type Dorm = ResponseData<'read_boarding_dorms'>;
+export type Dorm = ResponseData<operations, 'read_boarding_dorms'>;
 
 /** Read Boarding: Dorms */
 export async function read({ 
     id, 
     ...rest
-}: EndpointOptions<'read_boarding_dorms'>): Promise<Dorm> {
+}: EndpointOptions<operations, 'read_boarding_dorms'>): Promise<Dorm> {
     const {data,error} = await client().GET('/boarding/dorms/{id}', {
         params: { path: { id,  }, ...rest }
     });

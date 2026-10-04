@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'academics.subjects:list';
 
-export type SubjectCollection = ResponseData<'list_academics_subjects'>;
+export type SubjectCollection = ResponseData<operations, 'list_academics_subjects'>;
 
 /** List Academics: Subjects */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_academics_subjects'>): Promise<SubjectCollection> {
+}: EndpointOptions<operations, 'list_academics_subjects'>): Promise<SubjectCollection> {
     const collection: SubjectCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

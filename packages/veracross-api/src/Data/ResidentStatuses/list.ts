@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'resident_statuses:list';
 
-export type ListResidentStatuseCollection = ResponseData<'list_resident_statuses'>;
+export type ListResidentStatuseCollection = ResponseData<operations, 'list_resident_statuses'>;
 
 /** List Resident Statuses */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_resident_statuses'>): Promise<ListResidentStatuseCollection> {
+}: EndpointOptions<operations, 'list_resident_statuses'>): Promise<ListResidentStatuseCollection> {
     const collection: ListResidentStatuseCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

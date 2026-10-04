@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'summer.courses:list';
 
-export type CourseCollection = ResponseData<'list_summer_courses'>;
+export type CourseCollection = ResponseData<operations, 'list_summer_courses'>;
 
 /** List Summer: Courses */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_summer_courses'>): Promise<CourseCollection> {
+}: EndpointOptions<operations, 'list_summer_courses'>): Promise<CourseCollection> {
     const collection: CourseCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

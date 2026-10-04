@@ -1,17 +1,18 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'transcripts.gpas:list';
 
-export type GpACollection = ResponseData<'list_transcripts_gpas'>;
+export type GpACollection = ResponseData<operations, 'list_transcripts_gpas'>;
 
 /** List Transcripts: GPAs */
 export async function list({ 
     person_id, 
     header,
     ...rest
-}: EndpointOptions<'list_transcripts_gpas'>): Promise<GpACollection> {
+}: EndpointOptions<operations, 'list_transcripts_gpas'>): Promise<GpACollection> {
     const collection: GpACollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

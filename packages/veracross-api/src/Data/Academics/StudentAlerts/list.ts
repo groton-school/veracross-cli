@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'academics.student_alerts:list';
 
-export type StudentAlertCollection = ResponseData<'list_academics_student_alerts'>;
+export type StudentAlertCollection = ResponseData<operations, 'list_academics_student_alerts'>;
 
 /** List Academics: Student Alerts */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_academics_student_alerts'>): Promise<StudentAlertCollection> {
+}: EndpointOptions<operations, 'list_academics_student_alerts'>): Promise<StudentAlertCollection> {
     const collection: StudentAlertCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'admission.languages:list';
 
-export type LanguageCollection = ResponseData<'list_admission_languages'>;
+export type LanguageCollection = ResponseData<operations, 'list_admission_languages'>;
 
 /** List Admission: Languages */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_admission_languages'>): Promise<LanguageCollection> {
+}: EndpointOptions<operations, 'list_admission_languages'>): Promise<LanguageCollection> {
     const collection: LanguageCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

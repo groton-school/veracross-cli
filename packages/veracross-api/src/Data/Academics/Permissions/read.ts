@@ -1,16 +1,17 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js'
 
 export const READ_SCOPE = 'academics.permissions:read';
 
-export type ClassesPermission = ResponseData<'read_academics_classes_permissions'>;
+export type ClassesPermission = ResponseData<operations, 'read_academics_classes_permissions'>;
 
 /** Read Academics: Classes - Permissions */
 export async function read({ 
     id, 
     ...rest
-}: EndpointOptions<'read_academics_classes_permissions'>): Promise<ClassesPermission> {
+}: EndpointOptions<operations, 'read_academics_classes_permissions'>): Promise<ClassesPermission> {
     const {data,error} = await client().GET('/academics/permissions/{id}', {
         params: { path: { id,  }, ...rest }
     });

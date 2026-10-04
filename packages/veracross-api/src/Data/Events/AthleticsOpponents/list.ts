@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'events.athletics_opponents:list';
 
-export type AthleticsOpponentCollection = ResponseData<'list_events_athletics_opponents'>;
+export type AthleticsOpponentCollection = ResponseData<operations, 'list_events_athletics_opponents'>;
 
 /** List Events: Athletics Opponents */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_events_athletics_opponents'>): Promise<AthleticsOpponentCollection> {
+}: EndpointOptions<operations, 'list_events_athletics_opponents'>): Promise<AthleticsOpponentCollection> {
     const collection: AthleticsOpponentCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

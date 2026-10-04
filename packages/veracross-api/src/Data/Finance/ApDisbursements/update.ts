@@ -1,4 +1,5 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 
 export const UPDATE_SCOPE = 'finance.ap_disbursements:update';
@@ -8,7 +9,7 @@ export async function update({
     id, 
     data,
     ...rest
-}: EndpointOptions<'update_finance_ap_disbursements'>): Promise<void> {
+}: EndpointOptions<operations, 'update_finance_ap_disbursements'>): Promise<void> {
     const { error } = await client().PATCH('/finance/ap_disbursements/{id}', {
         params: { path: { id,  }, ...rest },
         body: { data }

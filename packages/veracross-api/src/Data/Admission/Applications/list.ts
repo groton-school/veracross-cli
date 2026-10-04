@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'admission.applications:list';
 
-export type ApplicationCollection = ResponseData<'list_admission_applications'>;
+export type ApplicationCollection = ResponseData<operations, 'list_admission_applications'>;
 
 /** List Admission: Applications */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_admission_applications'>): Promise<ApplicationCollection> {
+}: EndpointOptions<operations, 'list_admission_applications'>): Promise<ApplicationCollection> {
     const collection: ApplicationCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

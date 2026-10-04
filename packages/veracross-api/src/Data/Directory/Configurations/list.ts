@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'directory.configurations:list';
 
-export type ListDirectoryTypeConfigurationCollection = ResponseData<'list_directory_type_configurations'>;
+export type ListDirectoryTypeConfigurationCollection = ResponseData<operations, 'list_directory_type_configurations'>;
 
 /** List Directory Type Configurations */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_directory_type_configurations'>): Promise<ListDirectoryTypeConfigurationCollection> {
+}: EndpointOptions<operations, 'list_directory_type_configurations'>): Promise<ListDirectoryTypeConfigurationCollection> {
     const collection: ListDirectoryTypeConfigurationCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

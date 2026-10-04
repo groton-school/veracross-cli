@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'events.event_attendance:list';
 
-export type AttendanceCollection = ResponseData<'list_events_attendance'>;
+export type AttendanceCollection = ResponseData<operations, 'list_events_attendance'>;
 
 /** List Events: Attendance */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_events_attendance'>): Promise<AttendanceCollection> {
+}: EndpointOptions<operations, 'list_events_attendance'>): Promise<AttendanceCollection> {
     const collection: AttendanceCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

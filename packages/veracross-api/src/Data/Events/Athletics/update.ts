@@ -1,4 +1,5 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 
 export const UPDATE_SCOPE = 'events.athletics:update';
@@ -8,7 +9,7 @@ export async function update({
     event_id, 
     data,
     ...rest
-}: EndpointOptions<'update_events_athletics'>): Promise<void> {
+}: EndpointOptions<operations, 'update_events_athletics'>): Promise<void> {
     const { error } = await client().PATCH('/events/athletics/{event_id}', {
         params: { path: { event_id,  }, ...rest },
         body: { data }

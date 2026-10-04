@@ -1,17 +1,18 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'boarding.dorms.attendance:list';
 
-export type DormAttendanceCollection = ResponseData<'list_boarding_dorm_attendance'>;
+export type DormAttendanceCollection = ResponseData<operations, 'list_boarding_dorm_attendance'>;
 
 /** List Boarding: Dorm Attendance */
 export async function list({ 
     internal_dorm_id, 
     header,
     ...rest
-}: EndpointOptions<'list_boarding_dorm_attendance'>): Promise<DormAttendanceCollection> {
+}: EndpointOptions<operations, 'list_boarding_dorm_attendance'>): Promise<DormAttendanceCollection> {
     const collection: DormAttendanceCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

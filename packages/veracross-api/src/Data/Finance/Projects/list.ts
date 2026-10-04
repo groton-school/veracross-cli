@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'finance.projects:list';
 
-export type ProjectCollection = ResponseData<'list_finance_projects'>;
+export type ProjectCollection = ResponseData<operations, 'list_finance_projects'>;
 
 /** List Finance: Projects */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_finance_projects'>): Promise<ProjectCollection> {
+}: EndpointOptions<operations, 'list_finance_projects'>): Promise<ProjectCollection> {
     const collection: ProjectCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

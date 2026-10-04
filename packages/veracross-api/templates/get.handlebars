@@ -1,0 +1,22 @@
+import { operations } from '#spec/{{specFile}}';
+import { client } from '#{{apiName}}/client.js';
+import { EndpointOptions } from '#types/EndpointOptions.js';
+import { ResponseBody } from '#types/ResponseBody.js'
+
+export const READ_SCOPE = '{{scope}}';
+
+export type {{typeName}} = ResponseBody<operations, '{{operation.operationId}}'>;
+
+/** {{operation.summary}} */
+export async function get({ {{#if params.path.length}}{{#each params.path}}
+    {{this}}, {{/each}}{{/if}}
+    ...rest
+}: EndpointOptions<operations, '{{operation.operationId}}', 'GET'>): Promise<{{typeName}}|undefined> {
+    const {data,error} = await client().GET('{{endpoint}}', {
+        params: { {{#if params.path.length}}path: { {{#each params.path}}{{this}}, {{/each}} }, {{/if}}...rest }
+    });
+    if (error) {
+        throw new Error('Error retrieving {{typeName}}', { cause: error });
+    }
+    return data;
+}

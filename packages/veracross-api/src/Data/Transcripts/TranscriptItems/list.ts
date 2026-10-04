@@ -1,17 +1,18 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'transcripts.transcript_items:list';
 
-export type TranscriptItemCollection = ResponseData<'list_transcripts_transcript_items'>;
+export type TranscriptItemCollection = ResponseData<operations, 'list_transcripts_transcript_items'>;
 
 /** List Transcripts: Transcript Items */
 export async function list({ 
     person_id, 
     header,
     ...rest
-}: EndpointOptions<'list_transcripts_transcript_items'>): Promise<TranscriptItemCollection> {
+}: EndpointOptions<operations, 'list_transcripts_transcript_items'>): Promise<TranscriptItemCollection> {
     const collection: TranscriptItemCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

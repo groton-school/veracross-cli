@@ -1,17 +1,18 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'extended_care.classes.meeting_times:list';
 
-export type ClassMeetingTimeCollection = ResponseData<'list_extended_care_class_meeting_times'>;
+export type ClassMeetingTimeCollection = ResponseData<operations, 'list_extended_care_class_meeting_times'>;
 
 /** List Extended Care: Class Meeting Times */
 export async function list({ 
     internal_class_id, 
     header,
     ...rest
-}: EndpointOptions<'list_extended_care_class_meeting_times'>): Promise<ClassMeetingTimeCollection> {
+}: EndpointOptions<operations, 'list_extended_care_class_meeting_times'>): Promise<ClassMeetingTimeCollection> {
     const collection: ClassMeetingTimeCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

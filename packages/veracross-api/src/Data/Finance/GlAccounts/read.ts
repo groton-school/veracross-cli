@@ -1,16 +1,17 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js'
 
 export const READ_SCOPE = 'finance.gl_accounts:read';
 
-export type GlAccount = ResponseData<'read_finance_gl_accounts'>;
+export type GlAccount = ResponseData<operations, 'read_finance_gl_accounts'>;
 
 /** Read Finance: GL Accounts */
 export async function read({ 
     id, 
     ...rest
-}: EndpointOptions<'read_finance_gl_accounts'>): Promise<GlAccount> {
+}: EndpointOptions<operations, 'read_finance_gl_accounts'>): Promise<GlAccount> {
     const {data,error} = await client().GET('/finance/gl_accounts/{id}', {
         params: { path: { id,  }, ...rest }
     });

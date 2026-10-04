@@ -24,7 +24,7 @@
     "build": "run-s build:**",
     "build:scripts:clean": "del ./build",
     "build:scripts": "tsc -p ./tsconfig.scripts.json",
-    "build:data": "del ./src/Data",
+    "build:data": "del ./src/Authorization ./src/Data ./src/Files",
     "build:generate": "./scripts/generate",
     "build:compile": "tsc",
     "prepack": "run-s build",
@@ -34,17 +34,18 @@
     "spec:clean:files": "del ./spec",
     "spec:clean:types": "del ./src/spec",
     "spec:files": "run-p spec:files:**",
-    "#spec:files:auth": "download \"https://stoplight.io/api/v1/projects/veracross/docs/nodes/reference/Authorization-API.yaml\" -o ./spec/",
+    "spec:files:auth": "download \"https://stoplight.io/api/v1/projects/veracross/docs/nodes/reference/Authorization-API.yaml\" -o ./spec/",
     "spec:files:data": "download \"https://stoplight.io/api/v1/projects/veracross/docs/nodes/reference/Data-API.yaml\" -o ./spec/",
-    "#spec:files:files": "download \"https://stoplight.io/api/v1/projects/veracross/docs/nodes/reference/Files-API.yaml\" -o ./spec/",
+    "spec:files:files": "download \"https://stoplight.io/api/v1/projects/veracross/docs/nodes/reference/Files-API.yaml\" -o ./spec/",
     "spec:types": "run-p spec:types:**",
-    "#spec:types:auth": "openapi-typescript ./spec/Authorization-API.yaml -o ./src/spec/Data-API.ts",
+    "spec:types:auth": "openapi-typescript ./spec/Authorization-API.yaml -o ./src/spec/Authorization-API.ts",
     "spec:types:data": "openapi-typescript ./spec/Data-API.yaml -o ./src/spec/Data-API.ts",
-    "#spec:types:files": "openapi-typescript ./spec/Files-API.yaml -o ./src/spec/Files-API.ts"
+    "spec:types:files": "openapi-typescript ./spec/Files-API.yaml -o ./src/spec/Files-API.ts"
   },
   "dependencies": {
     "@battis/typescript-tricks": "catalog:",
-    "openapi-fetch": "^0.17.0"
+    "openapi-fetch": "^0.17.0",
+    "openapi-typescript": "^7.13.0"
   },
   "devDependencies": {
     "@battis/workspace": "^0.0.12",
@@ -58,7 +59,6 @@
     "download-cli": "^1.1.1",
     "handlebars": "^4.7.9",
     "npm-run-all": "catalog:",
-    "openapi-typescript": "^7.13.0",
     "ora": "^9.4.1",
     "typescript": "catalog:",
     "yaml": "^2.9.1"

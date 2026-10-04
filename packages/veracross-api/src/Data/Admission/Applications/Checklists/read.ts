@@ -1,17 +1,18 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js'
 
 export const READ_SCOPE = 'admission.applications.checklists:read';
 
-export type ApplicationChecklist = ResponseData<'read_admission_application_checklists'>;
+export type ApplicationChecklist = ResponseData<operations, 'read_admission_application_checklists'>;
 
 /** Read Admission: Application Checklists */
 export async function read({ 
     application_id, 
     id, 
     ...rest
-}: EndpointOptions<'read_admission_application_checklists'>): Promise<ApplicationChecklist> {
+}: EndpointOptions<operations, 'read_admission_application_checklists'>): Promise<ApplicationChecklist> {
     const {data,error} = await client().GET('/admission/applications/{application_id}/checklists/{id}', {
         params: { path: { application_id, id,  }, ...rest }
     });

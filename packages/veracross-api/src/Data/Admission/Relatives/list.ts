@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'admission.relatives:list';
 
-export type RelativeCollection = ResponseData<'list_admission_relatives'>;
+export type RelativeCollection = ResponseData<operations, 'list_admission_relatives'>;
 
 /** List Admission: Relatives */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_admission_relatives'>): Promise<RelativeCollection> {
+}: EndpointOptions<operations, 'list_admission_relatives'>): Promise<RelativeCollection> {
     const collection: RelativeCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

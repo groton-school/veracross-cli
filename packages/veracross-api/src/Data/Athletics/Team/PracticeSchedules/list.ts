@@ -1,17 +1,18 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'athletics.team.practice_schedules:list';
 
-export type TeamPracticeScheduleCollection = ResponseData<'list_athletics_team_practice_schedules'>;
+export type TeamPracticeScheduleCollection = ResponseData<operations, 'list_athletics_team_practice_schedules'>;
 
 /** List Athletics: Team Practice Schedules */
 export async function list({ 
     id, 
     header,
     ...rest
-}: EndpointOptions<'list_athletics_team_practice_schedules'>): Promise<TeamPracticeScheduleCollection> {
+}: EndpointOptions<operations, 'list_athletics_team_practice_schedules'>): Promise<TeamPracticeScheduleCollection> {
     const collection: TeamPracticeScheduleCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

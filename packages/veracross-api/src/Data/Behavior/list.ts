@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'behavior:list';
 
-export type ListBehaviorCollection = ResponseData<'list_behavior'>;
+export type ListBehaviorCollection = ResponseData<operations, 'list_behavior'>;
 
 /** List Behavior */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_behavior'>): Promise<ListBehaviorCollection> {
+}: EndpointOptions<operations, 'list_behavior'>): Promise<ListBehaviorCollection> {
     const collection: ListBehaviorCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

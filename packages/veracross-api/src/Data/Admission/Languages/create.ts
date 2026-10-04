@@ -1,4 +1,5 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 
 export const CREATE_SCOPE = 'admission.languages:create';
@@ -7,7 +8,7 @@ export const CREATE_SCOPE = 'admission.languages:create';
 export async function create({ 
     data,
     ...rest
-}: EndpointOptions<'create_admission_languages'>): Promise<number|undefined> {
+}: EndpointOptions<operations, 'create_admission_languages'>): Promise<number|undefined> {
     const { data: {data: { id } = {}} = {},  error } = await client().POST('/admission/languages', {
         params: { ...rest },
         body: { data }

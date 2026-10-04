@@ -1,4 +1,5 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 
 export const UPDATE_SCOPE = 'master_attendance:update';
@@ -8,7 +9,7 @@ export async function update({
     id, 
     data,
     ...rest
-}: EndpointOptions<'update_master_attendance'>): Promise<void> {
+}: EndpointOptions<operations, 'update_master_attendance'>): Promise<void> {
     const { error } = await client().PATCH('/master_attendance/{id}', {
         params: { path: { id,  }, ...rest },
         body: { data }

@@ -3,10 +3,71 @@ import path from 'node:path';
 import { Colors } from '@qui-cli/colors';
 import { Core } from '@qui-cli/core';
 import { register } from '@qui-cli/plugin';
-import { constantCase, pascalCase } from 'change-case';
+import { constantCase, pascalCase, snakeCase } from 'change-case';
 import Handlebars from 'handlebars';
 import ora from 'ora';
 import { parse } from 'yaml';
+
+const templates: Record<string, HandlebarsTemplateDelegate> = {};
+const spinner = ora('Generating API').start();
+
+function writeFile(
+  template: string,
+  filePath: string,
+  args: Record<string, unknown>
+) {
+  if (!(template in templates)) {
+    templates[template] = Handlebars.compile(
+      fs.readFileSync(
+        path.join(
+          import.meta.dirname,
+          '../templates',
+          `${template}.handlebars`
+        ),
+        'utf-8'
+      )
+    );
+  }
+  if (!(template in templates)) {
+    throw new Error(`Missing template ${Colors.value(template)}`);
+  }
+  fs.writeFileSync(filePath, templates[template](args));
+}
+
+function index(apiPath: string) {
+  const queue: string[] = [];
+
+  function traverse(dirPath: string) {
+    spinner.start(`${Colors.path(dirPath.replace(apiPath, ''), Colors.value)}`);
+    const exports = fs
+      .readdirSync(dirPath)
+      .filter((fileName) => fileName.startsWith('.') === false)
+      .map((fileName) => {
+        const filePath = path.join(dirPath, fileName);
+        if (fs.statSync(filePath).isDirectory()) {
+          queue.push(filePath);
+          return {
+            path: [path.join(fileName, 'index.js')],
+            module: pascalCase(fileName)
+          };
+        }
+        return { path: [`${path.basename(fileName, '.ts')}.js`] };
+      });
+    const indexPath = path.join(dirPath, 'index.ts');
+    writeFile('index', indexPath, { exports });
+    spinner.succeed(
+      `${Colors.path(dirPath.replace(apiPath, path.basename(apiPath)), Colors.value)}${Colors.path('/index.ts')}`
+    );
+  }
+
+  queue.push(apiPath);
+  do {
+    const next = queue.shift();
+    if (next) {
+      traverse(next);
+    }
+  } while (queue.length);
+}
 
 await register({
   name: 'generate',
@@ -14,90 +75,47 @@ await register({
     man: [{ text: 'Generates API structure from YAML files' }]
   }),
   run: async () => {
-    const templates: Record<string, HandlebarsTemplateDelegate> = {};
-    const spinner = ora('Generating API').start();
+    for (const api of fs.readdirSync(path.join(process.cwd(), 'spec'))) {
+      const spec = parse(
+        fs.readFileSync(
+          path.join(import.meta.dirname, `../spec/${api}`),
+          'utf-8'
+        )
+      );
+      const apiName = path.basename(api, '-API.yaml');
+      const apiPath = path.join(import.meta.dirname, '../src', apiName);
+      const specFile = `${path.basename(api, '.yaml')}.js`;
 
-    // TODO iterate across all downloaded specs
-    const api = 'Data';
+      fs.mkdirSync(apiPath, { recursive: true });
 
-    const spec = parse(
-      fs.readFileSync(
-        path.join(import.meta.dirname, `../spec/${api}-API.yaml`),
-        'utf-8'
-      )
-    );
-    const apiPath = path.join(import.meta.dirname, '../src', api);
-
-    function index(dirPath: string) {
-      const indexQueue: string[] = [];
-      function _index(dirPath: string) {
-        spinner.start(
-          `${Colors.path(dirPath.replace(apiPath, ''), Colors.value)}`
-        );
-        const exports = fs
-          .readdirSync(dirPath)
-          .filter((fileName) => fileName.startsWith('.') === false)
-          .map((fileName) => {
-            const filePath = path.join(dirPath, fileName);
-            if (fs.statSync(filePath).isDirectory()) {
-              indexQueue.push(filePath);
-              return {
-                path: [path.join(fileName, 'index.js')],
-                module: pascalCase(fileName)
-              };
+      for (const endpoint in spec.paths) {
+        spinner.start(`${Colors.url(endpoint)}`);
+        const operations = spec.paths[endpoint];
+        for (const method in operations) {
+          if (method === 'parameters') continue;
+          spinner.text = `${Colors.command(constantCase(method))} ${Colors.url(endpoint)}`;
+          const operation = operations[method];
+          let operationType = method;
+          if (apiName === 'Data' || apiName === 'Files') {
+            operationType = snakeCase(operation.operationId).replace(
+              /^([^_]+)[_].*/,
+              '$1'
+            );
+          }
+          const {
+            responses: {
+              [200]: {
+                content: {
+                  ['application/json']: {
+                    schema: { type: schemaType } = {}
+                  } = {}
+                } = {}
+              } = {}
             }
-            return { path: [`${path.basename(fileName, '.ts')}.js`] };
-          });
-        if (!('index' in templates)) {
-          templates['index'] = Handlebars.compile(
-            fs.readFileSync(
-              path.join(
-                import.meta.dirname,
-                '../templates',
-                `index.handlebars`
-              ),
-              'utf-8'
-            )
-          );
-        }
-        const indexPath = path.join(dirPath, 'index.ts');
-        fs.writeFileSync(indexPath, templates['index']({ exports }));
-        spinner.succeed(
-          `${Colors.path(dirPath.replace(apiPath, path.basename(apiPath)), Colors.value)}${Colors.path('/index.ts')}`
-        );
-      }
-
-      indexQueue.push(dirPath);
-      do {
-        const next = indexQueue.shift();
-        if (next) {
-          _index(next);
-        }
-      } while (indexQueue.length);
-    }
-
-    for (const endpoint in spec.paths) {
-      spinner.start(`${Colors.url(endpoint)}`);
-      const operations = spec.paths[endpoint];
-      for (const method in operations) {
-        if (method === 'parameters') continue;
-        spinner.text = `${Colors.command(constantCase(method))} ${Colors.url(endpoint)}`;
-        const operation = operations[method];
-        if (!(method in templates)) {
-          const operationType = operation.operationId.replace(
-            /^([^_]+)_.*/,
-            '$1'
-          );
-          templates[operationType] = Handlebars.compile(
-            fs.readFileSync(
-              path.join(
-                import.meta.dirname,
-                '../templates',
-                `${operationType}.handlebars`
-              ),
-              'utf-8'
-            )
-          );
+          } = operation;
+          if (operationType === 'get' && schemaType === 'array') {
+            operationType = 'list';
+          }
 
           const filePath = path.join(
             apiPath,
@@ -109,36 +127,36 @@ await register({
             `${operationType}.ts`
           );
           fs.mkdirSync(path.dirname(filePath), { recursive: true });
-          const [
-            {
-              access_token: [scope]
-            }
-          ] = operation.security;
+
+          const [{ access_token: [scope] = [] } = {}] =
+            operation.security || [];
           if (fs.existsSync(filePath)) {
             throw new Error(`Cannot generate ${operation.operationId}`, {
               cause: `${filePath} already exists`
             });
           }
+
           const params = {
             path: (endpoint.match(/\{[^}]+\}/g) || []).map((p: string) =>
               p.replace(/\{|\}/g, '')
             )
           };
+
           const typeName = pascalCase(
             operation.summary.replace(/^.*: (.+)$/, '$1')
           ).replace(/s$/, '');
-          fs.writeFileSync(
-            filePath,
-            templates[operationType]({
-              scope,
-              typeName,
-              endpoint,
-              params,
-              operation
-            })
-          );
+
+          writeFile(operationType, filePath, {
+            specFile,
+            apiName,
+            scope,
+            typeName,
+            endpoint,
+            params,
+            operation
+          });
           spinner.succeed(
-            `${Colors.command(constantCase(method))} ${Colors.url(endpoint)}\n  ${Colors.varName('Data')}${path
+            `${Colors.command(constantCase(method))} ${Colors.url(endpoint)}\n  ${Colors.varName(apiName)}${path
               .dirname(filePath)
               .replace(apiPath, '')
               .split('/')
@@ -149,9 +167,15 @@ await register({
           );
         }
       }
-    }
 
-    index(apiPath);
+      index(apiPath);
+      const clientPath = path.join(apiPath, 'client.ts');
+      spinner.start(
+        Colors.path(clientPath.replace(apiPath, apiName), Colors.value)
+      );
+      writeFile('client', clientPath, { specFile });
+      spinner.succeed();
+    }
   }
 });
 await Core.run();

@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'person_roles:list';
 
-export type ListPersonRoleCollection = ResponseData<'list_person_roles'>;
+export type ListPersonRoleCollection = ResponseData<operations, 'list_person_roles'>;
 
 /** List Person Roles */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_person_roles'>): Promise<ListPersonRoleCollection> {
+}: EndpointOptions<operations, 'list_person_roles'>): Promise<ListPersonRoleCollection> {
     const collection: ListPersonRoleCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

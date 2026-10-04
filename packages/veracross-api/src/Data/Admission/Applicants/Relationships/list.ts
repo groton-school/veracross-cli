@@ -1,17 +1,18 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'admission.applicants.relationships:list';
 
-export type ApplicantRelationshipCollection = ResponseData<'list_admission_applicant_relationships'>;
+export type ApplicantRelationshipCollection = ResponseData<operations, 'list_admission_applicant_relationships'>;
 
 /** List Admission: Applicant Relationships */
 export async function list({ 
     applicant_id, 
     header,
     ...rest
-}: EndpointOptions<'list_admission_applicant_relationships'>): Promise<ApplicantRelationshipCollection> {
+}: EndpointOptions<operations, 'list_admission_applicant_relationships'>): Promise<ApplicantRelationshipCollection> {
     const collection: ApplicantRelationshipCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

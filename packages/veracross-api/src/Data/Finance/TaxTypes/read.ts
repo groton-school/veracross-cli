@@ -1,16 +1,17 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js'
 
 export const READ_SCOPE = 'finance.tax_types:read';
 
-export type TaxType = ResponseData<'read_finance_tax_types'>;
+export type TaxType = ResponseData<operations, 'read_finance_tax_types'>;
 
 /** Read Finance: Tax Types */
 export async function read({ 
     id, 
     ...rest
-}: EndpointOptions<'read_finance_tax_types'>): Promise<TaxType> {
+}: EndpointOptions<operations, 'read_finance_tax_types'>): Promise<TaxType> {
     const {data,error} = await client().GET('/finance/tax_types/{id}', {
         params: { path: { id,  }, ...rest }
     });

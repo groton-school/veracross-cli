@@ -1,16 +1,17 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js'
 
 export const READ_SCOPE = 'summer.enrollments:read';
 
-export type Enrollment = ResponseData<'read_summer_enrollments'>;
+export type Enrollment = ResponseData<operations, 'read_summer_enrollments'>;
 
 /** Read Summer: Enrollments */
 export async function read({ 
     id, 
     ...rest
-}: EndpointOptions<'read_summer_enrollments'>): Promise<Enrollment> {
+}: EndpointOptions<operations, 'read_summer_enrollments'>): Promise<Enrollment> {
     const {data,error} = await client().GET('/summer/enrollments/{id}', {
         params: { path: { id,  }, ...rest }
     });

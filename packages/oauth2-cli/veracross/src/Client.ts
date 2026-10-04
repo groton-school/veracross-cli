@@ -9,14 +9,12 @@ export type Credentials = OAuth2.Credentials & {
 export class Client<C extends Credentials> extends OAuth2.Client<C> {
   public constructor(options: OAuth2.Options<C>) {
     super(options);
-    Veracross.Client.register(
-      new Veracross.Client.Client({
-        config: options.credentials,
-        tokenStore: {
-          getAccessToken: async () => (await this.getToken()).access_token
-        }
-      })
-    );
-    Veracross.Client.client().use(new Middleware.RetryWithScope(this));
+    Veracross.Client.register({
+      config: options.credentials,
+      tokenStore: {
+        getAccessToken: async () => (await this.getToken()).access_token
+      }
+    });
+    Veracross.Client.use(new Middleware.RetryWithScope(this));
   }
 }

@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'directory.preferences.people:list';
 
-export type PersonCollection = ResponseData<'list_directory_preferences_person'>;
+export type PersonCollection = ResponseData<operations, 'list_directory_preferences_person'>;
 
 /** List Directory Preferences: Person */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_directory_preferences_person'>): Promise<PersonCollection> {
+}: EndpointOptions<operations, 'list_directory_preferences_person'>): Promise<PersonCollection> {
     const collection: PersonCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

@@ -1,4 +1,5 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 
 export const UPDATE_SCOPE = 'boarding.dorms.students:update';
@@ -9,7 +10,7 @@ export async function update({
     id, 
     data,
     ...rest
-}: EndpointOptions<'update_boarding_dorm_students'>): Promise<void> {
+}: EndpointOptions<operations, 'update_boarding_dorm_students'>): Promise<void> {
     const { error } = await client().PATCH('/boarding/dorms/{internal_dorm_id}/students/{id}', {
         params: { path: { internal_dorm_id, id,  }, ...rest },
         body: { data }

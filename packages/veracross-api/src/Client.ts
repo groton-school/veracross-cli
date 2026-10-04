@@ -1,4 +1,3 @@
-import { paths } from '#spec/Data-API.js';
 import * as OpenAPI from 'openapi-fetch';
 
 export interface Defaults {
@@ -20,18 +19,18 @@ export interface TokenStore {
   getAccessToken(): Promise<string>;
 }
 
-type Options = {
+export interface ClientConfiguration {
   config: SchoolConfiguration;
   tokenStore: TokenStore;
   defaults?: Defaults;
-};
+}
 
-export class Client<P extends paths = paths> {
+export class Client<P extends object> {
   private _client: OpenAPI.Client<P>;
   private _defaults: Defaults = { DEFAULT_PAGE_SIZE: 100 };
 
-  public constructor({ config, tokenStore, defaults }: Options) {
-    this._client = OpenAPI.default<paths>({
+  public constructor({ config, tokenStore, defaults }: ClientConfiguration) {
+    this._client = OpenAPI.default<P>({
       baseUrl: `https://api.veracross.com/${config.school_route}/v3`
     });
     this._client.use({
@@ -52,24 +51,4 @@ export class Client<P extends paths = paths> {
   public defaults(): Defaults {
     return this._defaults;
   }
-}
-
-let _client: Client | undefined = undefined;
-
-export function register(client: Client) {
-  _client = client;
-}
-
-export function client() {
-  if (!_client) {
-    throw new Error('Client not initialied');
-  }
-  return _client.client();
-}
-
-export function defaults() {
-  if (!_client) {
-    throw new Error('Client not initialized');
-  }
-  return _client.defaults();
 }

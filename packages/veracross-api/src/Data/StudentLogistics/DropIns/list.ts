@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'student_logistics.drop_ins:list';
 
-export type DropInCollection = ResponseData<'list_student_logistics_requests_drop_ins'>;
+export type DropInCollection = ResponseData<operations, 'list_student_logistics_requests_drop_ins'>;
 
 /** List Student Logistics Requests: Drop-Ins */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_student_logistics_requests_drop_ins'>): Promise<DropInCollection> {
+}: EndpointOptions<operations, 'list_student_logistics_requests_drop_ins'>): Promise<DropInCollection> {
     const collection: DropInCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'finance.ap_invoices:list';
 
-export type ApInvoiceCollection = ResponseData<'list_finance_ap_invoices'>;
+export type ApInvoiceCollection = ResponseData<operations, 'list_finance_ap_invoices'>;
 
 /** List Finance: AP Invoices */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_finance_ap_invoices'>): Promise<ApInvoiceCollection> {
+}: EndpointOptions<operations, 'list_finance_ap_invoices'>): Promise<ApInvoiceCollection> {
     const collection: ApInvoiceCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

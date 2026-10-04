@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'admission.config.years:list';
 
-export type ConfigurationYearCollection = ResponseData<'list_admission_configuration_years'>;
+export type ConfigurationYearCollection = ResponseData<operations, 'list_admission_configuration_years'>;
 
 /** List Admission: Configuration - Years */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_admission_configuration_years'>): Promise<ConfigurationYearCollection> {
+}: EndpointOptions<operations, 'list_admission_configuration_years'>): Promise<ConfigurationYearCollection> {
     const collection: ConfigurationYearCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

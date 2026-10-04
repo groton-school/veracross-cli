@@ -1,4 +1,5 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 
 export const CREATE_SCOPE = 'convert_parent_to_staff:create';
@@ -7,7 +8,7 @@ export const CREATE_SCOPE = 'convert_parent_to_staff:create';
 export async function create({ 
     data,
     ...rest
-}: EndpointOptions<'create_convert_parent_account_to_staff_account'>): Promise<number|undefined> {
+}: EndpointOptions<operations, 'create_convert_parent_account_to_staff_account'>): Promise<number|undefined> {
     const { data: {data: { id } = {}} = {},  error } = await client().POST('/convert_parent_to_staff', {
         params: { ...rest },
         body: { data }

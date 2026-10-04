@@ -1,4 +1,5 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 
 export const CREATE_SCOPE = 'finance.ap_disbursements.ap_disbursement_items:create';
@@ -8,7 +9,7 @@ export async function create({
     disbursement_id,
     data,
     ...rest
-}: EndpointOptions<'create_finance_ap_disbursement_items'>): Promise<number|undefined> {
+}: EndpointOptions<operations, 'create_finance_ap_disbursement_items'>): Promise<number|undefined> {
     const { data: {data: { id } = {}} = {},  error } = await client().POST('/finance/ap_disbursements/{disbursement_id}/ap_disbursement_items', {
         params: { path: { disbursement_id,  }, ...rest },
         body: { data }

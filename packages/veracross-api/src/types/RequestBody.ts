@@ -1,29 +1,27 @@
 import { WritableKeys } from '@battis/typescript-tricks';
-import { operations } from '#spec/Data-API.js';
 
-export type RequestBody<O extends keyof operations> =
-  'requestBody' extends keyof operations[O]
-    ? 'content' extends keyof NonNullable<operations[O]['requestBody']>
-      ? 'application/json' extends keyof NonNullable<
-          operations[O]['requestBody']
-        >['content']
-        ? NonNullable<
-            operations[O]['requestBody']
-          >['content']['application/json']
-        : never
+export type RequestBody<M, O extends keyof M> = 'requestBody' extends keyof M[O]
+  ? 'content' extends keyof NonNullable<M[O]['requestBody']>
+    ? 'application/json' extends keyof NonNullable<
+        M[O]['requestBody']
+      >['content']
+      ? NonNullable<M[O]['requestBody']>['content']['application/json']
       : never
-    : never;
+    : never
+  : never;
 
-type WritableRequestData<O extends keyof operations> = Pick<
-  RequestBody<O>['data'],
-  WritableKeys<RequestBody<O>['data']>
->;
+type WritableRequestData<
+  M,
+  O extends keyof M
+> = 'data' extends keyof RequestBody<M, O>
+  ? Pick<RequestBody<M, O>['data'], WritableKeys<RequestBody<M, O>['data']>>
+  : never;
 
-export type RequestData<O extends keyof operations> =
-  RequestBody<O> extends never
+export type RequestData<M, O extends keyof M> =
+  RequestBody<M, O> extends never
     ? never
-    : 'data' extends keyof RequestBody<O>
+    : 'data' extends keyof RequestBody<M, O>
       ? {
-          [K in keyof WritableRequestData<O>]: WritableRequestData<O>[K];
+          [K in keyof WritableRequestData<M, O>]: WritableRequestData<M, O>[K];
         }
       : never;

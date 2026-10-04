@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'development.constituents:list';
 
-export type ConstituentCollection = ResponseData<'list_development_constituents'>;
+export type ConstituentCollection = ResponseData<operations, 'list_development_constituents'>;
 
 /** List Development: Constituents */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_development_constituents'>): Promise<ConstituentCollection> {
+}: EndpointOptions<operations, 'list_development_constituents'>): Promise<ConstituentCollection> {
     const collection: ConstituentCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

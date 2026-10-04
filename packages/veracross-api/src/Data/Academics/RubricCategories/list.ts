@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'academics.rubric_categories:list';
 
-export type RubricCategorieCollection = ResponseData<'list_academics_rubric_categories'>;
+export type RubricCategorieCollection = ResponseData<operations, 'list_academics_rubric_categories'>;
 
 /** List Academics: Rubric Categories */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_academics_rubric_categories'>): Promise<RubricCategorieCollection> {
+}: EndpointOptions<operations, 'list_academics_rubric_categories'>): Promise<RubricCategorieCollection> {
     const collection: RubricCategorieCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

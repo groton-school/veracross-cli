@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'student_logistics.reasons:list';
 
-export type ReasonCollection = ResponseData<'list_student_logistics_requests_reasons'>;
+export type ReasonCollection = ResponseData<operations, 'list_student_logistics_requests_reasons'>;
 
 /** List Student Logistics Requests: Reasons */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_student_logistics_requests_reasons'>): Promise<ReasonCollection> {
+}: EndpointOptions<operations, 'list_student_logistics_requests_reasons'>): Promise<ReasonCollection> {
     const collection: ReasonCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

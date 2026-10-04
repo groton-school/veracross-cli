@@ -1,16 +1,17 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js'
 
 export const READ_SCOPE = 'household_vehicles:read';
 
-export type ReadHouseholdVehicle = ResponseData<'read_household_vehicles'>;
+export type ReadHouseholdVehicle = ResponseData<operations, 'read_household_vehicles'>;
 
 /** Read Household Vehicles */
 export async function read({ 
     id, 
     ...rest
-}: EndpointOptions<'read_household_vehicles'>): Promise<ReadHouseholdVehicle> {
+}: EndpointOptions<operations, 'read_household_vehicles'>): Promise<ReadHouseholdVehicle> {
     const {data,error} = await client().GET('/household_vehicles/{id}', {
         params: { path: { id,  }, ...rest }
     });

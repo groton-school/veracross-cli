@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'finance.gl_accounts:list';
 
-export type GlAccountCollection = ResponseData<'list_finance_gl_accounts'>;
+export type GlAccountCollection = ResponseData<operations, 'list_finance_gl_accounts'>;
 
 /** List Finance: GL Accounts */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_finance_gl_accounts'>): Promise<GlAccountCollection> {
+}: EndpointOptions<operations, 'list_finance_gl_accounts'>): Promise<GlAccountCollection> {
     const collection: GlAccountCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

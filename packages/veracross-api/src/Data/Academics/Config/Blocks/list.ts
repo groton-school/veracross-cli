@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'academics.config.blocks:list';
 
-export type ConfigurationBlocksPeriodCollection = ResponseData<'list_academics_configuration_blocks_periods'>;
+export type ConfigurationBlocksPeriodCollection = ResponseData<operations, 'list_academics_configuration_blocks_periods'>;
 
 /** List Academics: Configuration - Blocks/Periods */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_academics_configuration_blocks_periods'>): Promise<ConfigurationBlocksPeriodCollection> {
+}: EndpointOptions<operations, 'list_academics_configuration_blocks_periods'>): Promise<ConfigurationBlocksPeriodCollection> {
     const collection: ConfigurationBlocksPeriodCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

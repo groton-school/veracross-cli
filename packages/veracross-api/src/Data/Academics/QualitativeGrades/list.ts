@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'academics.qualitative_grades:list';
 
-export type QualitativeGradeCollection = ResponseData<'list_academics_qualitative_grades'>;
+export type QualitativeGradeCollection = ResponseData<operations, 'list_academics_qualitative_grades'>;
 
 /** List Academics: Qualitative Grades */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_academics_qualitative_grades'>): Promise<QualitativeGradeCollection> {
+}: EndpointOptions<operations, 'list_academics_qualitative_grades'>): Promise<QualitativeGradeCollection> {
     const collection: QualitativeGradeCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

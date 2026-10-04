@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'academics.config.block_times:list';
 
-export type ConfigurationBlockMeetingTimeCollection = ResponseData<'list_academics_configuration_block_meeting_times'>;
+export type ConfigurationBlockMeetingTimeCollection = ResponseData<operations, 'list_academics_configuration_block_meeting_times'>;
 
 /** List Academics: Configuration - Block Meeting Times */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_academics_configuration_block_meeting_times'>): Promise<ConfigurationBlockMeetingTimeCollection> {
+}: EndpointOptions<operations, 'list_academics_configuration_block_meeting_times'>): Promise<ConfigurationBlockMeetingTimeCollection> {
     const collection: ConfigurationBlockMeetingTimeCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

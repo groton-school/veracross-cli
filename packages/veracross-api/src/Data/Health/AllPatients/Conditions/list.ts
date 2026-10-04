@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'health.all_patients.conditions:list';
 
-export type AllPatientsConditionCollection = ResponseData<'list_health_all_patients_conditions'>;
+export type AllPatientsConditionCollection = ResponseData<operations, 'list_health_all_patients_conditions'>;
 
 /** List Health: All Patients Conditions */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_health_all_patients_conditions'>): Promise<AllPatientsConditionCollection> {
+}: EndpointOptions<operations, 'list_health_all_patients_conditions'>): Promise<AllPatientsConditionCollection> {
     const collection: AllPatientsConditionCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

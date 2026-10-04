@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'health.patients:list';
 
-export type PatientCollection = ResponseData<'list_health_patients'>;
+export type PatientCollection = ResponseData<operations, 'list_health_patients'>;
 
 /** List Health: Patients */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_health_patients'>): Promise<PatientCollection> {
+}: EndpointOptions<operations, 'list_health_patients'>): Promise<PatientCollection> {
     const collection: PatientCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

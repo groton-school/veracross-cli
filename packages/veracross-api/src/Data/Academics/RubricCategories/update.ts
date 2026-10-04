@@ -1,4 +1,5 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 
 export const UPDATE_SCOPE = 'academics.rubric_categories:update';
@@ -8,7 +9,7 @@ export async function update({
     id, 
     data,
     ...rest
-}: EndpointOptions<'update_academics_rubric_categories'>): Promise<void> {
+}: EndpointOptions<operations, 'update_academics_rubric_categories'>): Promise<void> {
     const { error } = await client().PATCH('/academics/rubric_categories/{id}', {
         params: { path: { id,  }, ...rest },
         body: { data }

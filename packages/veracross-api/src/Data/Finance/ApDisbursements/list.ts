@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'finance.ap_disbursements:list';
 
-export type ApDisbursementCollection = ResponseData<'list_finance_ap_disbursements'>;
+export type ApDisbursementCollection = ResponseData<operations, 'list_finance_ap_disbursements'>;
 
 /** List Finance: AP Disbursements */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_finance_ap_disbursements'>): Promise<ApDisbursementCollection> {
+}: EndpointOptions<operations, 'list_finance_ap_disbursements'>): Promise<ApDisbursementCollection> {
     const collection: ApDisbursementCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

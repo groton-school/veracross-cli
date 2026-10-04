@@ -1,16 +1,17 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js'
 
 export const READ_SCOPE = 'development.gifts:read';
 
-export type Gift = ResponseData<'read_development_gifts'>;
+export type Gift = ResponseData<operations, 'read_development_gifts'>;
 
 /** Read Development: Gifts */
 export async function read({ 
     id, 
     ...rest
-}: EndpointOptions<'read_development_gifts'>): Promise<Gift> {
+}: EndpointOptions<operations, 'read_development_gifts'>): Promise<Gift> {
     const {data,error} = await client().GET('/development/gifts/{id}', {
         params: { path: { id,  }, ...rest }
     });

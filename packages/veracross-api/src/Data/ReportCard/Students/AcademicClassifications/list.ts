@@ -1,17 +1,18 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'report_card.students.academic_classifications:list';
 
-export type AcademicClassificationCollection = ResponseData<'list_report_cards_academic_classifications'>;
+export type AcademicClassificationCollection = ResponseData<operations, 'list_report_cards_academic_classifications'>;
 
 /** List Report Cards: Academic Classifications */
 export async function list({ 
     person_id, 
     header,
     ...rest
-}: EndpointOptions<'list_report_cards_academic_classifications'>): Promise<AcademicClassificationCollection> {
+}: EndpointOptions<operations, 'list_report_cards_academic_classifications'>): Promise<AcademicClassificationCollection> {
     const collection: AcademicClassificationCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

@@ -1,16 +1,17 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/{{specFile}}';
+import { client } from '#{{apiName}}/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js'
 
 export const READ_SCOPE = '{{scope}}';
 
-export type {{typeName}} = ResponseData<'{{operation.operationId}}'>;
+export type {{typeName}} = ResponseData<operations, '{{operation.operationId}}'>;
 
 /** {{operation.summary}} */
 export async function read({ {{#if params.path.length}}{{#each params.path}}
     {{this}}, {{/each}}{{/if}}
     ...rest
-}: EndpointOptions<'{{operation.operationId}}'>): Promise<{{typeName}}> {
+}: EndpointOptions<operations, '{{operation.operationId}}'>): Promise<{{typeName}}> {
     const {data,error} = await client().GET('{{endpoint}}', {
         params: { {{#if params.path.length}}path: { {{#each params.path}}{{this}}, {{/each}} }, {{/if}}...rest }
     });

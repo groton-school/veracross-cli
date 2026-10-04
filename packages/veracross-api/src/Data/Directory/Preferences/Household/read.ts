@@ -1,16 +1,17 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js'
 
 export const READ_SCOPE = 'directory.preferences.household:read';
 
-export type Household = ResponseData<'read_directory_preferences_household'>;
+export type Household = ResponseData<operations, 'read_directory_preferences_household'>;
 
 /** Read Directory Preferences: Household */
 export async function read({ 
     id, 
     ...rest
-}: EndpointOptions<'read_directory_preferences_household'>): Promise<Household> {
+}: EndpointOptions<operations, 'read_directory_preferences_household'>): Promise<Household> {
     const {data,error} = await client().GET('/directory/preferences/household/{id}', {
         params: { path: { id,  }, ...rest }
     });

@@ -1,4 +1,5 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 
 export const CREATE_SCOPE = 'security_roles:create';
@@ -7,7 +8,7 @@ export const CREATE_SCOPE = 'security_roles:create';
 export async function create({ 
     data,
     ...rest
-}: EndpointOptions<'create_security_roles'>): Promise<number|undefined> {
+}: EndpointOptions<operations, 'create_security_roles'>): Promise<number|undefined> {
     const { data: {data: { id } = {}} = {},  error } = await client().POST('/security_roles', {
         params: { ...rest },
         body: { data }

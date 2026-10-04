@@ -1,16 +1,17 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js'
 
 export const READ_SCOPE = 'academics.rubrics:read';
 
-export type Rubric = ResponseData<'read_academics_rubrics'>;
+export type Rubric = ResponseData<operations, 'read_academics_rubrics'>;
 
 /** Read Academics: Rubrics */
 export async function read({ 
     id, 
     ...rest
-}: EndpointOptions<'read_academics_rubrics'>): Promise<Rubric> {
+}: EndpointOptions<operations, 'read_academics_rubrics'>): Promise<Rubric> {
     const {data,error} = await client().GET('/academics/rubrics/{id}', {
         params: { path: { id,  }, ...rest }
     });

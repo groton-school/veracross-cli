@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'event_groups:list';
 
-export type ListEventGroupCollection = ResponseData<'list_event_groups'>;
+export type ListEventGroupCollection = ResponseData<operations, 'list_event_groups'>;
 
 /** List Event Groups */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_event_groups'>): Promise<ListEventGroupCollection> {
+}: EndpointOptions<operations, 'list_event_groups'>): Promise<ListEventGroupCollection> {
     const collection: ListEventGroupCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

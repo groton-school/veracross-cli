@@ -1,17 +1,18 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'academics.assignments.grades:list';
 
-export type AssignmentGradeCollection = ResponseData<'list_academics_assignment_grades'>;
+export type AssignmentGradeCollection = ResponseData<operations, 'list_academics_assignment_grades'>;
 
 /** List Academics: Assignment Grades */
 export async function list({ 
     assignment_id, 
     header,
     ...rest
-}: EndpointOptions<'list_academics_assignment_grades'>): Promise<AssignmentGradeCollection> {
+}: EndpointOptions<operations, 'list_academics_assignment_grades'>): Promise<AssignmentGradeCollection> {
     const collection: AssignmentGradeCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

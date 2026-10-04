@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'security_roles:list';
 
-export type ListSecurityRoleCollection = ResponseData<'list_security_roles'>;
+export type ListSecurityRoleCollection = ResponseData<operations, 'list_security_roles'>;
 
 /** List Security Roles */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_security_roles'>): Promise<ListSecurityRoleCollection> {
+}: EndpointOptions<operations, 'list_security_roles'>): Promise<ListSecurityRoleCollection> {
     const collection: ListSecurityRoleCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

@@ -1,16 +1,17 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js'
 
 export const READ_SCOPE = 'alumni.demographics:read';
 
-export type Demographic = ResponseData<'read_alumni_demographics'>;
+export type Demographic = ResponseData<operations, 'read_alumni_demographics'>;
 
 /** Read Alumni: Demographics */
 export async function read({ 
     id, 
     ...rest
-}: EndpointOptions<'read_alumni_demographics'>): Promise<Demographic> {
+}: EndpointOptions<operations, 'read_alumni_demographics'>): Promise<Demographic> {
     const {data,error} = await client().GET('/alumni/demographics/{id}', {
         params: { path: { id,  }, ...rest }
     });

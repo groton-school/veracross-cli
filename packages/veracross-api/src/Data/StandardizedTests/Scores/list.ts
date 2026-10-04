@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'standardized_tests.scores:list';
 
-export type ScoreCollection = ResponseData<'list_standardized_tests_scores'>;
+export type ScoreCollection = ResponseData<operations, 'list_standardized_tests_scores'>;
 
 /** List Standardized Tests: Scores */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_standardized_tests_scores'>): Promise<ScoreCollection> {
+}: EndpointOptions<operations, 'list_standardized_tests_scores'>): Promise<ScoreCollection> {
     const collection: ScoreCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

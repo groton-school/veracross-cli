@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'emergency_contacts:list';
 
-export type ListEmergencyContactCollection = ResponseData<'list_emergency_contacts'>;
+export type ListEmergencyContactCollection = ResponseData<operations, 'list_emergency_contacts'>;
 
 /** List Emergency Contacts */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_emergency_contacts'>): Promise<ListEmergencyContactCollection> {
+}: EndpointOptions<operations, 'list_emergency_contacts'>): Promise<ListEmergencyContactCollection> {
     const collection: ListEmergencyContactCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

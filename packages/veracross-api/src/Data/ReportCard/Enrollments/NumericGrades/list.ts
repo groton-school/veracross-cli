@@ -1,17 +1,18 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'report_card.enrollments.numeric_grades:list';
 
-export type NumericGradeCollection = ResponseData<'list_report_cards_numeric_grades'>;
+export type NumericGradeCollection = ResponseData<operations, 'list_report_cards_numeric_grades'>;
 
 /** List Report Cards: Numeric Grades */
 export async function list({ 
     enrollment_id, 
     header,
     ...rest
-}: EndpointOptions<'list_report_cards_numeric_grades'>): Promise<NumericGradeCollection> {
+}: EndpointOptions<operations, 'list_report_cards_numeric_grades'>): Promise<NumericGradeCollection> {
     const collection: NumericGradeCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

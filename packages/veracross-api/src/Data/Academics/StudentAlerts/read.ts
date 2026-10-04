@@ -1,16 +1,17 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js'
 
 export const READ_SCOPE = 'academics.student_alerts:read';
 
-export type StudentAlert = ResponseData<'read_academics_student_alerts'>;
+export type StudentAlert = ResponseData<operations, 'read_academics_student_alerts'>;
 
 /** Read Academics: Student Alerts */
 export async function read({ 
     person_id, 
     ...rest
-}: EndpointOptions<'read_academics_student_alerts'>): Promise<StudentAlert> {
+}: EndpointOptions<operations, 'read_academics_student_alerts'>): Promise<StudentAlert> {
     const {data,error} = await client().GET('/academics/student_alerts/{person_id}', {
         params: { path: { person_id,  }, ...rest }
     });

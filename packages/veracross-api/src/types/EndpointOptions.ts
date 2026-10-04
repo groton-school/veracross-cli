@@ -1,5 +1,6 @@
-import { operations } from '#spec/Data-API.js';
-import { RequestData } from './RequestBody.js';
+/* eslint-disable @typescript-eslint/no-empty-object-type */
+
+import { RequestBody, RequestData } from './RequestBody.js';
 import {
   RequestCookie,
   RequestHeader,
@@ -8,18 +9,28 @@ import {
   RequestQuery
 } from './RequestParameters.js';
 
-type ReqParamsWithoutPathAndUndefined<O extends keyof operations> = Omit<
-  RequestParameters<O>,
+type ReqParamsWithoutPathAndUndefined<M, O extends keyof M> = {} & Omit<
+  RequestParameters<M, O>,
   | 'path'
-  | (RequestQuery<O> extends undefined ? 'query' : '')
-  | (RequestHeader<O> extends undefined ? 'header' : '')
-  | (RequestCookie<O> extends undefined ? 'cookie' : '')
+  | (RequestQuery<M, O> extends undefined ? 'query' : '')
+  | (RequestHeader<M, O> extends undefined ? 'header' : '')
+  | (RequestCookie<M, O> extends undefined ? 'cookie' : '')
 >;
 
-export type EndpointOptions<O extends keyof operations> = {
-  [K in keyof RequestPath<O>]: RequestPath<O>[K];
+export type EndpointOptions<
+  M,
+  O extends keyof M,
+  Method extends 'GET' | undefined = undefined
+> = {
+  [K in keyof RequestPath<M, O>]: RequestPath<M, O>[K];
 } & {
   [
-    K in keyof ReqParamsWithoutPathAndUndefined<O>
-  ]: ReqParamsWithoutPathAndUndefined<O>[K];
-} & (RequestData<O> extends never ? object : { data: RequestData<O> });
+    K in keyof ReqParamsWithoutPathAndUndefined<M, O>
+  ]: ReqParamsWithoutPathAndUndefined<M, O>[K];
+} & (RequestData<M, O> extends never
+    ? RequestBody<M, O> extends never
+      ? Method extends 'GET'
+        ? {}
+        : { body?: undefined }
+      : { body: RequestBody<M, O> }
+    : { data: RequestData<M, O> });

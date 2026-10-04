@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'academics.class_attendance_statuses:list';
 
-export type ClassAttendanceStatuCollection = ResponseData<'list_academics_class_attendance_status'>;
+export type ClassAttendanceStatuCollection = ResponseData<operations, 'list_academics_class_attendance_status'>;
 
 /** List Academics: Class Attendance Status */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_academics_class_attendance_status'>): Promise<ClassAttendanceStatuCollection> {
+}: EndpointOptions<operations, 'list_academics_class_attendance_status'>): Promise<ClassAttendanceStatuCollection> {
     const collection: ClassAttendanceStatuCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

@@ -1,4 +1,5 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 
 export const CREATE_SCOPE = 'events.event_attendance:create';
@@ -7,7 +8,7 @@ export const CREATE_SCOPE = 'events.event_attendance:create';
 export async function create({ 
     data,
     ...rest
-}: EndpointOptions<'create_events_attendance'>): Promise<number|undefined> {
+}: EndpointOptions<operations, 'create_events_attendance'>): Promise<number|undefined> {
     const { data: {data: { id } = {}} = {},  error } = await client().POST('/events/event_attendance', {
         params: { ...rest },
         body: { data }

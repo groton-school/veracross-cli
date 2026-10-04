@@ -28994,7 +28994,7 @@ export interface operations {
                             /**
                              * @description Internal Location Resource Description
                              *
-                             *     The description of the internal resource for this event. If no resource is assigned, returns an empty string.
+                             *     The description of the internal resource for this event.
                              */
                             readonly location: string;
                             /** @description Depart From */
@@ -29201,7 +29201,7 @@ export interface operations {
                         /**
                          * @description Internal Location Resource Description
                          *
-                         *     The description of the internal resource for this event. If no resource is assigned, returns an empty string.
+                         *     The description of the internal resource for this event.
                          */
                         readonly location?: string;
                         /** @description Depart From */
@@ -29414,7 +29414,7 @@ export interface operations {
                             /**
                              * @description Internal Location Resource Description
                              *
-                             *     The description of the internal resource for this event. If no resource is assigned, returns an empty string.
+                             *     The description of the internal resource for this event.
                              */
                             readonly location: string;
                             /** @description Depart From */
@@ -29624,7 +29624,7 @@ export interface operations {
                         /**
                          * @description Internal Location Resource Description
                          *
-                         *     The description of the internal resource for this event. If no resource is assigned, returns an empty string.
+                         *     The description of the internal resource for this event.
                          */
                         readonly location?: string;
                         /** @description Depart From */

@@ -1,17 +1,18 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'report_card.enrollments.attendance:list';
 
-export type ClassAttendanceCollection = ResponseData<'list_report_cards_class_attendance'>;
+export type ClassAttendanceCollection = ResponseData<operations, 'list_report_cards_class_attendance'>;
 
 /** List Report Cards: Class Attendance */
 export async function list({ 
     enrollment_id, 
     header,
     ...rest
-}: EndpointOptions<'list_report_cards_class_attendance'>): Promise<ClassAttendanceCollection> {
+}: EndpointOptions<operations, 'list_report_cards_class_attendance'>): Promise<ClassAttendanceCollection> {
     const collection: ClassAttendanceCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

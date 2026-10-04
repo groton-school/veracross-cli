@@ -1,0 +1,22 @@
+import { operations } from '#spec/{{specFile}}';
+import { client } from '#{{apiName}}/client.js';
+import { EndpointOptions } from '#types/EndpointOptions.js';
+import { ResponseBody } from '#types/ResponseBody.js';
+
+export const CREATE_SCOPE = '{{scope}}';
+
+/** {{operation.summary}} */
+export async function post({ {{#if params.path.length}}{{#each params.path}}
+    {{this}},{{/each}}{{/if}}
+    body,
+    ...rest
+}: EndpointOptions<operations, '{{operation.operationId}}'>): Promise<ResponseBody<operations, '{{operation.operationId}}'>|undefined> {
+    const { data,  error } = await client().POST('{{endpoint}}', {
+        params: { {{#if params.path.length}}path: { {{#each params.path}}{{this}}, {{/each}} }, {{/if}}...rest },
+        body
+    });
+    if (error) {
+        throw new Error('Error creating {{typeName}}', { cause: error });
+    }
+    return data;
+}

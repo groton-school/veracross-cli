@@ -1,17 +1,18 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'people.relationships:list';
 
-export type DeprecatedCollection = ResponseData<'list_relationships_deprecated'>;
+export type DeprecatedCollection = ResponseData<operations, 'list_relationships_deprecated'>;
 
 /** List Relationships: DEPRECATED */
 export async function list({ 
     id, 
     header,
     ...rest
-}: EndpointOptions<'list_relationships_deprecated'>): Promise<DeprecatedCollection> {
+}: EndpointOptions<operations, 'list_relationships_deprecated'>): Promise<DeprecatedCollection> {
     const collection: DeprecatedCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

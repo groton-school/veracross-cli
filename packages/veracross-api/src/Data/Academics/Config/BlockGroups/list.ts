@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'academics.config.block_groups:list';
 
-export type BlockGroupCollection = ResponseData<'list_academics_block_groups'>;
+export type BlockGroupCollection = ResponseData<operations, 'list_academics_block_groups'>;
 
 /** List Academics: Block Groups */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_academics_block_groups'>): Promise<BlockGroupCollection> {
+}: EndpointOptions<operations, 'list_academics_block_groups'>): Promise<BlockGroupCollection> {
     const collection: BlockGroupCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

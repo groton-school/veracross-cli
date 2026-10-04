@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'academics.teacher_daily_schedules:list';
 
-export type TeacherDailyScheduleCollection = ResponseData<'list_academics_teacher_daily_schedules'>;
+export type TeacherDailyScheduleCollection = ResponseData<operations, 'list_academics_teacher_daily_schedules'>;
 
 /** List Academics: Teacher Daily Schedules */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_academics_teacher_daily_schedules'>): Promise<TeacherDailyScheduleCollection> {
+}: EndpointOptions<operations, 'list_academics_teacher_daily_schedules'>): Promise<TeacherDailyScheduleCollection> {
     const collection: TeacherDailyScheduleCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'academics.config.rotation_days:list';
 
-export type RotationDayCollection = ResponseData<'list_academics_rotation_days'>;
+export type RotationDayCollection = ResponseData<operations, 'list_academics_rotation_days'>;
 
 /** List Academics: Rotation Days */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_academics_rotation_days'>): Promise<RotationDayCollection> {
+}: EndpointOptions<operations, 'list_academics_rotation_days'>): Promise<RotationDayCollection> {
     const collection: RotationDayCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

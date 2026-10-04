@@ -1,17 +1,18 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js'
 
 export const READ_SCOPE = 'transcripts.gpas:read';
 
-export type GpA = ResponseData<'read_transcripts_gpas'>;
+export type GpA = ResponseData<operations, 'read_transcripts_gpas'>;
 
 /** Read Transcripts: GPAs */
 export async function read({ 
     person_id, 
     id, 
     ...rest
-}: EndpointOptions<'read_transcripts_gpas'>): Promise<GpA> {
+}: EndpointOptions<operations, 'read_transcripts_gpas'>): Promise<GpA> {
     const {data,error} = await client().GET('/transcripts/{person_id}/gpas/{id}', {
         params: { path: { person_id, id,  }, ...rest }
     });

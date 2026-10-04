@@ -1,17 +1,18 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'report_card.classes.teachers:list';
 
-export type ClassTeacherCollection = ResponseData<'list_report_cards_class_teachers'>;
+export type ClassTeacherCollection = ResponseData<operations, 'list_report_cards_class_teachers'>;
 
 /** List Report Cards: Class Teachers */
 export async function list({ 
     internal_class_id, 
     header,
     ...rest
-}: EndpointOptions<'list_report_cards_class_teachers'>): Promise<ClassTeacherCollection> {
+}: EndpointOptions<operations, 'list_report_cards_class_teachers'>): Promise<ClassTeacherCollection> {
     const collection: ClassTeacherCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

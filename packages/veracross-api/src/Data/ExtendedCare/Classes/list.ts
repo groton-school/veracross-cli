@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'extended_care.classes:list';
 
-export type ClasseCollection = ResponseData<'list_extended_care_classes'>;
+export type ClasseCollection = ResponseData<operations, 'list_extended_care_classes'>;
 
 /** List Extended Care: Classes */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_extended_care_classes'>): Promise<ClasseCollection> {
+}: EndpointOptions<operations, 'list_extended_care_classes'>): Promise<ClasseCollection> {
     const collection: ClasseCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

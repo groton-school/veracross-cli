@@ -1,16 +1,17 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'alumni.demographics:list';
 
-export type DemographicCollection = ResponseData<'list_alumni_demographics'>;
+export type DemographicCollection = ResponseData<operations, 'list_alumni_demographics'>;
 
 /** List Alumni: Demographics */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<'list_alumni_demographics'>): Promise<DemographicCollection> {
+}: EndpointOptions<operations, 'list_alumni_demographics'>): Promise<DemographicCollection> {
     const collection: DemographicCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

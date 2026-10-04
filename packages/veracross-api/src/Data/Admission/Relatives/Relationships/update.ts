@@ -1,4 +1,5 @@
-import { client } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 
 export const UPDATE_SCOPE = 'admission.relatives.relationships:update';
@@ -9,7 +10,7 @@ export async function update({
     id, 
     data,
     ...rest
-}: EndpointOptions<'update_admission_relative_relationships'>): Promise<void> {
+}: EndpointOptions<operations, 'update_admission_relative_relationships'>): Promise<void> {
     const { error } = await client().PATCH('/admission/relatives/{relative_id}/relationships/{id}', {
         params: { path: { relative_id, id,  }, ...rest },
         body: { data }

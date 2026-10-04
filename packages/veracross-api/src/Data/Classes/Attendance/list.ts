@@ -1,17 +1,18 @@
-import { client, defaults } from '#Client.js';
+import { operations } from '#spec/Data-API.js';
+import { client, defaults } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'classes.attendance:list';
 
-export type ListClassAttendanceCollection = ResponseData<'list_class_attendance'>;
+export type ListClassAttendanceCollection = ResponseData<operations, 'list_class_attendance'>;
 
 /** List Class Attendance */
 export async function list({ 
     internal_class_id, 
     header,
     ...rest
-}: EndpointOptions<'list_class_attendance'>): Promise<ListClassAttendanceCollection> {
+}: EndpointOptions<operations, 'list_class_attendance'>): Promise<ListClassAttendanceCollection> {
     const collection: ListClassAttendanceCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :

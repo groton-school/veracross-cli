@@ -14,7 +14,7 @@ export async function create({
         body: { data }
     });
     if (error) {
-        throw new Error('Error creating ApDisbursement', { cause: error });
+        throw new Error('Error creating APDisbursement', { cause: error });
     }
     return id;
 }

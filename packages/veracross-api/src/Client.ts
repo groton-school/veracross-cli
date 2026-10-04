@@ -25,13 +25,15 @@ export interface ClientConfiguration {
   defaults?: Defaults;
 }
 
+type Configuration = ClientConfiguration & { baseUrl: string };
+
 export class Client<P extends object> {
   private _client: OpenAPI.Client<P>;
   private _defaults: Defaults = { DEFAULT_PAGE_SIZE: 100 };
 
-  public constructor({ config, tokenStore, defaults }: ClientConfiguration) {
+  public constructor({ config, tokenStore, defaults, baseUrl }: Configuration) {
     this._client = OpenAPI.default<P>({
-      baseUrl: `https://api.veracross.com/${config.school_route}/v3`
+      baseUrl: baseUrl.replace('{school_route}', config.school_route)
     });
     this._client.use({
       onRequest: async ({ request }) => {

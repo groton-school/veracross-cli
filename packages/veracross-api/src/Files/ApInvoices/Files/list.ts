@@ -5,15 +5,15 @@ import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'files:ap_invoices.files:list';
 
-export type ApInvoiceFileCollection = ResponseData<operations, 'list_finance_ap_invoice_files'>;
+export type APInvoiceFileCollection = ResponseData<operations, 'list_finance_ap_invoice_files'>;
 
 /** List Finance: AP Invoice Files */
 export async function list({ 
     invoice_id, 
     header,
     ...rest
-}: EndpointOptions<operations, 'list_finance_ap_invoice_files'>): Promise<ApInvoiceFileCollection> {
-    const collection: ApInvoiceFileCollection = [];
+}: EndpointOptions<operations, 'list_finance_ap_invoice_files'>): Promise<APInvoiceFileCollection> {
+    const collection: APInvoiceFileCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :
         1;
@@ -35,7 +35,7 @@ export async function list({
         });
         if (error) {
             throw new Error(
-                `Error list of ApInvoiceFile at page ${page}`,
+                `Error list of APInvoiceFile at page ${page}`,
                 { cause: error }
             );
         }

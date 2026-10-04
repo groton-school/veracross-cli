@@ -1,18 +1,27 @@
-import { operations } from '#spec/{{specFile}}';
-import { client } from '#{{apiName}}/client.js';
+import { operations } from '#spec/{{spec}}';
+import { client } from '#{{api}}/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseBody } from '#types/ResponseBody.js';
 
-export const CREATE_SCOPE = '{{scope}}';
+{{#if scope}}
+export const POST_SCOPE = '{{scope}}';
+{{/if}}
 
 /** {{operation.summary}} */
 export async function post({ {{#if params.path.length}}{{#each params.path}}
     {{this}},{{/each}}{{/if}}
     body,
-    ...rest
+    ...params
 }: EndpointOptions<operations, '{{operation.operationId}}'>): Promise<ResponseBody<operations, '{{operation.operationId}}'>|undefined> {
+    const { header, ...rest} = params;
     const { data,  error } = await client().POST('{{endpoint}}', {
-        params: { {{#if params.path.length}}path: { {{#each params.path}}{{this}}, {{/each}} }, {{/if}}...rest },
+        params: {
+            {{#if params.path.length}}path: { {{#each params.path}}{{this}}, {{/each}} },
+            {{/if}}header: {
+                ...header{{#if form}},
+                'Content-Type': 'application/x-www-form-urlencoded'{{/if}}
+            },
+            ...rest },
         body
     });
     if (error) {

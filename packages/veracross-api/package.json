@@ -52,6 +52,7 @@
     "@qui-cli/colors": "^3.2.5",
     "@qui-cli/core": "^6.0.4",
     "@qui-cli/plugin": "^4.2.0",
+    "@redocly/openapi-core": "^2.57.0",
     "@tsconfig/node-lts": "catalog:",
     "@types/node": "^24.19.0",
     "change-case": "^5.4.4",
@@ -60,7 +61,6 @@
     "handlebars": "^4.7.9",
     "npm-run-all": "catalog:",
     "ora": "^9.4.1",
-    "typescript": "catalog:",
-    "yaml": "^2.9.1"
+    "typescript": "catalog:"
   }
 }

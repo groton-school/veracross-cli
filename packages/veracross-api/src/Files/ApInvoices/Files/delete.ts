@@ -14,6 +14,6 @@ export async function delete_({
         params: { path: { invoice_id, id,  }, ...rest }
     });
     if (error) {
-        throw new Error('Error deleting ApInvoiceFile', { cause: error });
+        throw new Error('Error deleting APInvoiceFile', { cause: error });
     }
 }

@@ -1,4 +1,4 @@
-export * as ApDisbursementItems from './ApDisbursementItems/index.js';
+export * as APDisbursementItems from './APDisbursementItems/index.js';
 export * from './create.js';
 export * from './list.js';
 export * from './read.js';

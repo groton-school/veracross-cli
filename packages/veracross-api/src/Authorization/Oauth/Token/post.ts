@@ -3,15 +3,20 @@ import { client } from '#Authorization/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseBody } from '#types/ResponseBody.js';
 
-export const CREATE_SCOPE = '';
 
 /** Create Access Token */
 export async function post({ 
     body,
-    ...rest
+    ...params
 }: EndpointOptions<operations, 'create-access-token'>): Promise<ResponseBody<operations, 'create-access-token'>|undefined> {
+    const { header, ...rest} = params;
     const { data,  error } = await client().POST('/oauth/token', {
-        params: { ...rest },
+        params: {
+            header: {
+                ...header,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            ...rest },
         body
     });
     if (error) {

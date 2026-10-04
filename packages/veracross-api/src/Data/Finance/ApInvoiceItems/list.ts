@@ -5,14 +5,14 @@ import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'finance.ap_invoice_items:list';
 
-export type ApInvoiceItemCollection = ResponseData<operations, 'list_finance_ap_invoice_items'>;
+export type APInvoiceItemCollection = ResponseData<operations, 'list_finance_ap_invoice_items'>;
 
 /** List Finance: AP Invoice Items */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<operations, 'list_finance_ap_invoice_items'>): Promise<ApInvoiceItemCollection> {
-    const collection: ApInvoiceItemCollection = [];
+}: EndpointOptions<operations, 'list_finance_ap_invoice_items'>): Promise<APInvoiceItemCollection> {
+    const collection: APInvoiceItemCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :
         1;
@@ -33,7 +33,7 @@ export async function list({
         });
         if (error) {
             throw new Error(
-                `Error list of ApInvoiceItem at page ${page}`,
+                `Error list of APInvoiceItem at page ${page}`,
                 { cause: error }
             );
         }

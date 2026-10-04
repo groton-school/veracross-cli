@@ -3,7 +3,6 @@ import { client } from '#Authorization/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseBody } from '#types/ResponseBody.js'
 
-export const READ_SCOPE = '';
 
 export type UserInfo = ResponseBody<operations, 'get-oauth-userinfo'>;
 

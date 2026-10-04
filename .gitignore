@@ -1,7 +1,8 @@
 **/.env
 **/.env.*
 !**/.env.example
+/.nx/
 **/build/
 **/dist/
 **/node_modules/
-/.nx/
+**/var/

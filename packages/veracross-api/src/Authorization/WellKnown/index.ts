@@ -1,1 +1,1 @@
-export * as OpenidConfiguration from './OpenidConfiguration/index.js';
+export * as OpenIDConfiguration from './OpenIDConfiguration/index.js';

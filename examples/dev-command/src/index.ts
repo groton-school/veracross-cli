@@ -7,4 +7,21 @@ Veracross.configure({
   credentials: { scope: Veracross.Data.ContactInfo.READ_SCOPE }
 });
 await Core.run();
-Log.info(await Veracross.Data.ContactInfo.read({ id: 2 }));
+
+Log.info({
+  user_info: await Veracross.Authorization.OAuth.Userinfo.get({
+    header: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: `Bearer ${(await Veracross.client().getToken()).access_token}`
+    }
+  }),
+  token_introspection:
+    (await Veracross.Authorization.OAuth.Introspect.post({
+      header: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: {
+        client_id: Veracross.client().credentials.client_id,
+        client_secret: Veracross.client().credentials.client_secret,
+        token: (await Veracross.client().getToken()).access_token
+      }
+    })) || 'undefined'
+});

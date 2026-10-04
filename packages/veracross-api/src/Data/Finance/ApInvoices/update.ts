@@ -15,6 +15,6 @@ export async function update({
         body: { data }
     });
     if (error) {
-        throw new Error('Error updating ApInvoice', { cause: error });
+        throw new Error('Error updating APInvoice', { cause: error });
     }
 }

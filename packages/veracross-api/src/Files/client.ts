@@ -4,7 +4,10 @@ import type { paths } from '#spec/Files-API.js';
 let _client: Client<paths> | undefined = undefined;
 
 export function register(config: ClientConfiguration) {
-  _client = new Client<paths>(config);
+  _client = new Client<paths>({
+    ...config,
+    baseUrl: 'https://api.veracross.com/{school_route}/v3/files'
+  });
 }
 
 export function client() {

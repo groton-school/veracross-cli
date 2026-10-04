@@ -1,2 +1,2 @@
-export * as Oauth from './Oauth/index.js';
+export * as OAuth from './OAuth/index.js';
 export * as WellKnown from './WellKnown/index.js';

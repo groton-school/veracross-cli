@@ -1,8 +1,10 @@
-import { operations } from '#spec/{{specFile}}';
-import { client } from '#{{apiName}}/client.js';
+import { operations } from '#spec/{{spec}}';
+import { client } from '#{{api}}/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 
+{{#if scope}}
 export const UPDATE_SCOPE = '{{scope}}';
+{{/if}}
 
 /** {{operation.summary}} */
 export async function update({ {{#if params.path.length}}{{#each params.path}}

@@ -5,14 +5,14 @@ import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'finance.purchase_request_workflow_gl_accounts:list';
 
-export type PurchaseRequestWorkflowGlAccountCollection = ResponseData<operations, 'list_finance_purchase_request_workflow_gl_accounts'>;
+export type PurchaseRequestWorkflowGLAccountCollection = ResponseData<operations, 'list_finance_purchase_request_workflow_gl_accounts'>;
 
 /** List Finance: Purchase Request Workflow GL Accounts */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<operations, 'list_finance_purchase_request_workflow_gl_accounts'>): Promise<PurchaseRequestWorkflowGlAccountCollection> {
-    const collection: PurchaseRequestWorkflowGlAccountCollection = [];
+}: EndpointOptions<operations, 'list_finance_purchase_request_workflow_gl_accounts'>): Promise<PurchaseRequestWorkflowGLAccountCollection> {
+    const collection: PurchaseRequestWorkflowGLAccountCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :
         1;
@@ -33,7 +33,7 @@ export async function list({
         });
         if (error) {
             throw new Error(
-                `Error list of PurchaseRequestWorkflowGlAccount at page ${page}`,
+                `Error list of PurchaseRequestWorkflowGLAccount at page ${page}`,
                 { cause: error }
             );
         }

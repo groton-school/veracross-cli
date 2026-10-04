@@ -21,7 +21,7 @@ export type RequestHeader<
   M,
   O extends keyof M
 > = 'header' extends keyof RequestParameters<M, O>
-  ? RequestParameters<M, O>['header']
+  ? Omit<RequestParameters<M, O>['header'], 'Content-Type' | 'Authorization'>
   : never;
 
 export type RequestCookie<

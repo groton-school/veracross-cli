@@ -6,7 +6,13 @@ export type RequestBody<M, O extends keyof M> = 'requestBody' extends keyof M[O]
         M[O]['requestBody']
       >['content']
       ? NonNullable<M[O]['requestBody']>['content']['application/json']
-      : never
+      : 'application/x-www-form-urlencoded' extends keyof NonNullable<
+            M[O]['requestBody']
+          >['content']
+        ? NonNullable<
+            M[O]['requestBody']
+          >['content']['application/x-www-form-urlencoded']
+        : never
     : never
   : never;
 

@@ -1,9 +1,11 @@
-import { operations } from '#spec/{{specFile}}';
-import { client } from '#{{apiName}}/client.js';
+import { operations } from '#spec/{{spec}}';
+import { client } from '#{{api}}/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseBody } from '#types/ResponseBody.js'
 
-export const READ_SCOPE = '{{scope}}';
+{{#if scope}}
+export const GET_SCOPE = '{{scope}}';
+{{/if}}
 
 export type {{typeName}} = ResponseBody<operations, '{{operation.operationId}}'>;
 

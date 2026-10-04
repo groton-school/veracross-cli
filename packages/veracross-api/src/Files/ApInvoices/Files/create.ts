@@ -15,7 +15,7 @@ export async function create({
         body: { data }
     });
     if (error) {
-        throw new Error('Error creating ApInvoiceFile', { cause: error });
+        throw new Error('Error creating APInvoiceFile', { cause: error });
     }
     return id;
 }

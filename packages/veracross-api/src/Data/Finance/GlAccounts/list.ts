@@ -5,14 +5,14 @@ import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'finance.gl_accounts:list';
 
-export type GlAccountCollection = ResponseData<operations, 'list_finance_gl_accounts'>;
+export type GLAccountCollection = ResponseData<operations, 'list_finance_gl_accounts'>;
 
 /** List Finance: GL Accounts */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<operations, 'list_finance_gl_accounts'>): Promise<GlAccountCollection> {
-    const collection: GlAccountCollection = [];
+}: EndpointOptions<operations, 'list_finance_gl_accounts'>): Promise<GLAccountCollection> {
+    const collection: GLAccountCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :
         1;
@@ -33,7 +33,7 @@ export async function list({
         });
         if (error) {
             throw new Error(
-                `Error list of GlAccount at page ${page}`,
+                `Error list of GLAccount at page ${page}`,
                 { cause: error }
             );
         }

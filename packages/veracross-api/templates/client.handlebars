@@ -1,10 +1,13 @@
 import { Client, ClientConfiguration } from '#Client.js';
-import type { paths } from '#spec/{{specFile}}';
+import type { paths } from '#spec/{{spec}}';
 
 let _client: Client<paths> | undefined = undefined;
 
 export function register(config: ClientConfiguration) {
-  _client = new Client<paths>(config);
+  _client = new Client<paths>({
+    ...config,
+    baseUrl: '{{url}}'
+  });
 }
 
 export function client() {

@@ -1,9 +1,11 @@
-import { operations } from '#spec/{{specFile}}';
-import { client, defaults } from '#{{apiName}}/client.js';
+import { operations } from '#spec/{{spec}}';
+import { client, defaults } from '#{{api}}/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseData } from '#types/ResponseBody.js';
 
+{{#if scope}}
 export const LIST_SCOPE = '{{scope}}';
+{{/if}}
 
 export type {{typeName}}Collection = ResponseData<operations, '{{operation.operationId}}'>;
 

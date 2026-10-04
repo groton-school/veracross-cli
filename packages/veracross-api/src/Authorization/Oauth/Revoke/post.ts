@@ -3,15 +3,20 @@ import { client } from '#Authorization/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
 import { ResponseBody } from '#types/ResponseBody.js';
 
-export const CREATE_SCOPE = '';
 
 /** Revoke Token */
 export async function post({ 
     body,
-    ...rest
+    ...params
 }: EndpointOptions<operations, 'post-oauth-revoke'>): Promise<ResponseBody<operations, 'post-oauth-revoke'>|undefined> {
+    const { header, ...rest} = params;
     const { data,  error } = await client().POST('/oauth/revoke', {
-        params: { ...rest },
+        params: {
+            header: {
+                ...header,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            ...rest },
         body
     });
     if (error) {

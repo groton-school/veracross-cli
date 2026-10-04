@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.3.0](https://github.com/groton-school/veracross-cli/compare/oauth2-cli/veracross/0.2.3...oauth2-cli/veracross/0.3.0) (2026-10-04)
+
+### ⚠ BREAKING CHANGES
+
+* provide improved v3 root
+
+### Features
+
+* initial support for Authorization and Files APIs ([cc5c99a](https://github.com/groton-school/veracross-cli/commit/cc5c99a839ff0dcbc80f80cb0b4d852459b82948)), closes [#7](https://github.com/groton-school/veracross-cli/issues/7) [#8](https://github.com/groton-school/veracross-cli/issues/8)
+* provide improved v3 root ([a681cd8](https://github.com/groton-school/veracross-cli/commit/a681cd8c8692e519719f420d4dfb9a8d9e6275e3))
 ## [0.2.3](https://github.com/groton-school/veracross-cli/compare/oauth2-cli/veracross/0.2.2...oauth2-cli/veracross/0.2.3) (2026-07-11)
 
 

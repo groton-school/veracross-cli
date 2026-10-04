@@ -16,7 +16,7 @@ export type Configuration = Plugin.Configuration & {
   eventIds?: number[];
 };
 
-const scope = ['resource_reservations.reservations:create'];
+const scope = [Veracross.Data.ResourceReservations.Reservations.CREATE_SCOPE];
 
 const config: Configuration = {
   resourceIds: [],
@@ -126,8 +126,8 @@ export async function run() {
     for (const resource_id of reservation.resource_id) {
       for (const event_id of reservation.event_id) {
         spinner.text = status(reservation, resource_id, event_id);
-        await Veracross.Data().POST('/resource_reservations/reservations', {
-          body: { data: { event_id, resource_id } }
+        await Veracross.Data.ResourceReservations.Reservations.create({
+          data: { event_id, resource_id }
         });
       }
     }

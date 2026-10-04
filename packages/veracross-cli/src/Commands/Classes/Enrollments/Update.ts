@@ -1,4 +1,7 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { DateString, PathString } from '@battis/descriptive-types';
+import { ArrayElement } from '@battis/typescript-tricks';
 import { Veracross } from '@oauth2-cli/veracross';
 import { Colors } from '@qui-cli/colors';
 import { Positionals } from '@qui-cli/core';
@@ -6,9 +9,6 @@ import { Log } from '@qui-cli/log';
 import * as Plugin from '@qui-cli/plugin';
 import { Root } from '@qui-cli/root';
 import { parse, stringify } from 'csv/sync';
-import fs from 'node:fs';
-import path from 'node:path';
-import { ArrayElement } from '@battis/typescript-tricks';
 import ora from 'ora';
 
 export type Configuration = Plugin.Configuration & {
@@ -26,10 +26,10 @@ interface EnrollmentUpdate {
 }
 
 const scope = [
-  'academics.enrollments:list',
-  'academics.enrollments:update',
-  'summer.enrollments:list',
-  'summer.enrollments:update'
+  Veracross.Data.Academics.Enrollments.LIST_SCOPE,
+  Veracross.Data.Academics.Enrollments.UPDATE_SCOPE,
+  Veracross.Data.Summer.Enrollments.LIST_SCOPE,
+  Veracross.Data.Summer.Enrollments.UPDATE_SCOPE
 ];
 
 Positionals.require({
@@ -120,30 +120,26 @@ export async function run() {
     } = data[i];
     const identifier = `Person ID ${Colors.value(person_id)} / Internal Class ID ${Colors.value(internal_class_id)}`;
     const spinner = ora(identifier).start();
-    const endpoints: ('academics' | 'summer' | undefined)[] =
-      school_year > 0 ? ['academics'] : ['summer'];
+    const endpoints: ('Academics' | 'Summer' | undefined)[] =
+      school_year > 0 ? ['Academics'] : ['Summer'];
     let enrollment:
-      | ArrayElement<
-          Veracross.Types.spec.DataAPI.paths['/academics/enrollments']['get']['responses']['200']['content']['application/json']['data']
-        >
-      | ArrayElement<
-          Veracross.Types.spec.DataAPI.paths['/summer/enrollments']['get']['responses']['200']['content']['application/json']['data']
-        >
+      | Veracross.Data.Academics.Enrollments.Enrollment
+      | Veracross.Data.Summer.Enrollments.Enrollment
       | undefined = undefined;
     let endpoint: ArrayElement<typeof endpoints>;
     for (endpoint = endpoints.shift(); endpoint && !enrollment;) {
       spinner.text = `${identifier}: searching ${Colors.value(endpoint)}`;
-      const { data, error } = await Veracross.Data().GET(
-        `/${endpoint}/enrollments`,
-        {
-          params: { query: { person_id, internal_class_id, school_year } }
+
+      try {
+        const [e] = await Veracross.Data[endpoint].Enrollments.list({
+          query: { person_id, internal_class_id, school_year }
+        });
+        if (!enrollment) {
+          throw Error();
         }
-      );
-      if (error || !data.data.length) {
+        enrollment = e;
+      } catch (_) {
         endpoint = endpoints.shift();
-      } else {
-        // there really can only be one!
-        enrollment = data.data.shift();
       }
     }
 
@@ -174,16 +170,18 @@ export async function run() {
       }
       if (Object.keys(update).length > 0) {
         spinner.text = `Update ${identifier}: ${Log.syntaxColor(update).replaceAll(/\s+|\n/g, ' ')}`;
-        const { error } = await Veracross.Data().PATCH(
-          `/${endpoint}/enrollments/{id}`,
-          { params: { path: { id: enrollment.id } }, body: { data: update } }
-        );
-        if (error) {
-          errors.push({ row: i + 1, ...data[i], error: error.error });
-          fs.writeFileSync(errorsPath, stringify(errors, { header: true }));
-          spinner.fail(`${spinner.text}: ${Colors.error(error.error)}`);
-        } else {
+        try {
+          await Veracross.Data[endpoint].Enrollments.update({
+            id: enrollment.id,
+            data: update
+          });
           spinner.succeed();
+        } catch (error) {
+          errors.push({ row: i + 1, ...data[i], error: JSON.stringify(error) });
+          fs.writeFileSync(errorsPath, stringify(errors, { header: true }));
+          spinner.fail(
+            `${spinner.text}: ${Colors.error(JSON.stringify(error))}`
+          );
         }
       } else {
         spinner.info(`${identifier}: no update necessary`);

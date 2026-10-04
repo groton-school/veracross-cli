@@ -24,13 +24,14 @@ Positionals.require({
 });
 Positionals.allowOnlyNamedArgs();
 
-type PatchData = NonNullable<
-  Veracross.Types.spec.DataAPI.paths['/academics/courses/{id}']['patch']['requestBody']
->['content']['application/json']['data'];
+type PatchData = Partial<Veracross.Data.Academics.Courses.Course>;
 
 const PAGE_SIZE = 100;
 
-const scope = ['academics.courses:list', 'academics.courses:update'];
+const scope = [
+  Veracross.Data.Academics.Courses.LIST_SCOPE,
+  Veracross.Data.Academics.Courses.UPDATE_SCOPE
+];
 
 const config: Configuration = {};
 
@@ -73,14 +74,14 @@ export async function run() {
   if (!config.pathToCsv) {
     throw new Error(`${Colors.positionalArg('pathToCsv')} is required.`);
   }
-  let proposal: ({ internal_course_id: string } & PatchData)[] = parse(
+  const proposal: ({ internal_course_id: string } & PatchData)[] = parse(
     fs.readFileSync(path.resolve(Root.path(), config.pathToCsv)),
     {
       columns: true
     }
   );
 
-  let done = false;
+  let done: boolean;
   let max = 0;
   let page = 1;
   let updated = 0;
@@ -88,26 +89,7 @@ export async function run() {
 
   Progress.start({ max });
   do {
-    const {
-      data: { data } = {},
-      error,
-      response
-    } = await Veracross.Data().GET('/academics/courses', {
-      params: { header: { 'X-Page-Number': page } }
-    });
-    if (!data) {
-      throw new Error('Expected data missing from response', {
-        cause: {
-          error,
-          response: {
-            ok: response.ok,
-            status: response.status,
-            statusText: response.statusText,
-            headers: Object.fromEntries(response.headers.entries())
-          }
-        }
-      });
-    }
+    const data = await Veracross.Data.Academics.Courses.list({});
     max += data.length;
     Progress.setMax(max);
     Progress.caption(`Page ${page} of data`);
@@ -132,41 +114,17 @@ export async function run() {
           }
         }
         if (Object.keys(patch).length > 0) {
-          const { response, error } = await Veracross.Data().PATCH(
-            '/academics/courses/{id}',
-            {
-              params: {
-                path: { id: retrieved.id }
-              },
-              body: { data: patch }
-            }
-          );
-          if (response.status === 204) {
-            updated++;
-            Log.debug({
-              id: retrieved.id,
-              retrieved,
-              proposal: proposal[i],
-              patch
-            });
-          } else {
-            throw new Error(
-              `Failed to update course ${Colors.value(retrieved.id)}`,
-              {
-                cause: {
-                  retrieved,
-                  patch,
-                  response: {
-                    ok: response.ok,
-                    status: response.status,
-                    statusText: response.statusText,
-                    headers: Object.fromEntries(response.headers.entries())
-                  },
-                  error
-                }
-              }
-            );
-          }
+          await Veracross.Data.Academics.Courses.update({
+            id: retrieved.id,
+            data: patch
+          });
+          updated++;
+          Log.debug({
+            id: retrieved.id,
+            retrieved,
+            proposal: proposal[i],
+            patch
+          });
         } else {
           unchanged++;
         }

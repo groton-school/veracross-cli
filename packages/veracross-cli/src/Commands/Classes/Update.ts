@@ -14,7 +14,7 @@ import { CSV } from '../../lib/index.js';
 export type Configuration = Plugin.Configuration & {
   pathToCsv?: PathString;
   endpoint?:
-    'academics' | 'extended_care' | 'non-academics' | 'programs' | 'summer';
+    'Academics' | 'ExtendedCare' | 'NonAcademics' | 'Programs' | 'Summer';
 };
 
 Positionals.require({
@@ -31,19 +31,19 @@ type PatchData = NonNullable<
   Veracross.Types.spec.DataAPI.paths['/academics/courses/{id}']['patch']['requestBody']
 >['content']['application/json']['data'];
 
-const config: Configuration = { endpoint: 'academics' };
+const config: Configuration = { endpoint: 'Academics' };
 
 const scope = [
-  'academics.classes:read',
-  'academics.classes:update',
-  'extended_care.classes:update',
-  'extended_care.classes:read',
-  'non-academics.classes:read',
-  'non-academics.classes:update',
-  'programs.classes:update',
-  'programs.classes:read',
-  'summer.classes:read',
-  'summer.classes:update'
+  Veracross.Data.Academics.Classes.READ_SCOPE,
+  Veracross.Data.Academics.Classes.UPDATE_SCOPE,
+  Veracross.Data.ExtendedCare.Classes.READ_SCOPE,
+  Veracross.Data.ExtendedCare.Classes.UPDATE_SCOPE,
+  Veracross.Data.NonAcademics.Classes.READ_SCOPE,
+  Veracross.Data.NonAcademics.Classes.UPDATE_SCOPE,
+  Veracross.Data.Programs.Classes.READ_SCOPE,
+  Veracross.Data.Programs.Classes.UPDATE_SCOPE,
+  Veracross.Data.Summer.Classes.READ_SCOPE,
+  Veracross.Data.Summer.Classes.UPDATE_SCOPE
 ];
 
 export function configure(proposal: Configuration = {}) {
@@ -71,7 +71,7 @@ export function options() {
     opt: {
       endpoint: {
         description: 'Class endpoint to use',
-        hint: 'academics|extended_care|non-academics|programs|summer',
+        hint: 'Academics|ExtendedCare|NonAcademics|Programs|Summer',
         default: config.endpoint
       }
     }
@@ -111,10 +111,9 @@ export async function run() {
   Progress.start({ max: proposals.length });
 
   for (const proposal of proposals) {
-    const { data: { data: retrieved } = {} } = await Veracross.Data().GET(
-      `/${config.endpoint}/classes/{id}`,
-      { params: { path: { id: parseInt(proposal.internal_class_id) } } }
-    );
+    const retrieved = await Veracross.Data[config.endpoint].Classes.read({
+      id: parseInt(proposal.internal_class_id)
+    });
     Progress.caption(
       proposal.name ||
         retrieved?.description ||
@@ -136,41 +135,10 @@ export async function run() {
         }
       }
       if (Object.keys(patch).length > 0) {
-        const { response, error } = await Veracross.Data().PATCH(
-          `/${config.endpoint}/classes/{id}`,
-          {
-            params: {
-              path: { id: retrieved.id }
-            },
-            body: { data: patch }
-          }
-        );
-        if (response.status === 204) {
-          updated.push(patch);
-          Log.debug({
-            id: retrieved.id,
-            retrieved,
-            proposal,
-            patch
-          });
-        } else {
-          throw new Error(
-            `Failed to update course ${Colors.value(retrieved.id)}`,
-            {
-              cause: {
-                retrieved,
-                patch,
-                response: {
-                  ok: response.ok,
-                  status: response.status,
-                  statusText: response.statusText,
-                  headers: Object.fromEntries(response.headers.entries())
-                },
-                error
-              }
-            }
-          );
-        }
+        await Veracross.Data[config.endpoint].Classes.update({
+          id: retrieved.id,
+          data: patch
+        });
       } else {
         unchanged.push(retrieved);
       }

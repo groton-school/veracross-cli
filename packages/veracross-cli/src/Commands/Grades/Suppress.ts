@@ -1,4 +1,7 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { PathString } from '@battis/descriptive-types';
+import confirm from '@inquirer/confirm';
 import { Veracross } from '@oauth2-cli/veracross';
 import { Colors } from '@qui-cli/colors';
 import { Positionals } from '@qui-cli/core';
@@ -6,10 +9,7 @@ import { Log } from '@qui-cli/log';
 import * as Plugin from '@qui-cli/plugin';
 import { Root } from '@qui-cli/root';
 import { parse, stringify } from 'csv/sync';
-import fs from 'node:fs';
-import path from 'node:path';
 import ora from 'ora';
-import confirm from '@inquirer/confirm';
 
 export type Configuration = Plugin.Configuration & {
   pathToCSV?: PathString;
@@ -24,9 +24,9 @@ interface Suppression {
 }
 
 const scope = [
-  'academics.config.grading_periods:list',
-  'academics.numeric_grades:read',
-  'academics.numeric_grades:update'
+  Veracross.Data.Academics.Config.GradingPeriods.LIST_SCOPE,
+  Veracross.Data.Academics.NumericGrades.READ_SCOPE,
+  Veracross.Data.Academics.NumericGrades.UPDATE_SCOPE
 ];
 
 Positionals.require({
@@ -118,29 +118,19 @@ export async function run() {
 
   const spinner = ora('Retrieving grading periods').start();
   const gradingPeriods: Record<string, number> = {};
-  const pageSize = 100;
-  let page = 1;
-  let done: boolean;
-  do {
-    const { data: { data } = {}, error } = await Veracross.Data().GET(
-      '/academics/config/grading_periods',
-      { params: { header: { 'X-Page-Number': page, 'X-Page-Size': pageSize } } }
+  try {
+    const gradingPeriodResponse =
+      await Veracross.Data.Academics.Config.GradingPeriods.list({});
+    for (const gradingPeriod of gradingPeriodResponse) {
+      gradingPeriods[gradingPeriod.abbreviation] = gradingPeriod.id;
+    }
+    spinner.succeed(
+      `${Object.keys(gradingPeriods).length} grading periods loaded`
     );
-    if (error) {
-      spinner.fail(`Error retrieving grading periods: ${error.error}`);
-      process.exit(1);
-    }
-    if (data) {
-      for (const gradingPeriod of data) {
-        gradingPeriods[gradingPeriod.abbreviation] = gradingPeriod.id;
-      }
-    }
-    page++;
-    done = !data || data.length < pageSize;
-  } while (!done);
-  spinner.succeed(
-    `${Object.keys(gradingPeriods).length} grading periods loaded`
-  );
+  } catch (error) {
+    spinner.fail(`Error retrieving grading periods: ${error}`);
+    process.exit(1);
+  }
 
   const errors: (Suppression & { row: number; error: string })[] = [];
   const errorsPath = path.resolve(
@@ -158,55 +148,47 @@ export async function run() {
     } = data[i];
     const identifier = `Grade ID ${Colors.value(grade_id)}`;
     const spinner = ora(identifier).start();
-    const { data: { data: grade } = {}, error: e } = await Veracross.Data().GET(
-      '/academics/numeric_grades/{id}',
-      { params: { path: { id: grade_id } } }
-    );
-
-    let error: string | undefined = e?.error;
-
-    if (grade && !error) {
-      if (grade.student.id == person_id) {
-        if (grade.class.id == internal_class_id) {
-          if (grade.grading_period.id == gradingPeriods[grading_period]) {
-            if (grade.posted_grade == posted_grade) {
-              const { error: e } = await Veracross.Data().PATCH(
-                '/academics/numeric_grades/{id}',
-                {
-                  params: { path: { id: grade_id } },
-                  body: { data: { posted_grade: 0 } }
-                }
-              );
-              if (e) {
-                error = e.error;
+    try {
+      const grade = await Veracross.Data.Academics.NumericGrades.read({
+        id: grade_id
+      });
+      if (grade) {
+        if (grade.student.id == person_id) {
+          if (grade.class.id == internal_class_id) {
+            if (grade.grading_period.id == gradingPeriods[grading_period]) {
+              if (grade.posted_grade == posted_grade) {
+                await Veracross.Data.Academics.NumericGrades.update({
+                  id: grade_id,
+                  data: { posted_grade: 0 }
+                });
+                spinner.succeed(
+                  `${identifier}: suppressed ${Colors.value(
+                    `${grade?.student.name.replace(/^(.+), (.+)$/, '$2 $1')}'s`
+                  )} grade of ${Colors.value(grade?.posted_grade)} for ${Colors.value(
+                    grade?.class.description
+                  )} in ${Colors.value(grade?.grading_period.description)} term`
+                );
+              } else {
+                throw new Error(`grade mismatch: found ${grade.posted_grade}`);
               }
             } else {
-              error = `grade mismatch: found ${grade.posted_grade}`;
+              throw new Error(
+                `grading period mismatch: found ${grade.grading_period.description}`
+              );
             }
           } else {
-            error = `grading period mismatch: found ${grade.grading_period.description}`;
+            throw new Error(`class id mismatch: found ${grade.class.id}`);
           }
         } else {
-          error = `class id mismatch: found ${grade.class.id}`;
+          throw new Error(`student id mismatch: found ${grade.student.id}`);
         }
       } else {
-        error = `student id mismatch: found ${grade.student.id}`;
+        throw new Error('not found');
       }
-    } else {
-      error = 'not found';
-    }
-    if (error) {
-      errors.push({ row: i + 1, ...data[i], error });
+    } catch (error) {
+      errors.push({ row: i + 1, ...data[i], error: JSON.stringify(error) });
       fs.writeFileSync(errorsPath, stringify(errors, { header: true }));
       spinner.fail(`${identifier}: ${Colors.error(error)}`);
-    } else {
-      spinner.succeed(
-        `${identifier}: suppressed ${Colors.value(
-          `${grade?.student.name.replace(/^(.+), (.+)$/, '$2 $1')}'s`
-        )} grade of ${Colors.value(grade?.posted_grade)} for ${Colors.value(
-          grade?.class.description
-        )} in ${Colors.value(grade?.grading_period.description)} term`
-      );
     }
   }
 

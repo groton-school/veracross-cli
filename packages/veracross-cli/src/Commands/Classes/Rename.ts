@@ -12,8 +12,10 @@ export type Configuration = Plugin.Configuration & {
   dryRun?: boolean;
 };
 
-const scope = ['academics.classes:list', 'academics.classes:update'];
-const PAGE_SIZE = 100;
+const scope = [
+  Veracross.Data.Academics.Classes.LIST_SCOPE,
+  Veracross.Data.Academics.Classes.UPDATE_SCOPE
+];
 
 const config: Configuration = {
   schoolYear:
@@ -102,32 +104,9 @@ export async function run() {
   if (!config.replace) {
     throw new Error(`${Colors.optionArg('--replace')} must be defined`);
   }
-  const classes: Veracross.Types.spec.DataAPI.operations['list_academics_classes']['responses']['200']['content']['application/json']['data'] =
-    [];
-  let page = 1;
-  let done: boolean;
-  do {
-    const { data: { data } = {}, error } = await Veracross.Data().GET(
-      '/academics/classes',
-      {
-        params: {
-          query: { school_year: config.schoolYear },
-          header: { 'X-Page-Size': PAGE_SIZE, 'X-Page-Number': page }
-        }
-      }
-    );
-    if (error) {
-      throw new Error('Error loading classes', { cause: error });
-    }
-    if (data) {
-      classes.push(...data);
-    } else {
-      throw new Error('No data received');
-    }
-    done = data?.length < PAGE_SIZE;
-    page++;
-    Log.debug({ page, length: data.length, done });
-  } while (!done);
+  const classes = await Veracross.Data.Academics.Classes.list({
+    query: { school_year: config.schoolYear }
+  });
   for (const c of classes) {
     const spinner = ora(Colors.value(c.description)).start();
     const description = c.description.replace(
@@ -137,22 +116,20 @@ export async function run() {
     );
     if (description !== c.description) {
       if (!config.dryRun) {
-        const { error } = await Veracross.Data().PATCH(
-          '/academics/classes/{id}',
-          {
-            params: { path: { id: c.id } },
-            body: { data: { description } }
-          }
-        );
-        if (error) {
+        try {
+          await Veracross.Data.Academics.Classes.update({
+            id: c.id,
+            data: { description }
+          });
+          spinner.succeed(
+            `${spinner.text} ${config.dryRun ? 'would be ' : ''}updated to ${Colors.value(description)}`
+          );
+        } catch (error) {
           spinner.fail(
-            `${spinner.text} update failed. ${Colors.error(`Error ${error.error_id}: ${error.error}`)}`
+            `${spinner.text} update failed. ${Colors.error(`Error ${error}`)}`
           );
         }
       }
-      spinner.succeed(
-        `${spinner.text} ${config.dryRun ? 'would be ' : ''}updated to ${Colors.value(description)}`
-      );
     } else {
       spinner.info(
         `${spinner.text} ${config.dryRun ? 'would be ' : ''}unchanged`

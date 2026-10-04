@@ -25,7 +25,10 @@ Positionals.allowOnlyNamedArgs();
 
 export const name = 'swapEmails';
 
-const scope = ['contact_info:read', 'contact_info:update'];
+const scope = [
+  Veracross.Data.ContactInfo.READ_SCOPE,
+  Veracross.Data.ContactInfo.UPDATE_SCOPE
+];
 
 const config: Configuration = {
   dryRun: false
@@ -86,66 +89,54 @@ export async function run() {
 
   for (const row of data) {
     const spinner = ora(`Person ID ${row.person_id}`).start();
-    const { data: { data: contact_info } = {}, error } =
-      await Veracross.Data().GET('/contact_info/{id}', {
-        params: { path: { id: row.person_id } }
+    try {
+      const contact_info = await Veracross.Data.ContactInfo.read({
+        id: row.person_id
       });
-    if (error) {
-      spinner.fail(
-        `${spinner.text}: ${Colors.error(`Error ${error.error_id}: ${error.error}`)}`
-      );
-      continue;
-    }
-    if (contact_info) {
-      spinner.text = contact_info?.name;
-      let email_1: string | undefined = undefined;
-      let email_2: string | undefined = undefined;
-      if (row.email_1) {
-        email_1 = row.email_1;
-      }
-      if (row.email_2) {
-        email_2 = row.email_2;
-      }
-      if (!email_1 && !email_2) {
-        email_1 = contact_info.email_2;
-        email_2 = contact_info.email_1;
-      }
-      if (!config.dryRun) {
-        const { error } = await Veracross.Data().PATCH('/contact_info/{id}', {
-          params: {
-            path: { id: row.person_id }
-          },
-          body: {
+      if (contact_info) {
+        spinner.text = contact_info?.name;
+        let email_1: string | undefined = undefined;
+        let email_2: string | undefined = undefined;
+        if (row.email_1) {
+          email_1 = row.email_1;
+        }
+        if (row.email_2) {
+          email_2 = row.email_2;
+        }
+        if (!email_1 && !email_2) {
+          email_1 = contact_info.email_2;
+          email_2 = contact_info.email_1;
+        }
+        if (!config.dryRun) {
+          await Veracross.Data.ContactInfo.update({
+            id: row.person_id,
             data: {
               email_1: email_1 || contact_info.email_1,
               email_2: email_2 || contact_info.email_2
             }
-          }
-        });
-        if (error) {
-          spinner.fail(
-            `${spinner.text}: ${Colors.error(`Error ${error.error_id}: ${error.error}`)}`
+          });
+          spinner.succeed(
+            `${spinner.text}: ${Colors.varName(
+              'email_1'
+            )} = ${email_1 || contact_info.email_1}, ${Colors.varName(
+              'email_2'
+            )} = ${email_2 || contact_info.email_2}`
           );
-          continue;
+        } else {
+          spinner.info(
+            `${spinner.text}: ${Colors.varName(
+              'email_1'
+            )} = ${email_1 || contact_info.email_1}, ${Colors.varName(
+              'email_2'
+            )} = ${email_2 || contact_info.email_2} [${Colors.value('Dry run')}]`
+          );
         }
-        spinner.succeed(
-          `${spinner.text}: ${Colors.varName(
-            'email_1'
-          )} = ${email_1 || contact_info.email_1}, ${Colors.varName(
-            'email_2'
-          )} = ${email_2 || contact_info.email_2}`
-        );
       } else {
-        spinner.info(
-          `${spinner.text}: ${Colors.varName(
-            'email_1'
-          )} = ${email_1 || contact_info.email_1}, ${Colors.varName(
-            'email_2'
-          )} = ${email_2 || contact_info.email_2} [${Colors.value('Dry run')}]`
-        );
+        spinner.warn(`No contact info record found for ${spinner.text}`);
+        continue;
       }
-    } else {
-      spinner.warn(`No contact info record found for ${spinner.text}`);
+    } catch (error) {
+      spinner.fail(`${spinner.text}: ${Colors.error(`Error ${error}`)}`);
       continue;
     }
   }

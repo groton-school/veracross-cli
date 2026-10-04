@@ -19,13 +19,12 @@ type RosterUpdate = {
   school_year: number;
   internal_class_id: number;
   person_id: number;
-} & Partial<
-  NonNullable<
-    Veracross.Types.spec.DataAPI.paths['/athletics/rosters/{id}']['patch']['requestBody']
-  >['content']['application/json']['data']
->;
+} & Partial<Veracross.Data.Athletics.Rosters.Roster>;
 
-const scope = ['athletics.rosters:list', 'athletics.rosters:update'];
+const scope = [
+  Veracross.Data.Athletics.Rosters.LIST_SCOPE,
+  Veracross.Data.Athletics.Rosters.UPDATE_SCOPE
+];
 
 Positionals.require({
   pathToCsv: {
@@ -111,15 +110,13 @@ export async function run() {
     const { person_id, internal_class_id, school_year, ...proposal } = data[i];
     const identifier = `Person ID ${Colors.value(person_id)} / Internal Class ID ${Colors.value(internal_class_id)}`;
     const spinner = ora(identifier).start();
-    let error: string | undefined = undefined;
-    const { data: { data: [roster] = [] } = {}, error: e } =
-      await Veracross.Data().GET('/athletics/rosters', {
-        params: { query: { internal_class_id, person_id, school_year } }
+    try {
+      const [roster] = await Veracross.Data.Athletics.Rosters.list({
+        query: { internal_class_id, person_id, school_year }
       });
-    if (e) {
-      error = e.error;
-    }
-    if (!error && roster) {
+      if (!roster) {
+        throw new Error('not found');
+      }
       const update = PartialUpdate.minimal(
         roster,
         PartialUpdate.omit(proposal, [
@@ -144,24 +141,18 @@ export async function run() {
       );
       if (update) {
         spinner.text = `Update ${identifier}: ${Log.syntaxColor(update).replaceAll(/\s+|\n/g, ' ')}`;
-        const { error } = await Veracross.Data().PATCH(
-          `/athletics/rosters/{id}`,
-          { params: { path: { id: roster.id } }, body: { data: update } }
-        );
-        if (error) {
-          errors.push({ row: i + 1, ...data[i], error: error.error });
-          fs.writeFileSync(errorsPath, stringify(errors, { header: true }));
-          spinner.fail(`${spinner.text}: ${Colors.error(error.error)}`);
-        } else {
-          spinner.succeed();
-        }
+        await Veracross.Data.Athletics.Rosters.update({
+          id: roster.id,
+          data: update
+        });
+        spinner.succeed();
       } else {
         spinner.info(`${identifier}: no update necessary`);
       }
-    } else {
-      errors.push({ row: i + 1, ...data[i], error: error || 'not found' });
+    } catch (error) {
+      errors.push({ row: i + 1, ...data[i], error: JSON.stringify(error) });
       fs.writeFileSync(errorsPath, stringify(errors, { header: true }));
-      spinner.fail(`${identifier}: ${Colors.error('not found')}`);
+      spinner.fail(`${identifier}: ${Colors.error(JSON.stringify(error))}`);
     }
   }
 

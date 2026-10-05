@@ -17,22 +17,16 @@ npm install @oauth2-cli/veracross @qui-cli/core
 // configure scopes
 Veracross.configure({
   reason: 'example',
-  credentials: { scope: 'contact_info:read' }
+  credentials: { scope: Veracross.Data.ContactInfo.READ_SCOPE }
 });
 
 // intialize @qui-cli environment
 await Core.run();
 
 // dump the result of an API request to the console
-console.log(
-  (
-    await Veracross.Data().GET('/contact_info/{id}', {
-      params: { path: { id: 2 } }
-    })
-  ).response
-);
+console.log(await Veracross.Data.ContactInfo.get({ id: 2 }));
 ```
 
-See [@groton/veracross-cli](https://github.com/groton-school/veracross-cli#readme) for more information about the client.
+See [@groton/veracross-cli](https://github.com/groton-school/veracross-cli#readme) as a working example using this client.
 
 See [@qui-cli](https://github.com/battis/qui-cli#readme) for more information on developing CLI apps quickly in Node.js.

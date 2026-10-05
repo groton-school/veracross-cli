@@ -9,7 +9,7 @@
     "url": "https://github.com/groton-school/veracross-cli.git",
     "directory": "packages/api"
   },
-  "license": "ISC",
+  "license": "GPL-3.0",
   "author": {
     "name": "Seth Battis",
     "email": "sbattis@groton.org"

@@ -1,4 +1,4 @@
-# @oauth2-cli/veracross
+# @groton/veracross-api
 
 TypeScript openapi-fetch client for Veracross API
 

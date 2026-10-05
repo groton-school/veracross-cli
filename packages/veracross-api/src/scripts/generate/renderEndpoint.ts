@@ -3,6 +3,7 @@ import path from 'node:path';
 import { Colors } from '@qui-cli/colors';
 import { constantCase, snakeCase } from 'change-case';
 import { PathItemObject } from 'openapi-typescript';
+import pluralize from 'pluralize';
 import { deref } from './deref.js';
 import {
   APPLICATION_JSON,
@@ -87,9 +88,9 @@ export function renderEndpoint({ api, endpoint, operations }: Options) {
       )
     };
 
-    const typeName = smartPascalCase(
-      (operation.summary || '').replace(/^.*: (.+)$/, '$1')
-    ).replace(/s$/, '');
+    const typeName = pluralize.singular(
+      smartPascalCase((operation.summary || '').replace(/^.*: (.+)$/, '$1'))
+    );
 
     const requestBody = deref(operation.requestBody, api.spec);
 

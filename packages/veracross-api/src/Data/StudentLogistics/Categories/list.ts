@@ -5,14 +5,14 @@ import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'student_logistics.categories:list';
 
-export type CategorieCollection = ResponseData<operations, 'list_student_logistics_requests_categories'>;
+export type CategoryCollection = ResponseData<operations, 'list_student_logistics_requests_categories'>;
 
 /** List Student Logistics Requests: Categories */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<operations, 'list_student_logistics_requests_categories'>): Promise<CategorieCollection> {
-    const collection: CategorieCollection = [];
+}: EndpointOptions<operations, 'list_student_logistics_requests_categories'>): Promise<CategoryCollection> {
+    const collection: CategoryCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :
         1;
@@ -33,7 +33,7 @@ export async function list({
         });
         if (error) {
             throw new Error(
-                `Error list of Categorie at page ${page}`,
+                `Error list of Category at page ${page}`,
                 { cause: error }
             );
         }

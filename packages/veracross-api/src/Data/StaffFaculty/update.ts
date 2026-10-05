@@ -1,6 +1,9 @@
 import { operations } from '#spec/Data-API.js';
 import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
+import { RequestData } from '#types/RequestBody.js';
+
+export type UpdateStaffFacultyPatch = RequestData<operations, 'update_staff_faculty'>;
 
 export const UPDATE_SCOPE = 'staff_faculty:update';
 

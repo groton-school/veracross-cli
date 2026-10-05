@@ -1,6 +1,9 @@
 import { operations } from '#spec/Data-API.js';
 import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
+import { RequestData } from '#types/RequestBody.js';
+
+export type ClassAssignmentPatch = RequestData<operations, 'update_academics_class_assignments'>;
 
 export const UPDATE_SCOPE = 'academics.classes.assignments:update';
 

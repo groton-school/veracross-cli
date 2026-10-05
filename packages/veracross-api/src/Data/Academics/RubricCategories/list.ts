@@ -5,14 +5,14 @@ import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'academics.rubric_categories:list';
 
-export type RubricCategorieCollection = ResponseData<operations, 'list_academics_rubric_categories'>;
+export type RubricCategoryCollection = ResponseData<operations, 'list_academics_rubric_categories'>;
 
 /** List Academics: Rubric Categories */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<operations, 'list_academics_rubric_categories'>): Promise<RubricCategorieCollection> {
-    const collection: RubricCategorieCollection = [];
+}: EndpointOptions<operations, 'list_academics_rubric_categories'>): Promise<RubricCategoryCollection> {
+    const collection: RubricCategoryCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :
         1;
@@ -33,7 +33,7 @@ export async function list({
         });
         if (error) {
             throw new Error(
-                `Error list of RubricCategorie at page ${page}`,
+                `Error list of RubricCategory at page ${page}`,
                 { cause: error }
             );
         }

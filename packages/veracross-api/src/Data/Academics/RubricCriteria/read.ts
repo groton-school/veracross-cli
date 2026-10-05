@@ -5,18 +5,18 @@ import { ResponseData } from '#types/ResponseBody.js'
 
 export const READ_SCOPE = 'academics.rubric_criteria:read';
 
-export type RubricCriteria = ResponseData<operations, 'read_academics_rubric_criteria'>;
+export type RubricCriterion = ResponseData<operations, 'read_academics_rubric_criteria'>;
 
 /** Read Academics: Rubric Criteria */
 export async function read({ 
     id, 
     ...rest
-}: EndpointOptions<operations, 'read_academics_rubric_criteria'>): Promise<RubricCriteria> {
+}: EndpointOptions<operations, 'read_academics_rubric_criteria'>): Promise<RubricCriterion> {
     const {data,error} = await client().GET('/academics/rubric_criteria/{id}', {
         params: { path: { id,  }, ...rest }
     });
     if (error) {
-        throw new Error('Error retrieving RubricCriteria', { cause: error });
+        throw new Error('Error retrieving RubricCriterion', { cause: error });
     }
     return data.data;
 }

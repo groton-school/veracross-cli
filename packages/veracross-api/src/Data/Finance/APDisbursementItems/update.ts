@@ -1,6 +1,9 @@
 import { operations } from '#spec/Data-API.js';
 import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
+import { RequestData } from '#types/RequestBody.js';
+
+export type APDisbursementItemPatch = RequestData<operations, 'update_finance_ap_disbursement_items'>;
 
 export const UPDATE_SCOPE = 'finance.ap_disbursement_items:update';
 

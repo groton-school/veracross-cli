@@ -5,14 +5,14 @@ import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'academics.class_attendance_statuses:list';
 
-export type ClassAttendanceStatuCollection = ResponseData<operations, 'list_academics_class_attendance_status'>;
+export type ClassAttendanceStatusCollection = ResponseData<operations, 'list_academics_class_attendance_status'>;
 
 /** List Academics: Class Attendance Status */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<operations, 'list_academics_class_attendance_status'>): Promise<ClassAttendanceStatuCollection> {
-    const collection: ClassAttendanceStatuCollection = [];
+}: EndpointOptions<operations, 'list_academics_class_attendance_status'>): Promise<ClassAttendanceStatusCollection> {
+    const collection: ClassAttendanceStatusCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :
         1;
@@ -33,7 +33,7 @@ export async function list({
         });
         if (error) {
             throw new Error(
-                `Error list of ClassAttendanceStatu at page ${page}`,
+                `Error list of ClassAttendanceStatus at page ${page}`,
                 { cause: error }
             );
         }

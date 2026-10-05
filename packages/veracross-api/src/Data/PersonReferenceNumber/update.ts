@@ -1,6 +1,9 @@
 import { operations } from '#spec/Data-API.js';
 import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
+import { RequestData } from '#types/RequestBody.js';
+
+export type UpdatePersonReferenceNumberPatch = RequestData<operations, 'update_person_reference_number'>;
 
 export const UPDATE_SCOPE = 'person_reference_number:update';
 

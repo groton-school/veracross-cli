@@ -5,14 +5,14 @@ import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'athletics.coaches:list';
 
-export type TeamCoacheCollection = ResponseData<operations, 'list_athletics_team_coaches'>;
+export type TeamCoachCollection = ResponseData<operations, 'list_athletics_team_coaches'>;
 
 /** List Athletics: Team - Coaches */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<operations, 'list_athletics_team_coaches'>): Promise<TeamCoacheCollection> {
-    const collection: TeamCoacheCollection = [];
+}: EndpointOptions<operations, 'list_athletics_team_coaches'>): Promise<TeamCoachCollection> {
+    const collection: TeamCoachCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :
         1;
@@ -33,7 +33,7 @@ export async function list({
         });
         if (error) {
             throw new Error(
-                `Error list of TeamCoache at page ${page}`,
+                `Error list of TeamCoach at page ${page}`,
                 { cause: error }
             );
         }

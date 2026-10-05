@@ -5,14 +5,14 @@ import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'events.athletics:list';
 
-export type AthleticCollection = ResponseData<operations, 'list_events_athletics'>;
+export type AthleticsCollection = ResponseData<operations, 'list_events_athletics'>;
 
 /** List Events: Athletics */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<operations, 'list_events_athletics'>): Promise<AthleticCollection> {
-    const collection: AthleticCollection = [];
+}: EndpointOptions<operations, 'list_events_athletics'>): Promise<AthleticsCollection> {
+    const collection: AthleticsCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :
         1;
@@ -33,7 +33,7 @@ export async function list({
         });
         if (error) {
             throw new Error(
-                `Error list of Athletic at page ${page}`,
+                `Error list of Athletics at page ${page}`,
                 { cause: error }
             );
         }

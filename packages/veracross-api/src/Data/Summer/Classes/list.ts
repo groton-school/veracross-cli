@@ -5,14 +5,14 @@ import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'summer.classes:list';
 
-export type ClasseCollection = ResponseData<operations, 'list_summer_classes'>;
+export type ClassCollection = ResponseData<operations, 'list_summer_classes'>;
 
 /** List Summer: Classes */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<operations, 'list_summer_classes'>): Promise<ClasseCollection> {
-    const collection: ClasseCollection = [];
+}: EndpointOptions<operations, 'list_summer_classes'>): Promise<ClassCollection> {
+    const collection: ClassCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :
         1;
@@ -33,7 +33,7 @@ export async function list({
         });
         if (error) {
             throw new Error(
-                `Error list of Classe at page ${page}`,
+                `Error list of Class at page ${page}`,
                 { cause: error }
             );
         }

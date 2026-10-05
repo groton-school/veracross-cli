@@ -14,7 +14,7 @@ export async function create({
         body: { data }
     });
     if (error) {
-        throw new Error('Error creating Classe', { cause: error });
+        throw new Error('Error creating Class', { cause: error });
     }
     return id;
 }

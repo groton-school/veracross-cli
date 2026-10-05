@@ -1,6 +1,9 @@
 import { operations } from '#spec/Data-API.js';
 import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
+import { RequestData } from '#types/RequestBody.js';
+
+export type ClassPatch = RequestData<operations, 'update_academics_classes'>;
 
 export const UPDATE_SCOPE = 'academics.classes:update';
 
@@ -15,6 +18,6 @@ export async function update({
         body: { data }
     });
     if (error) {
-        throw new Error('Error updating Classe', { cause: error });
+        throw new Error('Error updating Class', { cause: error });
     }
 }

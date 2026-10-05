@@ -5,18 +5,18 @@ import { ResponseData } from '#types/ResponseBody.js'
 
 export const READ_SCOPE = 'non-academics.classes:read';
 
-export type Classe = ResponseData<operations, 'read_non_academics_classes'>;
+export type Class = ResponseData<operations, 'read_non_academics_classes'>;
 
 /** Read Non-Academics: Classes */
 export async function read({ 
     id, 
     ...rest
-}: EndpointOptions<operations, 'read_non_academics_classes'>): Promise<Classe> {
+}: EndpointOptions<operations, 'read_non_academics_classes'>): Promise<Class> {
     const {data,error} = await client().GET('/non-academics/classes/{id}', {
         params: { path: { id,  }, ...rest }
     });
     if (error) {
-        throw new Error('Error retrieving Classe', { cause: error });
+        throw new Error('Error retrieving Class', { cause: error });
     }
     return data.data;
 }

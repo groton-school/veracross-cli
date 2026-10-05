@@ -1,6 +1,9 @@
 import { operations } from '#spec/Data-API.js';
 import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
+import { RequestData } from '#types/RequestBody.js';
+
+export type UpdatePortalMembershipPatch = RequestData<operations, 'update_portal_membership'>;
 
 export const UPDATE_SCOPE = 'portal_membership:update';
 

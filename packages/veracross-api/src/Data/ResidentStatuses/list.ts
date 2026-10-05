@@ -5,14 +5,14 @@ import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'resident_statuses:list';
 
-export type ListResidentStatuseCollection = ResponseData<operations, 'list_resident_statuses'>;
+export type ListResidentStatusCollection = ResponseData<operations, 'list_resident_statuses'>;
 
 /** List Resident Statuses */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<operations, 'list_resident_statuses'>): Promise<ListResidentStatuseCollection> {
-    const collection: ListResidentStatuseCollection = [];
+}: EndpointOptions<operations, 'list_resident_statuses'>): Promise<ListResidentStatusCollection> {
+    const collection: ListResidentStatusCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :
         1;
@@ -33,7 +33,7 @@ export async function list({
         });
         if (error) {
             throw new Error(
-                `Error list of ListResidentStatuse at page ${page}`,
+                `Error list of ListResidentStatus at page ${page}`,
                 { cause: error }
             );
         }

@@ -14,7 +14,7 @@ export async function create({
         body: { data }
     });
     if (error) {
-        throw new Error('Error creating Athletic', { cause: error });
+        throw new Error('Error creating Athletics', { cause: error });
     }
     return id;
 }

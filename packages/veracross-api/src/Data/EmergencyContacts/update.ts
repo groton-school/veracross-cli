@@ -1,6 +1,9 @@
 import { operations } from '#spec/Data-API.js';
 import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
+import { RequestData } from '#types/RequestBody.js';
+
+export type UpdateEmergencyContactPatch = RequestData<operations, 'update_emergency_contacts'>;
 
 export const UPDATE_SCOPE = 'emergency_contacts:update';
 

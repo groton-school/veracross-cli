@@ -1,6 +1,9 @@
 import { operations } from '#spec/Data-API.js';
 import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
+import { RequestData } from '#types/RequestBody.js';
+
+export type UpdateMasterAttendancePatch = RequestData<operations, 'update_master_attendance'>;
 
 export const UPDATE_SCOPE = 'master_attendance:update';
 

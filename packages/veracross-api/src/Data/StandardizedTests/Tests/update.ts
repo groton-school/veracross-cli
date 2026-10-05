@@ -1,6 +1,9 @@
 import { operations } from '#spec/Data-API.js';
 import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
+import { RequestData } from '#types/RequestBody.js';
+
+export type TestPatch = RequestData<operations, 'update_standardized_tests_tests'>;
 
 export const UPDATE_SCOPE = 'standardized_tests.tests:update';
 

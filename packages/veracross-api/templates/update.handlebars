@@ -1,6 +1,9 @@
 import { operations } from '#spec/{{spec}}';
 import { client } from '#{{api}}/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
+import { RequestData } from '#types/RequestBody.js';
+
+export type {{typeName}}Patch = RequestData<operations, '{{operation.operationId}}'>;
 
 {{#if scope}}
 export const UPDATE_SCOPE = '{{scope}}';

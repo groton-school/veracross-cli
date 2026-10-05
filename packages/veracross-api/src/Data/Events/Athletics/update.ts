@@ -1,6 +1,9 @@
 import { operations } from '#spec/Data-API.js';
 import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
+import { RequestData } from '#types/RequestBody.js';
+
+export type AthleticsPatch = RequestData<operations, 'update_events_athletics'>;
 
 export const UPDATE_SCOPE = 'events.athletics:update';
 
@@ -15,6 +18,6 @@ export async function update({
         body: { data }
     });
     if (error) {
-        throw new Error('Error updating Athletic', { cause: error });
+        throw new Error('Error updating Athletics', { cause: error });
     }
 }

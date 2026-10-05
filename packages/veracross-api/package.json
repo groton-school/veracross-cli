@@ -57,12 +57,14 @@
     "@redocly/openapi-core": "^2.57.0",
     "@tsconfig/node-lts": "catalog:",
     "@types/node": "^24.19.0",
+    "@types/pluralize": "^0.0.33",
     "change-case": "^5.4.4",
     "del-cli": "catalog:",
     "download-cli": "^1.1.1",
     "handlebars": "^4.7.9",
     "npm-run-all": "catalog:",
     "ora": "^9.4.1",
+    "pluralize": "^8.0.0",
     "typescript": "catalog:"
   }
 }

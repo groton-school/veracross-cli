@@ -14,7 +14,7 @@ export async function create({
         body: { data }
     });
     if (error) {
-        throw new Error('Error creating RubricCategorie', { cause: error });
+        throw new Error('Error creating RubricCategory', { cause: error });
     }
     return id;
 }

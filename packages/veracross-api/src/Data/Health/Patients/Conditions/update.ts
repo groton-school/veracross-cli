@@ -1,6 +1,9 @@
 import { operations } from '#spec/Data-API.js';
 import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
+import { RequestData } from '#types/RequestBody.js';
+
+export type PatientConditionPatch = RequestData<operations, 'update_health_patient_conditions'>;
 
 export const UPDATE_SCOPE = 'health.patients.conditions:update';
 

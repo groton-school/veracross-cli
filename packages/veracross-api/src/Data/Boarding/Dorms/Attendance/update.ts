@@ -1,6 +1,9 @@
 import { operations } from '#spec/Data-API.js';
 import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
+import { RequestData } from '#types/RequestBody.js';
+
+export type DormAttendancePatch = RequestData<operations, 'update_boarding_dorm_attendance'>;
 
 export const UPDATE_SCOPE = 'boarding.dorms.attendance:update';
 

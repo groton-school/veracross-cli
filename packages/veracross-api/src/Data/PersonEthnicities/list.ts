@@ -5,14 +5,14 @@ import { ResponseData } from '#types/ResponseBody.js';
 
 export const LIST_SCOPE = 'person_ethnicities:list';
 
-export type ListPersonEthnicitieCollection = ResponseData<operations, 'list_person_ethnicities'>;
+export type ListPersonEthnicityCollection = ResponseData<operations, 'list_person_ethnicities'>;
 
 /** List Person Ethnicities */
 export async function list({ 
     header,
     ...rest
-}: EndpointOptions<operations, 'list_person_ethnicities'>): Promise<ListPersonEthnicitieCollection> {
-    const collection: ListPersonEthnicitieCollection = [];
+}: EndpointOptions<operations, 'list_person_ethnicities'>): Promise<ListPersonEthnicityCollection> {
+    const collection: ListPersonEthnicityCollection = [];
     let page = !!header && header['X-Page-Number'] ?
         header['X-Page-Number'] :
         1;
@@ -33,7 +33,7 @@ export async function list({
         });
         if (error) {
             throw new Error(
-                `Error list of ListPersonEthnicitie at page ${page}`,
+                `Error list of ListPersonEthnicity at page ${page}`,
                 { cause: error }
             );
         }

@@ -1,6 +1,9 @@
 import { operations } from '#spec/Data-API.js';
 import { client } from '#Data/client.js';
 import { EndpointOptions } from '#types/EndpointOptions.js';
+import { RequestData } from '#types/RequestBody.js';
+
+export type RelativeRelationshipPatch = RequestData<operations, 'update_admission_relative_relationships'>;
 
 export const UPDATE_SCOPE = 'admission.relatives.relationships:update';
 

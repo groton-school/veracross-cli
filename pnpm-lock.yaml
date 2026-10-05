@@ -206,9 +206,6 @@ importers:
       '@inquirer/confirm':
         specifier: ^6.3.2
         version: 6.3.2(@types/node@24.19.1)
-      '@qui-cli/markdown':
-        specifier: ^2.0.1
-        version: 2.0.1(@qui-cli/colors@3.2.5)(@qui-cli/core@6.0.4(@qui-cli/colors@3.2.5)(@qui-cli/plugin@4.2.0(@qui-cli/colors@3.2.5)))(@qui-cli/plugin@4.2.0(@qui-cli/colors@3.2.5))(@qui-cli/root@3.1.2(@qui-cli/plugin@4.2.0(@qui-cli/colors@3.2.5)))
       '@tsconfig/node-lts':
         specifier: 'catalog:'
         version: 24.0.1
@@ -1077,14 +1074,6 @@ packages:
     resolution: {integrity: sha512-xAW/CP3ZdBPzGWgX+gY61T97NufRARR5czsXvhav8VdZTBaEDdTxpEj+ceaXES+k+Vs/S/xzfTA1utNHap78Yw==}
     peerDependencies:
       '@qui-cli/colors': '>=3.2'
-      '@qui-cli/plugin': '>=3'
-      '@qui-cli/root': '>=3'
-
-  '@qui-cli/markdown@2.0.1':
-    resolution: {integrity: sha512-WpmqVaMiZQSRyZ8gnvx5OPjMPnO3cHaJq6TSsRn1JAF+NeN+BTDeQ90lbpffkicvjIJ66X6pgv6eW7iOH+h8ww==}
-    peerDependencies:
-      '@qui-cli/colors': '>=3.2'
-      '@qui-cli/core': '>=4'
       '@qui-cli/plugin': '>=3'
       '@qui-cli/root': '>=3'
 
@@ -6013,14 +6002,6 @@ snapshots:
       ora: 9.4.1
       strip-ansi: 7.2.0
       winston: 3.19.0
-
-  '@qui-cli/markdown@2.0.1(@qui-cli/colors@3.2.5)(@qui-cli/core@6.0.4(@qui-cli/colors@3.2.5)(@qui-cli/plugin@4.2.0(@qui-cli/colors@3.2.5)))(@qui-cli/plugin@4.2.0(@qui-cli/colors@3.2.5))(@qui-cli/root@3.1.2(@qui-cli/plugin@4.2.0(@qui-cli/colors@3.2.5)))':
-    dependencies:
-      '@qui-cli/colors': 3.2.5
-      '@qui-cli/core': 6.0.4(@qui-cli/colors@3.2.5)(@qui-cli/plugin@4.2.0(@qui-cli/colors@3.2.5))
-      '@qui-cli/plugin': 4.2.0(@qui-cli/colors@3.2.5)
-      '@qui-cli/root': 3.1.2(@qui-cli/plugin@4.2.0(@qui-cli/colors@3.2.5))
-      strip-ansi: 7.2.0
 
   '@qui-cli/plugin@4.2.0(@qui-cli/colors@3.2.5)':
     dependencies:

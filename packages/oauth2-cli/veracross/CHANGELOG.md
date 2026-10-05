@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.4.0](https://github.com/groton-school/veracross-cli/compare/oauth2-cli/veracross/0.3.0...oauth2-cli/veracross/0.4.0) (2026-10-05)
+
+### ⚠ BREAKING CHANGES
+
+* Data no longer a function, now a module (along with Authorization, Files)
+
+### Bug Fixes
+
+* Data no longer a function, now a module (along with Authorization, Files) ([ca12697](https://github.com/groton-school/veracross-cli/commit/ca126979bebdd10a31d8f7c8cfe671b1e28e361d))
+
 ## [0.3.0](https://github.com/groton-school/veracross-cli/compare/oauth2-cli/veracross/0.2.3...oauth2-cli/veracross/0.3.0) (2026-10-04)
 
 ### ⚠ BREAKING CHANGES

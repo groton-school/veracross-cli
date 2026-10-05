@@ -8,13 +8,14 @@ import { Log } from '@qui-cli/log';
 import * as Plugin from '@qui-cli/plugin';
 import { Progress } from '@qui-cli/progress';
 import { Root } from '@qui-cli/root';
+import { pascalCase } from 'change-case';
 import { parse } from 'csv/sync';
 import { CSV } from '../../lib/index.js';
 
 export type Configuration = Plugin.Configuration & {
   pathToCsv?: PathString;
   endpoint?:
-    'Academics' | 'ExtendedCare' | 'NonAcademics' | 'Programs' | 'Summer';
+    'academics' | 'extended-care' | 'non-academics' | 'programs' | 'summer';
 };
 
 Positionals.require({
@@ -27,11 +28,19 @@ Positionals.require({
 });
 Positionals.allowOnlyNamedArgs();
 
-type PatchData = NonNullable<
-  Veracross.Types.spec.DataAPI.paths['/academics/courses/{id}']['patch']['requestBody']
->['content']['application/json']['data'];
+type PatchData<T extends Configuration['endpoint']> = {
+  internal_class_id: number;
+} & (T extends 'academics'
+  ? Veracross.Data.Academics.Classes.ClassPatch
+  : T extends 'extended-care'
+    ? Veracross.Data.ExtendedCare.Classes.ClassPatch
+    : T extends 'non-academics'
+      ? Veracross.Data.NonAcademics.Classes.ClassPatch
+      : T extends 'programs'
+        ? Veracross.Data.Programs.Classes.ClassPatch
+        : Veracross.Data.Summer.Classes.ClassPatch);
 
-const config: Configuration = { endpoint: 'Academics' };
+const config: Configuration = { endpoint: 'academics' };
 
 const scope = [
   Veracross.Data.Academics.Classes.READ_SCOPE,
@@ -96,7 +105,7 @@ export async function run() {
     throw new Error(`${Colors.optionArg('--endpoint')} is required`);
   }
 
-  const proposals: ({ internal_class_id: string } & PatchData)[] = parse(
+  const proposals: PatchData<typeof config.endpoint>[] = parse(
     fs.readFileSync(path.resolve(Root.path(), config.pathToCsv)),
     {
       columns: true,
@@ -104,43 +113,50 @@ export async function run() {
     }
   );
 
-  const updated: PatchData[] = [];
-  const unchanged: PatchData[] = [];
-  const missing: PatchData[] = [];
+  const updated: PatchData<typeof config.endpoint>[] = [];
+  const unchanged: PatchData<typeof config.endpoint>[] = [];
+  const missing: PatchData<typeof config.endpoint>[] = [];
 
   Progress.start({ max: proposals.length });
 
   for (const proposal of proposals) {
-    const retrieved = await Veracross.Data[config.endpoint].Classes.read({
-      id: parseInt(proposal.internal_class_id)
+    // @ts-expect-error 7053 pascalCase will transform endpoint to module name
+    const retrieved = await Veracross.Data[
+      pascalCase(config.endpoint)
+    ].Classes.read({
+      id: proposal.internal_class_id
     });
     Progress.caption(
-      proposal.name ||
+      proposal.description ||
         retrieved?.description ||
         `Internal Class ID ${proposal.internal_class_id}`
     );
     if (retrieved) {
-      const patch: PatchData = {};
-      for (const key of Object.keys(proposal) as (keyof {
-        internal_class_id: number;
-      } &
-        PatchData)[]) {
+      const patch: Omit<
+        PatchData<typeof config.endpoint>,
+        'internal_class_id'
+      > = {};
+      for (const key of Object.keys(proposal) as (keyof PatchData<
+        typeof config.endpoint
+      >)[]) {
         if (
           key !== 'internal_class_id' &&
           key in retrieved &&
           proposal[key] &&
           proposal[key] != retrieved[key]
         ) {
+          // @ts-expect-error 2322 prior typechecks avoid mismatches
           patch[key] = proposal[key];
         }
       }
       if (Object.keys(patch).length > 0) {
-        await Veracross.Data[config.endpoint].Classes.update({
+        // @ts-expect-error 7053 pascalCase will transform endpoint to module name
+        await Veracross.Data[pascalCase(config.endpoint)].Classes.update({
           id: retrieved.id,
           data: patch
         });
       } else {
-        unchanged.push(retrieved);
+        unchanged.push(proposal);
       }
     } else {
       missing.push(proposal);

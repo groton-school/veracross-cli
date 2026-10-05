@@ -35,6 +35,7 @@
     "@qui-cli/progress": "^3.1.1",
     "@qui-cli/root": "^3.1.2",
     "@qui-cli/structured": "^2.0.7",
+    "change-case": "^5.4.4",
     "csv": "^6.6.4",
     "ora": "^9.4.1",
     "puppeteer": "^25.12.0",

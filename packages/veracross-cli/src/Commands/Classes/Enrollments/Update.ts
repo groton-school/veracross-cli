@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { DateString, PathString } from '@battis/descriptive-types';
+import { PathString } from '@battis/descriptive-types';
 import { ArrayElement } from '@battis/typescript-tricks';
 import { Veracross } from '@oauth2-cli/veracross';
 import { Colors } from '@qui-cli/colors';
@@ -15,15 +15,11 @@ export type Configuration = Plugin.Configuration & {
   pathToCSV?: PathString;
 };
 
-interface EnrollmentUpdate {
+type EnrollmentUpdate = {
   person_id: number;
   internal_class_id: number;
   school_year: number;
-  late_date_enrolled?: DateString;
-  date_withdrawn?: DateString;
-  notes?: string;
-  exclude_from_transcript?: boolean;
-}
+} & Veracross.Data.Academics.Enrollments.EnrollmentPatch;
 
 const scope = [
   Veracross.Data.Academics.Enrollments.LIST_SCOPE,

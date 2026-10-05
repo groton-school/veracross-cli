@@ -19,7 +19,7 @@ type RosterUpdate = {
   school_year: number;
   internal_class_id: number;
   person_id: number;
-} & Partial<Veracross.Data.Athletics.Rosters.Roster>;
+} & Veracross.Data.Athletics.Rosters.RosterPatch;
 
 const scope = [
   Veracross.Data.Athletics.Rosters.LIST_SCOPE,
@@ -119,12 +119,7 @@ export async function run() {
       }
       const update = PartialUpdate.minimal(
         roster,
-        PartialUpdate.omit(proposal, [
-          'id',
-          'first_name',
-          'last_name',
-          'suffix'
-        ]),
+        PartialUpdate.omit(proposal, ['first_name', 'last_name', 'suffix']),
         (key, a, b) => {
           switch (key) {
             case 'late_date_enrolled':

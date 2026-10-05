@@ -24,7 +24,9 @@ Positionals.require({
 });
 Positionals.allowOnlyNamedArgs();
 
-type PatchData = Partial<Veracross.Data.Academics.Courses.Course>;
+type PatchData = {
+  internal_course_id: number;
+} & Veracross.Data.Academics.Courses.CoursePatch;
 
 const PAGE_SIZE = 100;
 
@@ -100,7 +102,7 @@ export async function run() {
       );
       if (i >= 0) {
         Progress.caption(proposal[i].name || retrieved.name);
-        const patch: PatchData = {};
+        const patch: Veracross.Data.Academics.Courses.CoursePatch = {};
         for (const key of Object.keys(proposal[i]) as (keyof {
           internal_course_id: number;
         } &

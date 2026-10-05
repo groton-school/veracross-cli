@@ -1,6 +1,6 @@
 {
   "name": "@groton/veracross-api",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "TypeScript openapi-fetch client for Veracross API",
   "keywords": [],
   "homepage": "https://github.com/groton-school/veracross-cli/tree/main/packages/api#readme",

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.13](https://github.com/groton-school/veracross-cli/compare/veracross-api/0.0.12...veracross-api/0.0.13) (2026-10-05)
+
+### Bug Fixes
+
+* typo ([661fe48](https://github.com/groton-school/veracross-cli/commit/661fe482da1ac2b0d81dcdb3e59740eb74905712))
+
 ## [0.0.12](https://github.com/groton-school/veracross-cli/compare/veracross-api/0.0.11...veracross-api/0.0.12) (2026-10-05)
 
 ### Bug Fixes

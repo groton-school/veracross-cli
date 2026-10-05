@@ -1,6 +1,6 @@
 {
   "name": "@groton/veracross-cli",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Command line utilities for working with Veracross",
   "homepage": "https://github.com/groton-school/veracross-cli/tree/main/packages/cli#readme",
   "repository": {

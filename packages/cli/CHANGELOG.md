@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.2.1](https://github.com/groton-school/veracross-cli/compare/veracross-cli/0.2.0...veracross-cli/0.2.1) (2026-10-05)
+
+### Bug Fixes
+
+* updated workspace path for easier tab completion ([cd2a420](https://github.com/groton-school/veracross-cli/commit/cd2a420eadaffdc277e0bf546f343db0445a03f0))
+
 ## [0.2.0](https://github.com/groton-school/veracross-cli/compare/veracross-cli/0.1.1...veracross-cli/0.2.0) (2026-10-04)
 
 ### ⚠ BREAKING CHANGES

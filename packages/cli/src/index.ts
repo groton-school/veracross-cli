@@ -1,5 +1,5 @@
-import { build } from '@qui-cli/structured';
 import path from 'node:path';
+import { build } from '@qui-cli/structured';
 
 await build({
   fileName: import.meta.filename,

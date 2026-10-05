@@ -3,11 +3,11 @@
   "version": "0.0.11",
   "description": "",
   "keywords": [],
-  "homepage": "https://github.com/groton-school/veracross-cli/tree/main/packages/veracross-api#readme",
+  "homepage": "https://github.com/groton-school/veracross-cli/tree/main/packages/api#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/groton-school/veracross-cli.git",
-    "directory": "packages/veracross-api"
+    "directory": "packages/api"
   },
   "license": "ISC",
   "author": {

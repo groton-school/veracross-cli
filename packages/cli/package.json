@@ -1,11 +1,11 @@
 {
   "name": "@groton/veracross-cli",
   "version": "0.2.0",
-  "homepage": "https://github.com/groton-school/veracross-cli/tree/main/packages/veracross-cli#readme",
+  "homepage": "https://github.com/groton-school/veracross-cli/tree/main/packages/cli#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/groton-school/veracross-cli.git",
-    "directory": "packages/veracross-cli"
+    "directory": "packages/cli"
   },
   "license": "GPL-3.0",
   "author": {

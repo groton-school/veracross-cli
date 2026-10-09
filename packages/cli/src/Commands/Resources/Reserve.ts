@@ -4,7 +4,6 @@ import { PathString } from '@battis/descriptive-types';
 import { Veracross } from '@oauth2-cli/veracross';
 import { Colors } from '@qui-cli/colors';
 import { Positionals } from '@qui-cli/core';
-import { Log } from '@qui-cli/log';
 import * as Plugin from '@qui-cli/plugin';
 import { Root } from '@qui-cli/root';
 import { parse } from 'csv/sync';
@@ -15,6 +14,9 @@ export type Configuration = Plugin.Configuration & {
   resourceIds?: number[];
   eventIds?: number[];
 };
+
+type Reservation = { resource_id: number[]; event_id: number[] };
+type UnparsedReservation = Record<keyof Reservation, string>;
 
 Positionals.require({
   pathToCSV: {
@@ -92,38 +94,32 @@ export function init({
 }
 
 export async function run() {
-  const data: { resource_id: number[]; event_id: number[] }[] = [];
+  const reservations: Reservation[] = [];
   if (config.pathToCSV) {
     const pathToCSV = path.resolve(Root.path(), config.pathToCSV);
     if (!fs.existsSync(pathToCSV)) {
       throw new Error(`CSV file not found at ${Colors.path(pathToCSV)}`);
     }
-    Log.debug(fs.readFileSync(pathToCSV, 'utf8'));
-    const csv: {
-      resource_id: string;
-      event_id: string;
-    }[] = parse(fs.readFileSync(pathToCSV, 'utf8'), {
-    });
-    data.push(
-      ...csv.map(({ resource_id, event_id }) => ({
-        resource_id: resource_id.split(',').map((id) => parseInt(id)),
-        event_id: event_id.split(',').map((id) => parseInt(id))
-      }))
+    const unparsed = parse<UnparsedReservation>(
+      fs.readFileSync(pathToCSV, 'utf8'),
+      {
         columns: true,
         bom: true
+      }
     );
+    reservations.push(...unparsed.map(parseReservation));
   } else if (!config.resourceIds?.length || !config.eventIds?.length) {
     throw new Error('No data provided');
   }
 
   if (config.resourceIds?.length && config.eventIds?.length) {
-    data.unshift({
+    reservations.unshift({
       resource_id: config.resourceIds,
       event_id: config.eventIds
     });
   }
 
-  for (const reservation of data) {
+  for (const reservation of reservations) {
     const spinner = ora(status(reservation)).start();
     for (const resource_id of reservation.resource_id) {
       for (const event_id of reservation.event_id) {
@@ -137,17 +133,24 @@ export async function run() {
   }
 }
 
+function parseReservation(reservation: UnparsedReservation) {
+  const { resource_id, event_id } = reservation;
+  return {
+    resource_id: resource_id.split(',').map(parseInt),
+    event_id: event_id.split(',').map(parseInt)
+  };
+}
+
 function status(
-  {
-    resource_id: r,
-    event_id: e
-  }: { resource_id: number[]; event_id: number[] },
+  reservation: Reservation,
   resource_id?: number,
   event_id?: number
 ) {
-  return `Resource${r.length > 1 ? 's' : ''} ${r
-    .map((res) => (res === resource_id ? Colors.value(res) : res))
-    .join(', ')} → Event${e.length > 1 ? 's' : ''} ${e
-    .map((evt) => (evt === event_id ? Colors.value(evt) : evt))
+  return `Resource${reservation.resource_id.length > 1 ? 's' : ''} ${reservation.resource_id
+    .map((r) => (r === resource_id ? Colors.value(r) : r))
+    .join(
+      ', '
+    )} → Event${reservation.event_id.length > 1 ? 's' : ''} ${reservation.event_id
+    .map((e) => (e === event_id ? Colors.value(e) : e))
     .join(', ')}`;
 }

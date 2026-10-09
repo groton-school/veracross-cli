@@ -16,6 +16,18 @@ export type Configuration = Plugin.Configuration & {
   eventIds?: number[];
 };
 
+Positionals.require({
+  pathToCSV: {
+    description:
+      `Path to a CSV file containing at least ${Colors.value('resource_id')} ` +
+      `and ${Colors.value('event_id')} columns. Either column may be a comma-` +
+      `delineated list of IDs, in which case all the resources will be paired ` +
+      `with all the events.`
+  }
+});
+Positionals.allowOnlyNamedArgs();
+Positionals.requireAtLeast(0);
+
 const scope = [Veracross.Data.ResourceReservations.Reservations.CREATE_SCOPE];
 
 const config: Configuration = {
@@ -32,17 +44,6 @@ export function configure(proposal: Configuration = {}) {
 }
 
 export function options() {
-  Positionals.require({
-    pathToCSV: {
-      description:
-        `Path to a CSV file containing at least ${Colors.value('resource_id')} ` +
-        `and ${Colors.value('event_id')} columns. Either column may be a comma-` +
-        `delineated list of IDs, in which case all the resources will be paired ` +
-        `with all the events.`
-    }
-  });
-  Positionals.allowOnlyNamedArgs();
-  Positionals.requireAtLeast(0);
   return {
     man: [
       { level: 1, text: 'Resource Reservation Options' },

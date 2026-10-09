@@ -109,6 +109,7 @@ export async function run() {
     fs.readFileSync(path.resolve(Root.path(), config.pathToCsv)),
     {
       columns: true,
+      bom: true,
       cast: CSV.cast({ internal_class_id: 'int' })
     }
   );

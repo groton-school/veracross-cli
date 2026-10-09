@@ -84,6 +84,7 @@ export async function run() {
   const pathToCSV = path.resolve(Root.path(), config.pathToCSV);
   const data: RosterUpdate[] = parse(fs.readFileSync(pathToCSV), {
     columns: true,
+    bom: true,
     cast: CSV.cast({
       exclude_from_transcript: 'boolean',
       captain: 'boolean',

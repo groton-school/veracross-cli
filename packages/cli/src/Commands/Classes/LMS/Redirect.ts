@@ -125,6 +125,7 @@ export async function run() {
     );
     const csv = await parse<ClassRedirect>(fs.readFileSync(filePath, 'utf8'), {
       columns: true,
+      bom: true,
       cast: CSV.cast({ internal_class_id: 'int' })
     });
     data.push(...csv);

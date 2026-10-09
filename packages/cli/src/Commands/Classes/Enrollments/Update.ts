@@ -86,6 +86,7 @@ export async function run() {
   const pathToCSV = path.resolve(Root.path(), config.pathToCSV);
   const data: EnrollmentUpdate[] = parse(fs.readFileSync(pathToCSV), {
     columns: true,
+    bom: true,
     cast: (value, context) => {
       if (context.column === 'exclude_from_transcript') {
         return value.toUpperCase() === 'TRUE'

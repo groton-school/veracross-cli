@@ -84,7 +84,7 @@ export async function run() {
   }
   const data = parse<ContactInfo>(
     fs.readFileSync(path.resolve(process.cwd(), config.pathToCsv), 'utf8'),
-    { columns: true }
+    { columns: true, bom: true }
   );
 
   for (const row of data) {

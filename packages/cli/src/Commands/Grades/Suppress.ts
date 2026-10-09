@@ -113,7 +113,8 @@ export async function run() {
 
   const pathToCSV = path.resolve(Root.path(), config.pathToCSV);
   const data: Suppression[] = parse(fs.readFileSync(pathToCSV), {
-    columns: true
+    columns: true,
+    bom: true
   });
 
   const spinner = ora('Retrieving grading periods').start();

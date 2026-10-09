@@ -102,13 +102,14 @@ export async function run() {
       resource_id: string;
       event_id: string;
     }[] = parse(fs.readFileSync(pathToCSV, 'utf8'), {
-      columns: true
     });
     data.push(
       ...csv.map(({ resource_id, event_id }) => ({
         resource_id: resource_id.split(',').map((id) => parseInt(id)),
         event_id: event_id.split(',').map((id) => parseInt(id))
       }))
+        columns: true,
+        bom: true
     );
   } else if (!config.resourceIds?.length || !config.eventIds?.length) {
     throw new Error('No data provided');

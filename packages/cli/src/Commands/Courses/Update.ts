@@ -79,7 +79,8 @@ export async function run() {
   const proposal: ({ internal_course_id: string } & PatchData)[] = parse(
     fs.readFileSync(path.resolve(Root.path(), config.pathToCsv)),
     {
-      columns: true
+      columns: true,
+      bom: true
     }
   );
 
